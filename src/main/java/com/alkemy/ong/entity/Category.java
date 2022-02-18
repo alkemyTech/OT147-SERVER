@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @Table(name = "categorys")
 @Entity
 @Getter @Setter @ToString @RequiredArgsConstructor
-@SQLDelete(sql="UPDATE categorys SET deleted = true WHERE id=?")
+@SQLDelete(sql="UPDATE categorys SET softDelete = true WHERE id=?")
 @Where(clause = "deleted=false")
 public class Category {
 
@@ -28,9 +28,9 @@ public class Category {
 
     @Column(name= "creationDate" ,nullable = false,updatable = false)
     @CreationTimestamp
-    private LocalDateTime creationDate;
+    private LocalDateTime timestamps;
 
-    @Column(name = "deleted", nullable = false)
-    private boolean deleted=Boolean.FALSE;
+    @Column(name = "softDelete", nullable = false)
+    private boolean softDelete=Boolean.FALSE;
 
 }
