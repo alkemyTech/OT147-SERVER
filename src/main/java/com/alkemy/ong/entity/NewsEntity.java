@@ -17,8 +17,8 @@ import java.util.List;
 @Setter
 @Getter
 @RequiredArgsConstructor
-@SQLDelete(sql = "UPDATE news SET deleted = true WHERE id=?")
-@Where(clause = "deleted=false")
+@SQLDelete(sql = "UPDATE news SET softDeleted = true WHERE id=?")
+@Where(clause = "softDeleted=false")
 public class NewsEntity {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -34,17 +34,13 @@ public class NewsEntity {
     @Column(nullable = false)
     private String image;
 
-    @Column(name= "creationDate" ,nullable = false,updatable = false)
+    @Column(nullable = false,updatable = false)
     @CreationTimestamp
-    private LocalDateTime creationDate;
+    private LocalDateTime timestamps;
 
     @OneToMany(cascade = {CascadeType.ALL})
-    @JoinTable(
-            name = "associated_news",
-            joinColumns = @JoinColumn(name= "news.id"),
-            inverseJoinColumns = @JoinColumn(name = "category.id"))
     private List<CategoryEntity> categoryId;
-    private Boolean deleted;
+    private Boolean softDelete;
 
 
 }
