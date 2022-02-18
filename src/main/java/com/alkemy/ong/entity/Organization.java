@@ -30,7 +30,7 @@ public class Organization {
     private String address;
 
     @Column(name = "PHONE")
-    private String phone;
+    private Integer phone;
 
     @Column(name = "EMAIL", nullable = false)
     private String email;
