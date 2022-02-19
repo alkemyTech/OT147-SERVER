@@ -54,6 +54,11 @@
 			<artifactId>spring-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.sendgrid</groupId>
+			<artifactId>sendgrid-java</artifactId>
+			<version>4.8.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
