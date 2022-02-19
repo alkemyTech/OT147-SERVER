@@ -38,8 +38,10 @@ public class NewsEntity {
     @CreationTimestamp
     private LocalDateTime timestamps;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany
     private List<CategoryEntity> categoryId;
+
+    @Column(name="softDelete")
     private Boolean softDelete;
 
 
