@@ -42,13 +42,13 @@ public class UserEntity {
     private String photo;
 
     @CreationTimestamp
-    @Column(name = "CREATION_DATE", nullable = false, updatable = false)
-    private LocalDateTime creationDate;
+    @Column(name = "TIMESTAMPS", nullable = false, updatable = false)
+    private LocalDateTime timestamps;
 
-    @Column(name = "deleted", nullable = false)
-    private Boolean deleted = false;
+    @Column(name = "SOFTDELETE", nullable = false)
+    private Boolean softDelete = false;
 
     @ManyToOne
-    @JoinColumn(name = "ROLE_ID")
-    private RoleEntity role;
+    @JoinColumn(name = "ROLE_ID", nullable = false)
+    private RoleEntity roleId;
 }
