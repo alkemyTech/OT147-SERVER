@@ -10,7 +10,7 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
+
 
 @Entity
 @Table(name = "news")
@@ -38,8 +38,9 @@ public class NewsEntity {
     @CreationTimestamp
     private LocalDateTime timestamps;
 
-    @OneToMany
-    private List<CategoryEntity> categoryId;
+    @ManyToOne
+    @JoinColumn(name="categoryId")
+    private CategoryEntity categoryId;
 
     @Column(name="softDelete")
     private Boolean softDelete;
