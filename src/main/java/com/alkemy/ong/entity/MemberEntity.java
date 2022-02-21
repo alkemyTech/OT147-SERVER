@@ -45,13 +45,13 @@ public class MemberEntity {
     @Column( name="description", length = 250)
     private String description;
 
-    @Column(name= "creationDate" ,nullable = false,updatable = false)
+    @Column(name= "timeStamps" ,nullable = false, updatable = false)
     @CreationTimestamp
-    private LocalDateTime creationDate;
+    private LocalDateTime timeStamps;
 
-    //softDelete
     @NotNull
-    @Column(name = "deleted", nullable = false)
-    private boolean deleted=Boolean.FALSE;
+    @Column(name = "softDelete", nullable = false)
+    private boolean softDelete = Boolean.FALSE;
+
 
 }
