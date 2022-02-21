@@ -32,5 +32,4 @@ public class Category {
 
     @Column(name = "softDelete", nullable = false)
     private boolean softDelete=Boolean.FALSE;
-
 }
