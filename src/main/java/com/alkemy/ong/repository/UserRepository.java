@@ -7,5 +7,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<UserEntity, String> {
 
+    UserEntity findByEmail(String email);
 
 }
