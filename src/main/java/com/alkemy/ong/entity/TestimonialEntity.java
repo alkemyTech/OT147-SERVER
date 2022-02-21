@@ -14,9 +14,9 @@ import java.time.LocalDateTime;
 @Table(name = "testimonials")
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE testimonials SET deleted = true WHERE id=?")
-@Where(clause = "deleted = false")
-public class TestimonyEntity {
+@SQLDelete(sql = "UPDATE testimonials SET softDelete  = true WHERE id=?")
+@Where(clause = "softDelete  = false")
+public class TestimonialEntity {
 
     @Id
     @GeneratedValue(generator = "uuid")
@@ -32,11 +32,11 @@ public class TestimonyEntity {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "deleted", nullable = false)
-    private Boolean deleted = Boolean.FALSE;
+    @Column(name = "softDelete", nullable = false)
+    private Boolean softDelete = Boolean.FALSE;
 
-    @Column(name= "creationDate" ,nullable = false,updatable = false)
+    @Column(name= "timestamps" ,nullable = false,updatable = false)
     @CreationTimestamp
-    private LocalDateTime creationDate;
+    private LocalDateTime timestamps;
 
 }
