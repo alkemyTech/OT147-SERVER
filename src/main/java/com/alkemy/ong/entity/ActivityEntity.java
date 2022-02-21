@@ -34,11 +34,11 @@ public class ActivityEntity {
     @Column(nullable = false)
     private String image;
 
-    private boolean deleted = Boolean.FALSE;
+    private boolean softDelete = Boolean.FALSE;
 
-    @Column(name= "creationDate" ,nullable = false,updatable = false)
+    @Column(name= "timestamps" ,nullable = false,updatable = false)
     @CreationTimestamp
-    private LocalDateTime creationDate;
+    private LocalDateTime timestamps;
 
 
 
