@@ -45,9 +45,9 @@ public class OrganizationEntity {
 
     private boolean softDelete=Boolean.FALSE;
 
-    @Column(name= "TIMESTAMP" ,nullable = false,updatable = false)
+    @Column(name= "TIMESTAMPS" ,nullable = false,updatable = false)
     @CreationTimestamp
-    private LocalDateTime timeStamp;
+    private LocalDateTime timeStamps;
 
     @Override
     public boolean equals(Object o) {
