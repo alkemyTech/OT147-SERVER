@@ -15,7 +15,7 @@ import java.util.Objects;
 @SQLDelete(sql = "UPDATE organizations SET deleted = true WHERE id=?")
 @NoArgsConstructor
 @Where(clause = "deleted=false")
-public class Organization {
+public class OrganizationEntity {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -43,17 +43,17 @@ public class Organization {
     @Column(name = "ABOUT_US_TEXT", columnDefinition = "TEXT")
     private String aboutUsText;
 
-    private boolean deleted=Boolean.FALSE;
+    private boolean softDelete=Boolean.FALSE;
 
-    @Column(name= "creationDate" ,nullable = false,updatable = false)
+    @Column(name= "TIMESTAMP" ,nullable = false,updatable = false)
     @CreationTimestamp
-    private LocalDateTime creationDate;
+    private LocalDateTime timeStamp;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Organization that = (Organization) o;
+        OrganizationEntity that = (OrganizationEntity) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(image, that.image) && Objects.equals(email, that.email) && Objects.equals(welcomeText, that.welcomeText);
     }
 
