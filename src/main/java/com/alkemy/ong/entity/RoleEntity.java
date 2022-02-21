@@ -6,7 +6,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Table(name = "role")
+@Table(name = "roles")
 @Getter
 @Setter
 @Entity
