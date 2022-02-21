@@ -12,6 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import static org.springframework.http.HttpMethod.GET;
+import static org.springframework.http.HttpMethod.POST;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -45,8 +48,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/*").permitAll()
+                .antMatchers("/auth/register/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(GET, "/Users/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers(POST, "/User/save/**").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
-                .and().exceptionHandling()
+                .and().exceptionHandling().accessDeniedPage("/403")
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS); //does not save the state
     }
