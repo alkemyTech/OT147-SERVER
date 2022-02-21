@@ -20,8 +20,8 @@ public class RoleEntity {
     @Column(length = 200)
     private String description;
     @CreationTimestamp
-    @Column(name = "creation_date", nullable = false, updatable = false)
-    private LocalDateTime creationDate;
+    @Column(name = "timestamps", nullable = false, updatable = false)
+    private LocalDateTime timestamps;
     @OneToMany
     private List<UserEntity> userEntities;
 }
