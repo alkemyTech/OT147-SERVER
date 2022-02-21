@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Getter @Setter @ToString @RequiredArgsConstructor
 @SQLDelete(sql="UPDATE categorys SET softDelete = true WHERE id=?")
 @Where(clause = "softDelete=false")
-public class Category {
+public class CategoryEntity {
 
     @Id
     @GeneratedValue(generator = "uuid")
