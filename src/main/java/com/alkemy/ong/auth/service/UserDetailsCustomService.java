@@ -35,6 +35,7 @@ public class UserDetailsCustomService implements  UserDetailsService {
         userEntity.setLastName(user.getLastName());
         userEntity.setEmail(user.getEmail());
         userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
+        userEntity.setRoleId(user.getRoleId());
         userEntity = this.userRepository.save(userEntity);
 
         return userEntity;
