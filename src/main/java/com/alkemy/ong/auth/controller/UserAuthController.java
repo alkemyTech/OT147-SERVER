@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,13 +49,15 @@ public class UserAuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<UserEntity> login(@Valid @RequestBody LoginUserDTO loginUserDTO, BindingResult bindingResult){
-        if (bindingResult.hasErrors())
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
-        Authentication authentication =
-                authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUserDTO.getEmail(), loginUserDTO.getPassword()));
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+    public ResponseEntity<UserEntity> login(@Valid @RequestBody LoginUserDTO loginUserDTO) throws Exception {
+
+        try {
+            Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUserDTO.getEmail(), loginUserDTO.getPassword()));
+            auth.getPrincipal();
+        } catch (BadCredentialsException e) {
+            return new ResponseEntity(("User or Password incorrect"), HttpStatus.BAD_REQUEST);
+        }
         return new ResponseEntity(HttpStatus.OK);
     }
+
 }
