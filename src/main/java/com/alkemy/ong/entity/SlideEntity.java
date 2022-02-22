@@ -7,14 +7,14 @@ import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 
-@Table(name = "slide")
+@Table(name = "slides")
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE slide SET deleted = true WHERE id=?") //This query provides the soft delete, as an update over slides
-@Where(clause = "deleted=false")
+@SQLDelete(sql = "UPDATE slides SET softDeleted = true WHERE id=?") //This query provides the soft delete, as an update over slides
+@Where(clause = "softDeleted=false")
 @Entity
 public class SlideEntity {
     @Id
@@ -26,6 +26,6 @@ public class SlideEntity {
     @Column (name = "order_number")
     private Integer order;
     @ManyToOne (fetch = FetchType.LAZY)
-    @JoinColumn(name = "organization_id")
-    private String organizationId;
+    @JoinColumn(name = "organization")
+    private OrganizationEntity organizationEntity;
 }
