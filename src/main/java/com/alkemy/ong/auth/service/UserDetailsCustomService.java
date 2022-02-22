@@ -16,7 +16,7 @@ import java.util.Collection;
 
 @Transactional
 @Service
-public class UserDetailsCustomService implements  UserDetailsService {
+public class UserDetailsCustomService implements UserDetailsService {
 
 
     @Autowired
@@ -25,10 +25,9 @@ public class UserDetailsCustomService implements  UserDetailsService {
     private UserRepository userRepository;
 
 
-
-/*
-    Method to register a user with password encryption. Return a UserEntity.
- */
+    /*
+        Method to register a user with password encryption. Return a UserEntity.
+     */
     public UserEntity save(UserEntity user) {
         UserEntity userEntity = new UserEntity();
         userEntity.setFirstName(user.getFirstName());
@@ -44,15 +43,15 @@ public class UserDetailsCustomService implements  UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        UserEntity user=userRepository.findByEmail(email);
-        if(user == null){
-            throw new UsernameNotFoundException("User not found in te db");
+        UserEntity user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("ok: false");
         }
-        Collection<SimpleGrantedAuthority> authorities=new ArrayList<>();
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(user.getRoleId().getName()));
 
         return new org.springframework.security.core.userdetails
-                .User( user.getEmail(), user.getPassword(), authorities);
+                .User(user.getEmail(), user.getPassword(), authorities);
     }
-    }
+}
 
