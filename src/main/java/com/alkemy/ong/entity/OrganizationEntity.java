@@ -14,7 +14,7 @@ import java.util.Objects;
 @Table(name="organizations")
 @SQLDelete(sql = "UPDATE organizations SET deleted = true WHERE id=?")
 @NoArgsConstructor
-@Where(clause = "deleted=false")
+@Where(clause = "soft_Delete = false")
 public class OrganizationEntity {
     @Id
     @GeneratedValue(generator = "uuid")
