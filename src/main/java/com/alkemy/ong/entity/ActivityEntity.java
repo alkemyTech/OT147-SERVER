@@ -16,8 +16,8 @@ import java.time.LocalDateTime;
 @Table(name="activities")
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE activities SET deleted = true WHERE id = ?")
-@Where(clause = "deleted = false ")
+@SQLDelete(sql = "UPDATE activities SET softDelete = true WHERE id = ?")
+@Where(clause = "softDelete = false ")
 public class ActivityEntity {
     @Id
     @GeneratedValue(generator = "uuid")
