@@ -27,5 +27,5 @@ public class SlideEntity {
     private Integer order;
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "organization")
-    private OrganizationEntity organizationEntity;
+    private OrganizationEntity organizationId;
 }
