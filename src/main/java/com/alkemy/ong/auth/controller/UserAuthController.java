@@ -1,5 +1,8 @@
 package com.alkemy.ong.auth.controller;
 
+import com.alkemy.ong.auth.domain.UserDomain;
+import com.alkemy.ong.auth.dto.UserDTO;
+import com.alkemy.ong.auth.mapper.UserMapper;
 import com.alkemy.ong.auth.service.UserDetailsCustomService;
 import com.alkemy.ong.auth.dto.LoginUserDTO;
 import com.alkemy.ong.entity.UserEntity;
@@ -49,15 +52,10 @@ public class UserAuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<UserEntity> login(@Valid @RequestBody LoginUserDTO loginUserDTO) throws Exception {
-
-        try {
-            Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUserDTO.getEmail(), loginUserDTO.getPassword()));
-            auth.getPrincipal();
-        } catch (BadCredentialsException e) {
-            return new ResponseEntity(("User or Password incorrect"), HttpStatus.BAD_REQUEST);
-        }
-        return new ResponseEntity(HttpStatus.OK);
+    public ResponseEntity<UserDTO> login(@Valid @RequestBody LoginUserDTO loginUserDTO) {
+        UserDomain userDomain = UserMapper.LoginUserDTOToUserDomain(loginUserDTO);
+        UserDTO userDTO = UserMapper.UserDomainToUserDTO(userDetailsCustomService.loginUser(userDomain));
+        return ResponseEntity.ok(userDTO);
     }
 
 }

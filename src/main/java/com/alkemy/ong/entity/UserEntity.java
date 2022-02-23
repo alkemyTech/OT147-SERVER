@@ -20,8 +20,8 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Entity
 @Table(name = "USERS")
-@SQLDelete(sql = "UPDATE users SET softdelete = true WHERE id=?")
-@Where(clause = "deleted = false")
+@SQLDelete(sql = "UPDATE users SET softDelete = true WHERE id=?")
+@Where(clause = "softDelete = false")
 public class UserEntity {
 
     @Id
