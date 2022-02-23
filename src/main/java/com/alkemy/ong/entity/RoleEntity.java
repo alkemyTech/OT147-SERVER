@@ -1,15 +1,18 @@
 package com.alkemy.ong.entity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Table(name = "roles")
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class RoleEntity {
     @Id
@@ -23,6 +26,4 @@ public class RoleEntity {
     @CreationTimestamp
     @Column(name = "timestamps", nullable = false, updatable = false)
     private LocalDateTime timestamps;
-    @OneToMany
-    private List<UserEntity> userEntities;
-}
+  }
