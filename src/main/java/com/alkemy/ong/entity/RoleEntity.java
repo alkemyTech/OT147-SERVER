@@ -5,12 +5,13 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Table(name = "roles")
 @Getter
 @Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class RoleEntity {
     @Id
@@ -24,6 +25,4 @@ public class RoleEntity {
     @CreationTimestamp
     @Column(name = "timestamps", nullable = false, updatable = false)
     private LocalDateTime timestamps;
-    @OneToMany
-    private List<UserEntity> userEntities;
-}
+  }
