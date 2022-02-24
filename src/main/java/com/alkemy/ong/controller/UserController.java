@@ -13,6 +13,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    //Method for hard delete
     @DeleteMapping("/{id}")
     public ResponseEntity<UserEntity> delete(@PathVariable String id) {
         this.userService.deleteUserById(id);
