@@ -19,4 +19,15 @@ public class UserController {
         this.userService.deleteUserById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+    @PatchMapping("/user/{id}")
+    public ResponseEntity<UserDTO> update( @PathVariable String id) {
+        Optional<UserEntity> entities = userRepository.findById(id);
+        if (entities.isPresent()) {
+            UserDTO dto = UserMapper.updateUserEntityToDto(entities);
+            UserEntity userEntity = UserMapper.updateUserDTOToEntity(dto);
+            userService.update(userEntity);
+            return ResponseEntity.ok(dto);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
