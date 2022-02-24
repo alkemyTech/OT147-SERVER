@@ -1,8 +1,6 @@
 package com.alkemy.ong.auth.mapper;
 
 import com.alkemy.ong.auth.domain.UserDomain;
-import com.alkemy.ong.auth.dto.LoginUserDTO;
-import com.alkemy.ong.auth.dto.UserDTO;
 import com.alkemy.ong.entity.UserEntity;
 
 public class UserMapper {
