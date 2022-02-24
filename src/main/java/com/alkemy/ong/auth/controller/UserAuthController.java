@@ -53,16 +53,5 @@ public class UserAuthController {
         return ResponseEntity.ok(userDTO);
     }
 
-    @PatchMapping("/user/{id}")
-    public ResponseEntity<UserDTO> update( @PathVariable String id) {
-
-           Optional<UserEntity> entities = userRepository.findById(id);
-            if (entities.isPresent()) {
-                UserDTO dto = UserMapper.updateUserEntityToDto(entities);
-                UserEntity userEntity = UserMapper.updateUserDTOToEntity(dto);
-                userDetailsCustomService.update(userEntity);
-                return ResponseEntity.ok(dto);
-            }
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
+   
 }
