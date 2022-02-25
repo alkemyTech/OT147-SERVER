@@ -1,6 +1,7 @@
 package com.alkemy.ong.auth.dto;
 
 
+import com.alkemy.ong.auth.domain.RoleDomain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
@@ -18,6 +19,8 @@ public class UserDTO implements Serializable {
     private String firstName;
     private String lastName;
     private String email;
+    @JsonIgnore
+    private RoleDomain roleId;
     @JsonIgnore
     private String password;
     private String photo;
