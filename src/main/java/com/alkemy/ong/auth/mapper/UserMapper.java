@@ -38,5 +38,4 @@ public class UserMapper {
         return userDomain;
     }
     */
-
 }

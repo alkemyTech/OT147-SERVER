@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.POST;
+import static org.springframework.http.HttpMethod.PUT;
 
 @Configuration
 @EnableWebSecurity
@@ -55,8 +56,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/*").permitAll()
                 .antMatchers("/auth/register/**").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(GET, "/Users/**").hasAnyAuthority("ROLE_USER")
-                .antMatchers(POST, "/User/save/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers(GET, "/users/**").hasAnyAuthority("ROLE_USER")
+                .antMatchers(POST, "/user/save/**").hasAnyAuthority("ROLE_ADMIN")
+                .antMatchers(PUT, "/organization/public/**").hasAnyAuthority("ROLE_ADMIN")
                 .anyRequest().authenticated()
                 .and().exceptionHandling().accessDeniedPage("/403")
                 .and().sessionManagement()

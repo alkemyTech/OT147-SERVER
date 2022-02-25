@@ -19,8 +19,8 @@ public class EmailService {
     @Autowired
     SendGrid sendGrid;
 
-    @Autowired
-    private TemplateEngine templateEngine;
+   // @Autowired
+    //private TemplateEngine templateEngine;
 
     @Value("${app.sendgrid.from-address}")
     private String fromAddress;
