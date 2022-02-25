@@ -33,5 +33,15 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
+    @Override
+    public UserEntity updateUser(UserEntity entity) {
+        UserEntity userEntity = new UserEntity();
+        userEntity.setFirstName(entity.getFirstName());
+        userEntity.setLastName(entity.getLastName());
+        userEntity.setEmail(entity.getEmail());
+        userEntity.setPassword(entity.getPassword());
+        userEntity.setPhoto(entity.getPhoto());
+        return userRepository.save(userEntity);
 
+    }
 }
