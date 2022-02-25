@@ -28,4 +28,10 @@ public class UserServiceImpl implements UserService {
         return result;
     }
 
+    @Override
+    public void deleteUserById(String id) {
+        userRepository.deleteById(id);
+    }
+
+
 }
