@@ -20,13 +20,13 @@ public class AmazonClient {
 
     private AmazonS3 s3client;
 
-    @Value("${endpointUrl}")
+    @Value("${ENDPOINT_URL}")
     private String endpointUrl;
-    @Value("${bucketName}")
+    @Value("${BUCKET_NAME}")
     private String bucketName;
-    @Value("${accessKey}")
+    @Value("${ACCESS_KEY}")
     private String accessKey;
-    @Value("${secretKey}")
+    @Value("${SECRET_KEY}")
     private String secretKey;
 
     @PostConstruct
