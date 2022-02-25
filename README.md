@@ -5,10 +5,10 @@ ONG-Java
 ![EnviromentVariables](https://user-images.githubusercontent.com/30562454/155602133-be94c449-3aa3-457f-828f-0d0c86d9e776.png)
 
 ### Amazon S3 
--Variable Name= endpointUrl
+-Variable Name= ENDPOINT_URL
 
--Variable Name= accessKey
+-Variable Name= ACCESS_KEY
 
--Variable Name= secretKey
+-Variable Name= SECRET_KEY
 
--Variable Name= bucketName
+-Variable Name= BUCKET_NAME
