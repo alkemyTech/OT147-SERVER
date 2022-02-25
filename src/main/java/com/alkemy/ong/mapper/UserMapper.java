@@ -1,6 +1,6 @@
 package com.alkemy.ong.mapper;
 
-import com.alkemy.ong.auth.mapper.RoleMapper;
+
 import com.alkemy.ong.dto.UserDTO;
 import com.alkemy.ong.entity.UserEntity;
 import org.springframework.stereotype.Component;
@@ -45,5 +45,17 @@ public class UserMapper {
             usersDto.add(userEntityToUserDTO(entity));
         }
         return usersDto;
+    }
+
+      public static UserDTO updateUserEntityToDTO(UserEntity entity){
+
+        UserDTO dto = UserDTO.builder()
+                .firstName(entity.getFirstName())
+                .lastName(entity.getLastName())
+                .email(entity.getEmail())
+                .password(entity.getPassword())
+                .photo(entity.getPhoto()).build();
+        return dto;
+
     }
 }
