@@ -10,4 +10,5 @@ public interface OrganizationMapper {
     OrganizationMapper organizationMapper = Mappers.getMapper(OrganizationMapper.class);
 
     OrganizationDto organizationToOrganizationDto(OrganizationEntity organization);
+
 }
