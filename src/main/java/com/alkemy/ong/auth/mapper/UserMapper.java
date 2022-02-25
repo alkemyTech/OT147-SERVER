@@ -25,6 +25,7 @@ public class UserMapper {
                 .password(user.getPassword())
                 .photo(user.getPhoto())
                 .timestamps(user.getTimestamps())
+                .roleId(user.getRoleid())
                 .build();
         return userDTO;
     }
@@ -36,7 +37,8 @@ public class UserMapper {
                 .email(userEntity.getEmail())
                 .password(userEntity.getPassword())
                 .photo(userEntity.getPhoto())
-                .roleid(RoleMapper.roleEntityToRoleDomain(userEntity.getRoleId())).build();
+                .roleid(RoleMapper.roleEntityToRoleDomain(userEntity.getRoleId()))
+                .build();
         return userDomain;
     }
 
