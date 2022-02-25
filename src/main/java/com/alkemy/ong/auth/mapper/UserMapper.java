@@ -39,4 +39,16 @@ public class UserMapper {
                 .roleid(RoleMapper.roleEntityToRoleDomain(userEntity.getRoleId())).build();
         return userDomain;
     }
+
+
+    public static UserDTO updateUserEntityToDTO(UserEntity entity){
+        UserDTO dto = UserDTO.builder()
+                .firstName(entity.getFirstName())
+                .lastName(entity.getLastName())
+                .email(entity.getEmail())
+                .password(entity.getPassword())
+                .photo(entity.getPhoto()).build();
+        return dto;
+
+    }
 }
