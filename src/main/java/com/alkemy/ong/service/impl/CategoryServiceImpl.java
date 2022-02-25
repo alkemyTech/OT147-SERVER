@@ -22,7 +22,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryEntity handleFindById(String id) throws Exception {
         Optional<CategoryEntity> NoFoundCategory = categoryRepo.findById(id);
         if (!NoFoundCategory.isPresent()) {
-            throw new Exception("The category no exist:"+id);
+            throw new Exception("The category does not exits:"+id);
         }
         return NoFoundCategory.get();
     }
