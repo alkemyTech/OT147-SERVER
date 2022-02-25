@@ -5,7 +5,7 @@ import com.alkemy.ong.entity.UserEntity;
 
 public class UserMapper {
 
-
+/*
     public static UserDomain LoginUserDTOToUserDomain(LoginUserDTO loginUserDTO) {
         UserDomain userDomain = UserDomain.builder()
                 .password(loginUserDTO.getPassword())
@@ -37,4 +37,6 @@ public class UserMapper {
                 .roleid(RoleMapper.roleEntityToRoleDomain(userEntity.getRoleId())).build();
         return userDomain;
     }
+    */
+
 }

@@ -49,6 +49,7 @@ public class JwtUtils {
         return extractExpiration(token).before(new Date());
     }
 
+    //GenerateToken roles, expiration in 10 hours
     public String generateToken(Authentication authentication) {
         UserDetails userDetails=(UserDetails) authentication.getPrincipal();
         List<String> roles=userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());

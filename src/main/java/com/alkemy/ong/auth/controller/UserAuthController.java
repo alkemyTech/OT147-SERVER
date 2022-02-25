@@ -47,8 +47,7 @@ public class UserAuthController {
     public ResponseEntity<AuthResponseDTO> singin(@RequestBody AuthRequestDTO authRequest) throws Exception {
         Authentication auth;
             auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword())
-            );
+                    new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         final String jwt = jwtTokenUtil.generateToken(auth);
         return ResponseEntity.ok(new AuthResponseDTO(jwt));
     }

@@ -1,7 +1,6 @@
 package com.alkemy.ong.auth.service;
 
-import com.alkemy.ong.auth.domain.UserDomain;
-import com.alkemy.ong.auth.mapper.UserMapper;
+
 import com.alkemy.ong.entity.UserEntity;
 import com.alkemy.ong.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
