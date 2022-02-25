@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.SQLDelete;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -17,7 +19,9 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "Member")
+@Table(name = "members")
+@SQLDelete(sql = "UPDATE members SET softDelete = true WHERE id=?")
+@Where(clause = "softDelete = false")
 public class MemberEntity {
 
     @Id
@@ -26,28 +30,28 @@ public class MemberEntity {
     private String id;
 
     @NotNull
-    @Column( name="name", length = 50, nullable = false)
+    @Column(  length = 50, nullable = false)
     private String name;
 
-    @Column( name="facebookUrl", length = 100)
+    @Column( name="facebook_url", length = 100)
     private String facebookUrl;
 
-    @Column( name="instagramUrl", length = 100)
+    @Column( name="instagram_url", length = 100)
     private String instagramUrl;
 
-    @Column( name="linkedinUrl", length = 100)
+    @Column( name="linkedin_url", length = 100)
     private String linkedinUrl;
 
     @NotNull
-    @Column( name="image", length = 200, nullable = false)
+    @Column( length = 200, nullable = false)
     private String image;
 
-    @Column( name="description", length = 250)
+    @Column( length = 250)
     private String description;
 
-    @Column(name= "timeStamps" ,nullable = false, updatable = false)
+    @Column(nullable = false, updatable = false)
     @CreationTimestamp
-    private LocalDateTime timeStamps;
+    private LocalDateTime timestamps;
 
     @NotNull
     @Column(name = "softDelete", nullable = false)
