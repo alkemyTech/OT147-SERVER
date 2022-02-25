@@ -19,6 +19,7 @@ public class EmailService {
     @Autowired
     SendGrid sendGrid;
 
+
    // @Autowired
     //private TemplateEngine templateEngine;
 
@@ -51,4 +52,5 @@ public class EmailService {
        // Content content = new Content("text/html", templateEngine.process("plantilla_email.html", context));
       //  this.sendEmail(email, subject, content);
     }
+
 }
