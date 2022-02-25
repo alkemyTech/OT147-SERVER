@@ -11,4 +11,8 @@ public interface OrganizationMapper {
 
     OrganizationDto organizationToOrganizationDto(OrganizationEntity organization);
 
+<<<<<<< HEAD
+=======
+    OrganizationEntity organizationDtoToOrganization(OrganizationDto dto);
+>>>>>>> 14cd07718014ec2e11e53a07318bcd3f83810ac4
 }
