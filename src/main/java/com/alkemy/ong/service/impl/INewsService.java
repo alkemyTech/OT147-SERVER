@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class INewsService implements NewsService {
+
     private NewsMapper newsMapper;
     @Autowired
     private NewsRepository newsRepo;
