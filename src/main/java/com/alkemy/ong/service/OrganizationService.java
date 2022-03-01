@@ -14,10 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class OrganizationService {
 
-    private  OrganizationMapper organizationMapper;
+    private final OrganizationMapper organizationMapper;
     @Autowired
     private OrganizationRepository organizationRepository;
 
