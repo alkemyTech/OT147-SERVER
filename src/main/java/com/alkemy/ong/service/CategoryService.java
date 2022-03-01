@@ -34,7 +34,5 @@ public class CategoryService {
         CategoryEntity savedEntity =categoryRepository.save(entity);
         CategoryDto result = categoryMapperSimple.categoryEntityToCategoryDTO(savedEntity);
         return result;
-
     }
-
 }
