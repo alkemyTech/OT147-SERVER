@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.auth.dto.AuthResponseDTO;
 import com.alkemy.ong.dto.UserDTO;
 import com.alkemy.ong.entity.UserEntity;
 import com.alkemy.ong.mapper.UserMapper;
@@ -33,6 +34,10 @@ public class UserController {
     public ResponseEntity<List<UserDTO>> UserList() {
         List<UserDTO> users = userService.getAllUser();
         return ResponseEntity.ok().body(users);
+    }
+    @GetMapping("auth/me")
+    public UserDTO userMe(AuthResponseDTO jwt){
+        return userService.userMe(jwt);
     }
 
     // Soft deletion method
