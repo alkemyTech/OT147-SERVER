@@ -9,15 +9,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
+import com.alkemy.ong.dto.CategoryDtoFull;
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/categories")
 public class CategoryController {
-
+  
     private final CategoryService categoryService;
 
-    @GetMapping("/categories")
+
+    @GetMapping("/")
     public ResponseEntity <List<CategoryDto>> getAllCategories(){
         return ResponseEntity.ok(categoryService.getAll());
     }
+
+    //Update information of category only for Admin User
+    @PutMapping("/{id}")
+    public ResponseEntity<CategoryDtoFull> update(@PathVariable String id, @RequestBody CategoryDtoFull categoryDtoFull){
+
+        return ResponseEntity.ok(categoryService.update(id,categoryDtoFull));
+    }
+
 }
