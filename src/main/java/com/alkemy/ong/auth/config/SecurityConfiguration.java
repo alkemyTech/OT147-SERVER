@@ -1,27 +1,31 @@
 package com.alkemy.ong.auth.config;
 
+import com.alkemy.ong.auth.filter.JwtRequestFilter;
 import com.alkemy.ong.auth.service.UserDetailsCustomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpMethod.PUT;
+import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsCustomService userDetailsCustomService;
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
 
     /*
     Method to encrypt password
@@ -50,12 +54,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/*").permitAll()
                 .antMatchers("/auth/register/**").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(GET, "/users/**").hasAnyAuthority("ROLE_USER")
-                .antMatchers(POST, "/user/save/**").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers(PUT, "/organization/public/**").hasAnyAuthority("ROLE_ADMIN")
-                .anyRequest().authenticated()
-                .and().exceptionHandling().accessDeniedPage("/403")
+                .antMatchers( "/storage/*").hasAuthority("ADMIN")
+                //Users
+                .antMatchers(GET, "/users/list").hasAuthority("ADMIN")
+                .antMatchers(POST, "/user/save/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(PATCH, "/users/user/{id}").hasAuthority("USER")
+                .antMatchers(DELETE, "/users/{id}").hasAuthority("USER")
+
+                //Categories
+                .antMatchers(GET,"/categories").hasAuthority("ADMIN")
+                .antMatchers(POST,"/categories/create").hasAuthority("ADMIN")
+                .antMatchers(DELETE,"/categories/{id}").hasAuthority("ADMIN")
+
+                //Organizations
+                .antMatchers(GET, "/organization/public").hasAnyAuthority("ADMIN","USER")
+                .antMatchers(PUT, "/organization/public/**").hasAuthority("ADMIN")
+
+                //News
+                .antMatchers(GET, "/news/{id}").hasAuthority("ADMIN")
+                .and()
+                .authorizeRequests().anyRequest().authenticated()
                 .and().sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS); //does not save the state
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

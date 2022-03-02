@@ -1,13 +1,11 @@
 package com.alkemy.ong.auth.mapper;
 
 import com.alkemy.ong.auth.domain.UserDomain;
-import com.alkemy.ong.auth.dto.LoginUserDTO;
-import com.alkemy.ong.auth.dto.UserDTO;
 import com.alkemy.ong.entity.UserEntity;
 
 public class UserMapper {
 
-
+/*
     public static UserDomain LoginUserDTOToUserDomain(LoginUserDTO loginUserDTO) {
         UserDomain userDomain = UserDomain.builder()
                 .password(loginUserDTO.getPassword())
@@ -25,6 +23,7 @@ public class UserMapper {
                 .password(user.getPassword())
                 .photo(user.getPhoto())
                 .timestamps(user.getTimestamps())
+                .roleId(user.getRoleid())
                 .build();
         return userDTO;
     }
@@ -36,7 +35,9 @@ public class UserMapper {
                 .email(userEntity.getEmail())
                 .password(userEntity.getPassword())
                 .photo(userEntity.getPhoto())
-                .roleid(RoleMapper.roleEntityToRoleDomain(userEntity.getRoleId())).build();
+                .roleid(RoleMapper.roleEntityToRoleDomain(userEntity.getRoleId()))
+                .build();
         return userDomain;
     }
+    */
 }

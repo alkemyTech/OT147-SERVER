@@ -19,8 +19,8 @@ public class EmailService {
     @Autowired
     SendGrid sendGrid;
 
-    @Autowired
-    private TemplateEngine templateEngine;
+   // @Autowired
+    //private TemplateEngine templateEngine;
 
     @Value("${app.sendgrid.from-address}")
     private String fromAddress;
@@ -47,8 +47,9 @@ public class EmailService {
     }
 
     public void welcomeMail(String email) {
-        String subject = "Bienvenid@ a Somos Más";
-        Content content = new Content("text/html", templateEngine.process("plantilla_email.html", context));
-        this.sendEmail(email, subject, content);
+     //   String subject = "Bienvenid@ a Somos Más";
+       // Content content = new Content("text/html", templateEngine.process("plantilla_email.html", context));
+      //  this.sendEmail(email, subject, content);
     }
+
 }

@@ -1,28 +1,24 @@
-package com.alkemy.ong.auth.dto;
+package com.alkemy.ong.dto;
 
-
-import com.alkemy.ong.auth.domain.RoleDomain;
+import com.alkemy.ong.entity.RoleEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
 
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Data
 @Builder
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserDTO implements Serializable {
-
+public class UserDTO {
+    @JsonIgnore
     private String id;
     private String firstName;
     private String lastName;
     private String email;
     @JsonIgnore
-    private RoleDomain roleId;
-    @JsonIgnore
     private String password;
     private String photo;
+    private RoleEntity roleId;
     private LocalDateTime timestamps;
+
 }

@@ -12,4 +12,5 @@ public interface OrganizationMapper {
     OrganizationDto organizationToOrganizationDto(OrganizationEntity organization);
 
     OrganizationEntity organizationDtoToOrganization(OrganizationDto dto);
+
 }
