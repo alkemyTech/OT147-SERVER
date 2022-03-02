@@ -1,6 +1,7 @@
 package com.alkemy.ong.service;
 
 
+import com.alkemy.ong.auth.dto.AuthResponseDTO;
 import com.alkemy.ong.dto.UserDTO;
 import com.alkemy.ong.entity.UserEntity;
 
@@ -14,5 +15,6 @@ public interface UserService {
 
     UserEntity updateUser(UserEntity entity) ;
 
+    UserDTO userMe(AuthResponseDTO jwt);
 
 }

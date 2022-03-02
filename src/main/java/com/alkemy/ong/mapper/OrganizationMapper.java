@@ -5,7 +5,7 @@ import com.alkemy.ong.entity.OrganizationEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface OrganizationMapper {
     OrganizationMapper organizationMapper = Mappers.getMapper(OrganizationMapper.class);
 
