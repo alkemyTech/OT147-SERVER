@@ -1,7 +1,4 @@
-
-package com.alkemy.ong.service;
-
-
+package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.entity.CategoryEntity;
@@ -24,18 +21,6 @@ public class CategoryService {
        List<CategoryEntity> categoryEntityList=categoryEntityRepository.findAll();
 
         return categoryMapper.listCategoryEntityToListCategoryDto(categoryEntityList);
-    }
-  public void deletedCategoryForId(String id) throws Exception {
-        CategoryEntity entity = this.handleFindById(id);
-        categoryEntityRepository.delete(entity);
-    }
-    /*Method for Exist Category */
-    public CategoryEntity handleFindById(String id) throws Exception {
-        Optional<CategoryEntity> NoFoundCategory = categoryEntityRepository.findById(id);
-        if (!NoFoundCategory.isPresent()) {
-            throw new Exception("The category does not exits:"+id);
-        }
-        return NoFoundCategory.get();
     }
 
 }
