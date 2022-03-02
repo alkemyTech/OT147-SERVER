@@ -1,4 +1,4 @@
-package com.alkemy.ong.service.impl;
+package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.entity.CategoryEntity;
