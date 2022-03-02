@@ -40,6 +40,7 @@ public class NewsEntity {
     @JoinColumn(name="category_id")
     private CategoryEntity categoryId;
 
-    @Column(name="softDelete")
-    private boolean softDelete=Boolean.FALSE;
+    @Column(name="soft_delete")
+    private Boolean softDelete = Boolean.FALSE;
+
 }
