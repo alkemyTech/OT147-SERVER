@@ -1,17 +1,28 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.CategoryDto;
-import com.alkemy.ong.dto.CategoryDtoFull;
 import com.alkemy.ong.service.CategoryService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+import com.alkemy.ong.dto.CategoryDtoFull;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/category")
 public class CategoryController {
+
 private final CategoryService categoryService;
 
     @GetMapping("/categories")
@@ -24,4 +35,5 @@ private final CategoryService categoryService;
 
         return ResponseEntity.ok(categoryService.update(id,categoryDtoFull));
     }
+
 }
