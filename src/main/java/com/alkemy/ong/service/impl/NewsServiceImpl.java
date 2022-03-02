@@ -9,7 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class INewsService implements NewsService {
+public class NewsServiceImpl implements NewsService {
+    @Autowired
     private NewsMapper newsMapper;
     @Autowired
     private NewsRepository newsRepo;
@@ -17,7 +18,7 @@ public class INewsService implements NewsService {
     @Override
     public NewsDTO getDetailsById(String id) {
         System.out.println(id);
-            NewsEntity newsEntity = newsRepo.getById(id);
-            return  newsMapper.newsEntityToNewsDTO(newsEntity);
+        NewsEntity newsEntity = newsRepo.getById(id);
+        return  newsMapper.newsEntityToNewsDTO(newsEntity);
     }
 }

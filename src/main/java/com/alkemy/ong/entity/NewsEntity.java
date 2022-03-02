@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @RequiredArgsConstructor
-@SQLDelete(sql = "UPDATE news SET softDeleted = true WHERE id=?")
-@Where(clause = "softDeleted=false")
+@SQLDelete(sql = "UPDATE news SET soft_delete = true WHERE id=?")
+@Where(clause = "soft_delete=false")
 public class NewsEntity {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -39,11 +39,11 @@ public class NewsEntity {
     private LocalDateTime timestamps;
 
     @ManyToOne
-    @JoinColumn(name="categoryId")
+    @JoinColumn(name="category_id")
     private CategoryEntity categoryId;
 
-    @Column(name="softDelete")
-    private Boolean softDelete;
+    @Column(name="soft_delete")
+    private Boolean softDelete = Boolean.FALSE;
 
 
 }
