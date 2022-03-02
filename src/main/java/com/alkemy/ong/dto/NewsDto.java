@@ -1,13 +1,12 @@
 package com.alkemy.ong.dto;
 
 import com.alkemy.ong.entity.CategoryEntity;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
+
 
 import java.time.LocalDateTime;
-@Getter
-@Setter
-public class NewsDTO {
+@Data
+public class NewsDto {
     private String id;
     private String name;
     private String content;

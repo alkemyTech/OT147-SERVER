@@ -1,8 +1,7 @@
 package com.alkemy.ong.entity;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.SQLDelete;
@@ -13,12 +12,11 @@ import java.time.LocalDateTime;
 
 
 @Entity
+@Data
 @Table(name = "news")
-@Setter
-@Getter
-@RequiredArgsConstructor
-@SQLDelete(sql = "UPDATE news SET softDeleted = true WHERE id=?")
-@Where(clause = "softDeleted=false")
+@SQLDelete(sql = "UPDATE news SET soft_delete = true WHERE id=?")
+@NoArgsConstructor
+@Where(clause = "soft_delete=false")
 public class NewsEntity {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -39,11 +37,9 @@ public class NewsEntity {
     private LocalDateTime timestamps;
 
     @ManyToOne
-    @JoinColumn(name="categoryId")
+    @JoinColumn(name="category_id")
     private CategoryEntity categoryId;
 
     @Column(name="softDelete")
-    private Boolean softDelete;
-
-
+    private boolean softDelete=Boolean.FALSE;
 }
