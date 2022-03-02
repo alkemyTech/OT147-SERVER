@@ -1,5 +1,7 @@
 package com.alkemy.ong.service.impl;
 
+import com.alkemy.ong.auth.dto.AuthResponseDTO;
+import com.alkemy.ong.auth.service.JwtUtils;
 import com.alkemy.ong.dto.UserDTO;
 import com.alkemy.ong.entity.UserEntity;
 import com.alkemy.ong.mapper.UserMapper;
@@ -19,6 +21,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    JwtUtils jwtUtils;
 
     @Override
     @Transactional
@@ -43,5 +48,16 @@ public class UserServiceImpl implements UserService {
         userEntity.setPhoto(entity.getPhoto());
         return userRepository.save(userEntity);
 
+    }
+
+    @Override
+    public UserDTO userMe(AuthResponseDTO jwt) {
+
+        String username = jwtUtils.extractUsername(jwt.toString());
+        UserEntity userEntity = userRepository.findByEmail(username);
+        UserDTO dto = userMapper.userEntityToUserDTO(userEntity);
+
+
+        return dto;
     }
 }
