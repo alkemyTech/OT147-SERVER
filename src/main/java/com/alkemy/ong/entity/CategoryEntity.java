@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 @Entity
 @Getter @Setter @ToString @RequiredArgsConstructor
 @SQLDelete(sql="UPDATE categorys SET softDelete = true WHERE id=?")
-@Where(clause = "softDelete=false")
 public class CategoryEntity {
 
     @Id
