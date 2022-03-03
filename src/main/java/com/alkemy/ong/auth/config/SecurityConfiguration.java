@@ -15,9 +15,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpMethod.PUT;
+import static org.springframework.http.HttpMethod.*;
 
 @Configuration
 @EnableWebSecurity
@@ -56,14 +54,31 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/*").permitAll()
                 .antMatchers("/auth/register/**").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(GET, "/users/**").hasAnyAuthority("ROLE_USER")
-                .antMatchers(GET,"/category/categories").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers(POST, "/user/save/**").hasAnyAuthority("ROLE_ADMIN")
-                .antMatchers(PUT, "/organization/public/**").hasAnyAuthority("ROLE_ADMIN")
-                .anyRequest().authenticated()
-                .and().exceptionHandling().accessDeniedPage("/403")
+                .antMatchers("/auth/me").permitAll()
+                .antMatchers("/storage/*").hasAuthority("ADMIN")
+                //Users
+                .antMatchers(GET, "/users/list").hasAuthority("ADMIN")
+                .antMatchers(POST, "/user/save/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(PATCH, "/users/user/{id}").hasAuthority("USER")
+                .antMatchers(DELETE, "/users/{id}").hasAuthority("USER")
+
+                //Categories
+                .antMatchers(GET, "/categories").hasAuthority("ADMIN")
+                .antMatchers(PUT, "/categories/{id}").hasAuthority("ADMIN")
+                .antMatchers(POST, "/categories").hasAuthority("ADMIN")
+                .antMatchers(DELETE, "/categories/{id}").hasAuthority("ADMIN")
+
+                //Organizations
+                .antMatchers(GET, "/organization/public").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(PUT, "/organization/public/**").hasAuthority("ADMIN")
+
+                //News
+                .antMatchers(GET, "/news/{id}").hasAuthority("ADMIN")
+                .and()
+                .authorizeRequests().anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

@@ -43,8 +43,8 @@ public class UserAuthController {
 
     /*Method to authenticate, the server generates a JWT with the user's data and will return it as a response.*/
 
-    @PostMapping("/singin")
-    public ResponseEntity<AuthResponseDTO> singin(@RequestBody AuthRequestDTO authRequest) throws Exception {
+    @PostMapping("/signin")
+    public ResponseEntity<AuthResponseDTO> signin(@RequestBody AuthRequestDTO authRequest) throws Exception {
         Authentication auth;
             auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));

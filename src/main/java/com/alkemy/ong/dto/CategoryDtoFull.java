@@ -1,14 +1,9 @@
 package com.alkemy.ong.dto;
 
-
 import java.time.LocalDateTime;
 import lombok.*;
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@ToString
+
+@Data
 public class CategoryDtoFull {
 
     private String id;
