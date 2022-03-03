@@ -16,22 +16,21 @@ import com.alkemy.ong.dto.CategoryDtoFull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/categories")
 public class CategoryController {
+  
+    private final CategoryService categoryService;
 
-private final CategoryService categoryService;
 
-    @GetMapping("/categories")
+    @GetMapping("/")
     public ResponseEntity <List<CategoryDto>> getAllCategories(){
         return ResponseEntity.ok(categoryService.getAll());
     }
-
 
     @PostMapping("/create")
     public ResponseEntity<CategoryDto> addCategory(@Valid @RequestBody CategoryDto categoryDTO){
@@ -40,9 +39,8 @@ private final CategoryService categoryService;
 
     }
 
-
     //Update information of category only for Admin User
-    @PutMapping("/categories/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<CategoryDtoFull> update(@PathVariable String id, @RequestBody CategoryDtoFull categoryDtoFull){
 
         return ResponseEntity.ok(categoryService.update(id,categoryDtoFull));

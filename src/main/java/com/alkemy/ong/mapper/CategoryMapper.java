@@ -10,14 +10,13 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper
 public interface CategoryMapper {
     CategoryMapper categoryMapper= Mappers.getMapper(CategoryMapper.class);
 
     CategoryDto categoryDtoToCategoryEntity(CategoryEntity category);
 
     List<CategoryDto> listCategoryEntityToListCategoryDto(List<CategoryEntity>list);
-
 
     CategoryDtoFull categoryToCategoryDtoFull(CategoryEntity entity);
 

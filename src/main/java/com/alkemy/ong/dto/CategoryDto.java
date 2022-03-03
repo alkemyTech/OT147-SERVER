@@ -13,7 +13,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @ToString
-
 public class CategoryDto {
 
     @NotBlank(message = "the name field cannot be empty")
