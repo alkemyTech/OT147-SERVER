@@ -1,4 +1,4 @@
-package com.alkemy.ong.service.impl;
+package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.CategoryDtoFull; 
@@ -7,12 +7,11 @@ import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.mapper.CategoryMapperSimple;
 import com.alkemy.ong.repository.CategoryEntityRepository;
 import com.alkemy.ong.repository.CategoryRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Service;
 import java.util.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
 @Service
@@ -22,8 +21,6 @@ public class CategoryService {
 
 
     @Autowired
-    private CategoryEntityRepository categoryEntityRepository;
-     @Autowired
     private CategoryEntityRepository categoryEntityRepository;
     @Autowired
     CategoryMapperSimple categoryMapperSimple;
