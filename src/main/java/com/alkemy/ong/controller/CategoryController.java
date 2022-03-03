@@ -35,6 +35,7 @@ public class CategoryController {
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+    //Create category
     @PostMapping("/create")
     public ResponseEntity<CategoryDto> addCategory(@Valid @RequestBody CategoryDto categoryDTO){
         CategoryDto savedCategory = categoryService.addCategory(categoryDTO);
@@ -46,5 +47,13 @@ public class CategoryController {
     public ResponseEntity<CategoryDtoFull> update(@PathVariable String id, @RequestBody CategoryDtoFull categoryDtoFull){
 
         return ResponseEntity.ok(categoryService.update(id,categoryDtoFull));
+    }
+
+    //Get category by id only for ADMIN
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDtoFull> getCategory(
+            @PathVariable(name="id", required=true)
+                    String id){
+        return ResponseEntity.ok(categoryService.getCategory(id));
     }
 }

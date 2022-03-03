@@ -24,8 +24,8 @@ public class CategoryService {
 
 
     //Get all Category from Database.
-    public List<CategoryDto> getAll(){
-       List<CategoryEntity> categoryEntityList=categoryRepository.findAll();
+    public List<CategoryDto> getAll() {
+        List<CategoryEntity> categoryEntityList = categoryRepository.findAll();
 
         return categoryMapper.listCategoryEntityToListCategoryDto(categoryEntityList);
     }
@@ -39,23 +39,23 @@ public class CategoryService {
     public CategoryEntity handleFindById(String id) throws Exception {
         Optional<CategoryEntity> NoFoundCategory = categoryRepository.findById(id);
         if (!NoFoundCategory.isPresent()) {
-            throw new Exception("The category does not exits:"+id);
+            throw new Exception("The category does not exits:" + id);
         }
         return NoFoundCategory.get();
     }
 
     //Update Category
-    public CategoryDtoFull update(String id,CategoryDtoFull category) {
+    public CategoryDtoFull update(String id, CategoryDtoFull category) {
         if (categoryRepository.findById(id).isPresent()) {
-                CategoryEntity categoryEntity = categoryRepository.findById(id).get();
-                categoryEntity.setDescription(category.getDescription());
-                categoryEntity.setImage(category.getImage());
-                categoryEntity.setName(category.getName());
-                categoryEntity.setDescription(category.getDescription());
-                categoryEntity.setSoftDelete(category.isSoftDelete());
-                categoryRepository.save(categoryEntity);
-                return categoryMapper.categoryToCategoryDtoFull(categoryEntity);
-       }else{
+            CategoryEntity categoryEntity = categoryRepository.findById(id).get();
+            categoryEntity.setDescription(category.getDescription());
+            categoryEntity.setImage(category.getImage());
+            categoryEntity.setName(category.getName());
+            categoryEntity.setDescription(category.getDescription());
+            categoryEntity.setSoftDelete(category.isSoftDelete());
+            categoryRepository.save(categoryEntity);
+            return categoryMapper.categoryToCategoryDtoFull(categoryEntity);
+        } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "There is no Category with the entered Id");
         }
@@ -64,7 +64,18 @@ public class CategoryService {
     //create Category
     public CategoryDto addCategory(CategoryDto categoryDto) {
         CategoryEntity entity = categoryMapper.categoryDtoToCategoryEntity(categoryDto);
-        CategoryEntity savedEntity =categoryRepository.save(entity);
+        CategoryEntity savedEntity = categoryRepository.save(entity);
         return categoryMapper.categoryEntityToCategoryDto(savedEntity);
+    }
+    //Get category by id
+    public CategoryDtoFull getCategory(String id) {
+        Optional<CategoryEntity> category = categoryRepository.findById(id);
+        if (category.isPresent()) {
+            CategoryDtoFull categoryFullDto = CategoryMapper.categoryMapper.categoryToCategoryDtoFull(category.get());
+            return categoryFullDto;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Category not found");
+        }
     }
 }
