@@ -49,7 +49,7 @@ public class CategoryController {
         return ResponseEntity.ok(categoryService.update(id,categoryDtoFull));
     }
 
-    //Get category by id
+    //Get category by id only for ADMIN
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDtoFull> getCategory(
             @PathVariable(name="id", required=true)
