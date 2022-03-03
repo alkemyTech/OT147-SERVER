@@ -1,10 +1,8 @@
 package com.alkemy.ong.controller;
 
-import com.alkemy.ong.dto.NewsDTO;
+import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,12 +16,8 @@ public class NewsController {
     private NewsService newsService;
     //As an Admin see all details in the news entity
     @GetMapping("/{id}")
-    public ResponseEntity<NewsDTO> getDetailsById(@PathVariable String id) {
-        try {
-        NewsDTO newsDTO = newsService.getDetailsById(id);
-        return ResponseEntity.ok(newsDTO);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<NewsDto> getDetailsById(@PathVariable String id) {
+        NewsDto newsDto = newsService.getDetailsById(id);
+        return ResponseEntity.ok(newsDto);
     }
 }

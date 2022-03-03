@@ -1,13 +1,8 @@
 package com.alkemy.ong.dto;
 
-import lombok.*;
+import lombok.Data;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-@ToString
+@Data
 public class CategoryDto {
 
     private String name;
