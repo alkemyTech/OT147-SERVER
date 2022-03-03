@@ -1,7 +1,7 @@
 package com.alkemy.ong.service.impl;
 
 import com.alkemy.ong.dto.CategoryDto;
-import com.alkemy.ong.dto.CategoryDtoFull; main
+import com.alkemy.ong.dto.CategoryDtoFull; 
 import com.alkemy.ong.entity.CategoryEntity;
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.mapper.CategoryMapperSimple;
@@ -9,8 +9,8 @@ import com.alkemy.ong.repository.CategoryEntityRepository;
 import com.alkemy.ong.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.List;
+import org.springframework.stereotype.Service
+import java.util.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -30,16 +30,26 @@ public class CategoryService {
     @Autowired
     CategoryRepository categoryRepository;
 
-    //Get all Categories from Database
-    public List<CategoryDto> getAll(){
-        List<CategoryEntity>categoryEntityList=categoryEntityRepository.findAll();
-        return categoryMapper.listCategoryEntityToListCategoryDto(categoryEntityList);
 
     //Get all Category from Database.
     public List<CategoryDto> getAll(){
        List<CategoryEntity> categoryEntityList=categoryEntityRepository.findAll();
 
         return categoryMapper.listCategoryEntityToListCategoryDto(categoryEntityList);
+    }
+
+    public void deletedCategoryForId(String id) throws Exception {
+        CategoryEntity entity = this.handleFindById(id);
+        categoryEntityRepository.delete(entity);
+    }
+
+    /*Method for Exist Category */
+    public CategoryEntity handleFindById(String id) throws Exception {
+        Optional<CategoryEntity> NoFoundCategory = categoryEntityRepository.findById(id);
+        if (!NoFoundCategory.isPresent()) {
+            throw new Exception("The category does not exits:"+id);
+        }
+        return NoFoundCategory.get();
     }
 
     //Update Category
@@ -59,7 +69,6 @@ public class CategoryService {
         }
     }
 
-
     //create Category
     public CategoryDto addCategory(CategoryDto dto) {
         CategoryEntity entity = categoryMapperSimple.categoryDTOToCategoryEntity(dto);
@@ -67,5 +76,4 @@ public class CategoryService {
         CategoryDto result = categoryMapperSimple.categoryEntityToCategoryDTO(savedEntity);
         return result;
     }
-
 }
