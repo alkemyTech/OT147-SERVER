@@ -50,14 +50,14 @@ public class UserServiceImpl implements UserService {
 
     }
 
-    @Override
-    public UserDTO userMe(AuthResponseDTO jwt) {
-
-        String username = jwtUtils.extractUsername(jwt.toString());
-        UserEntity userEntity = userRepository.findByEmail(username);
-        UserDTO dto = userMapper.userEntityToUserDTO(userEntity);
-
-
-        return dto;
-    }
+//    @Override
+//    public UserDTO userMe(AuthResponseDTO jwt) {
+//
+//        String username = jwtUtils.extractUsername(jwt.toString());
+//        UserEntity userEntity = userRepository.findByEmail(username);
+//        UserDTO dto = userMapper.userEntityToUserDTO(userEntity);
+//
+//
+//        return dto;
+//    }
 }

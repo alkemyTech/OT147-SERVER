@@ -7,11 +7,12 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
 
-@Table(name = "categorys")
+@Table(name = "categories")
 @Entity
-@Getter @Setter @ToString @RequiredArgsConstructor
-@SQLDelete(sql="UPDATE categorys SET softDelete = true WHERE id=?")
-@Where(clause = "softDelete=false")
+@Data
+@NoArgsConstructor
+@SQLDelete(sql="UPDATE categories SET soft_delete = true WHERE id=?")
+@Where(clause = "soft_delete=false")
 public class CategoryEntity {
 
     @Id
@@ -26,10 +27,10 @@ public class CategoryEntity {
     @Column( name="image")
     private String image;
 
-    @Column(name= "creationDate" ,nullable = false,updatable = false)
+    @Column(name= "timestamps" ,nullable = false,updatable = false)
     @CreationTimestamp
     private LocalDateTime timestamps;
 
-    @Column(name = "softDelete", nullable = false)
+    @Column(name = "soft_delete", nullable = false)
     private boolean softDelete=Boolean.FALSE;
 }

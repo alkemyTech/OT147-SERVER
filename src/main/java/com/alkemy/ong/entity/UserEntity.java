@@ -22,8 +22,8 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @Entity
 @Table(name = "USERS")
-@SQLDelete(sql = "UPDATE users SET softDelete = true WHERE id=?")
-@Where(clause = "softDelete = false")
+@SQLDelete(sql = "UPDATE users SET soft_delete = true WHERE id=?")
+@Where(clause = "soft_delete = false")
 public class UserEntity {
 
     @Id
@@ -62,7 +62,7 @@ public class UserEntity {
     @Column(name = "TIMESTAMPS", nullable = false, updatable = false)
     private LocalDateTime timestamps;
 
-    @Column(name = "SOFTDELETE", nullable = false)
+    @Column(name = "SOFT_DELETE", nullable = false)
     private Boolean softDelete = false;
 
     @ManyToOne
