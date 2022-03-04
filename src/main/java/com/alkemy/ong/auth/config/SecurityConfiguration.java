@@ -59,7 +59,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //Users
                 .antMatchers(GET, "/users/list").hasAuthority("ADMIN")
                 .antMatchers(POST, "/user/save/**").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(PATCH, "/users/user/{id}").hasAuthority("USER")
+                .antMatchers(PATCH, "/users/{id}").hasAuthority("USER")
                 .antMatchers(DELETE, "/users/{id}").hasAuthority("USER")
 
                 //Categories

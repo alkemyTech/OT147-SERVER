@@ -2,14 +2,16 @@ package com.alkemy.ong.dto;
 
 import com.alkemy.ong.entity.RoleEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Data
 @Builder
-public class UserDTO {
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class UserDto {
     @JsonIgnore
     private String id;
     private String firstName;
