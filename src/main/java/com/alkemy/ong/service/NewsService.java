@@ -4,16 +4,19 @@ import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.entity.NewsEntity;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.repository.NewsRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
-
+@RequiredArgsConstructor
 @Service
 public class NewsService {
 
+    private final NewsMapper newsMapper;
     @Autowired
     private NewsRepository newsRepo;
 
@@ -27,5 +30,10 @@ public class NewsService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "There are no news with the provided id");
         }
+    }
+    @Transactional
+    public NewsDto save(NewsDto dto) {
+        NewsEntity entity= newsMapper.newsDtoTonewsEntity(dto);
+        return newsMapper.newsEntityToNewsDto(newsRepo.save(entity));
     }
 }
