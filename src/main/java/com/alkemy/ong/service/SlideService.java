@@ -21,4 +21,9 @@ public class SlideService {
         List<SlideEntity> slideEntityList = slideRepository.findAll();
         return slideMapper.listSlideEntityToListSlideBasicDto(slideEntityList);
     }
+
+    //Slides Soft deletion method by id for Admin
+    public void deleteSlideById(String id) throws Exception {
+        slideRepository.deleteById(id);
+    }
 }
