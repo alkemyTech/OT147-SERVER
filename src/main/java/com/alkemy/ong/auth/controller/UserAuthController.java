@@ -32,13 +32,17 @@ public class UserAuthController {
 
     /*
     //SIGNUP
-    I check that a user can be registered. Inclusion of @Valid in UserEntity to
-    validate firstname, lastname, email and password.
+    Modification of the registration method so that it generates the token and there is an automatic login.
+    Return jwt.
      */
     @PostMapping("/register")
-    public ResponseEntity<UserEntity> signup(@RequestBody @Valid UserEntity user) {
+    public ResponseEntity<AuthResponseDTO> signup(@RequestBody @Valid UserEntity user) {
         userDetailsCustomService.save(user);
-        return new ResponseEntity<UserEntity>(user, HttpStatus.CREATED);
+        Authentication auth;
+        auth = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
+        final String jwt = jwtTokenUtil.generateToken(auth);
+        return  ResponseEntity.ok(new AuthResponseDTO(jwt));
     }
 
     /*Method to authenticate, the server generates a JWT with the user's data and will return it as a response.*/
@@ -51,5 +55,4 @@ public class UserAuthController {
         final String jwt = jwtTokenUtil.generateToken(auth);
         return ResponseEntity.ok(new AuthResponseDTO(jwt));
     }
-
 }
