@@ -9,13 +9,12 @@ import javax.persistence.*;
 
 @Table(name = "slides")
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
-@SQLDelete(sql = "UPDATE slides SET softDeleted = true WHERE id=?") //This query provides the soft delete, as an update over slides
-@Where(clause = "softDeleted=false")
+@Data
 @Entity
+@SQLDelete(sql = "UPDATE slides SET soft_delete = true WHERE id=?")
+@NoArgsConstructor
+@Where(clause = "soft_delete=false")
 public class SlideEntity {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -28,4 +27,6 @@ public class SlideEntity {
     @ManyToOne (fetch = FetchType.LAZY)
     @JoinColumn(name = "organization")
     private OrganizationEntity organizationId;
+    @Column(name="soft_delete")
+    private Boolean softDelete = Boolean.FALSE;
 }
