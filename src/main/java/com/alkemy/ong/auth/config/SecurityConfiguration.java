@@ -73,11 +73,19 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(GET, "/organization/public").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(PUT, "/organization/public/**").hasAuthority("ADMIN")
 
+                //Activities
+                .antMatchers(PUT,"/activities/{id}").hasAuthority("ADMIN")
+
                 //News
                 .antMatchers(GET, "/news/{id}").hasAuthority("ADMIN")
+<<<<<<< HEAD
 
                 //Activities
                 .antMatchers(POST, "/activities/create").hasAuthority("ADMIN")
+=======
+                //Slides
+                .antMatchers(GET, "/slides").hasAuthority("ADMIN")
+>>>>>>> 0cb91f87437c1d78ab4af39dfd701204d3d61d02
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and().sessionManagement()
