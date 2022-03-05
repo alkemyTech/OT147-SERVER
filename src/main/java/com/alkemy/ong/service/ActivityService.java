@@ -6,14 +6,11 @@ import com.alkemy.ong.mapper.ActivityMapper;
 import com.alkemy.ong.repository.ActivityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-<<<<<<< HEAD
 import org.springframework.stereotype.Service;
-=======
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
->>>>>>> 0cb91f87437c1d78ab4af39dfd701204d3d61d02
+
 
 @RequiredArgsConstructor
 @Service
@@ -24,16 +21,16 @@ public class ActivityService {
     @Autowired
     ActivityRepository activityRepository;
 
-<<<<<<< HEAD
+
     //services to add activities
-    public ActivityDto addActivity(ActivityDto activityDto){
+    public ActivityDto addActivity(ActivityDto activityDto) {
         ActivityEntity entity = activityMapper.activityDtoToActivityEntity(activityDto);
         ActivityEntity savedEntity = activityRepository.save(entity);
         return activityMapper.activityEntityToActivityDto(savedEntity);
     }
-}
-=======
-    public ActivityDto update(String id,ActivityDto activityDto) {
+
+
+    public ActivityDto update(String id, ActivityDto activityDto) {
         Optional<ActivityEntity> activity = activityRepository.findById(id);
         if (activity.isPresent()) {
             ActivityEntity activityEntity = activity.get();
@@ -48,4 +45,4 @@ public class ActivityService {
         }
     }
 }
->>>>>>> 0cb91f87437c1d78ab4af39dfd701204d3d61d02
+
