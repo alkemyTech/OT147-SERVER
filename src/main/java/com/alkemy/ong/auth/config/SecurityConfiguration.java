@@ -75,6 +75,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 //News
                 .antMatchers(GET, "/news/{id}").hasAuthority("ADMIN")
+
+                //Activities
+                .antMatchers(POST, "/activities/create").hasAuthority("ADMIN")
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and().sessionManagement()
