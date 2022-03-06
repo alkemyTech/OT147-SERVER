@@ -54,13 +54,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/*").permitAll()
                 .antMatchers("/auth/register/**").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/auth/me").permitAll()
                 .antMatchers("/storage/*").hasAuthority("ADMIN")
                 //Users
                 .antMatchers(GET, "/users/list").hasAuthority("ADMIN")
                 .antMatchers(POST, "/user/save/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(PATCH, "/users/{id}").hasAuthority("USER")
                 .antMatchers(DELETE, "/users/{id}").hasAuthority("USER")
+                .antMatchers(GET,"/users/auth/me").hasAuthority( "USER")
 
                 //Categories
                 .antMatchers(GET, "/categories").hasAuthority("ADMIN")
