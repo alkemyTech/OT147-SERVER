@@ -54,7 +54,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/*").permitAll()
                 .antMatchers("/auth/register/**").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers("/auth/me").permitAll()
                 .antMatchers("/storage/*").hasAuthority("ADMIN")
 
                 //Users
@@ -62,6 +61,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(POST, "/user/save/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(PATCH, "/users/{id}").hasAuthority("USER")
                 .antMatchers(DELETE, "/users/{id}").hasAuthority("USER")
+                .antMatchers(GET,"/users/auth/me").hasAuthority( "USER")
 
                 //Categories
                 .antMatchers(GET, "/categories").hasAuthority("ADMIN")
@@ -82,9 +82,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 //Slides
                 .antMatchers(GET, "/slides").hasAuthority("ADMIN")
-
+                .antMatchers(DELETE, "/slides/{id}").hasAuthority("ADMIN")
+          
                 //Contacts
                 .antMatchers(POST, "/contacts").hasAuthority("USER")
+
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and().sessionManagement()
