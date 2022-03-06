@@ -56,6 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/auth/register/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/auth/me").permitAll()
                 .antMatchers("/storage/*").hasAuthority("ADMIN")
+
                 //Users
                 .antMatchers(GET, "/users/list").hasAuthority("ADMIN")
                 .antMatchers(POST, "/user/save/**").hasAnyAuthority("ADMIN", "USER")
@@ -78,8 +79,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 //News
                 .antMatchers(GET, "/news/{id}").hasAuthority("ADMIN")
+
                 //Slides
                 .antMatchers(GET, "/slides").hasAuthority("ADMIN")
+
+                //Contacts
+                .antMatchers(POST, "/contacts").hasAuthority("USER")
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and().sessionManagement()
