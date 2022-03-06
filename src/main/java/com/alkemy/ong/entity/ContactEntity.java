@@ -26,19 +26,19 @@ public class ContactEntity {
     @Column(name = "id", nullable = false)
     private String id;
 
-    @Column(name = "NAME", nullable = false)
+    @Column(name = "name", nullable = false)
     @NotEmpty(message = "The field must not be empty.")
     private String name;
 
-    @Column(name = "PHONE", nullable = false)
+    @Column(name = "phone", nullable = false)
     @NotEmpty(message = "The field must not be empty.")
     private String phone;
 
-    @Column(name = "EMAIL", nullable = false)
+    @Column(name = "email", nullable = false)
     @Email(message = "email format error")
     private String email;
 
-    @Column(name ="MESSAGE", nullable = false)
+    @Column(name ="message", nullable = false)
     @NotEmpty(message = "The message must not be empty.")
     private String message;
 
