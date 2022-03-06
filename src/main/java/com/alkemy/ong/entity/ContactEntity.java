@@ -13,7 +13,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "contact")
+@Table(name = "contacts")
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE contact SET deletedAt = true WHERE id = ?")
