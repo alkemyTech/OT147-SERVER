@@ -11,12 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SlideDtoFull {
 
-    @JsonIgnore
     private String id;
     private String imageUrl;
     private String text;
     private Integer order;
-    @JsonIgnore
     private OrganizationEntity organizationId;
-
 }
