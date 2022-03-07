@@ -1,5 +1,6 @@
 package com.alkemy.ong.mapper;
 
+import com.alkemy.ong.controller.SlideDtoFull;
 import com.alkemy.ong.dto.SlideBasicDto;
 import com.alkemy.ong.entity.SlideEntity;
 import org.mapstruct.Mapper;
@@ -11,4 +12,6 @@ import java.util.List;
 public interface SlideMapper {
     SlideMapper slideMapper= Mappers.getMapper(SlideMapper.class);
     List<SlideBasicDto> listSlideEntityToListSlideBasicDto(List<SlideEntity>list);
+
+    SlideDtoFull slideEntityToSlideDtoFull(SlideEntity slideEntity);
 }
