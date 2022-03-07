@@ -6,6 +6,7 @@ import com.alkemy.ong.auth.dto.AuthResponseDTO;
 import com.alkemy.ong.auth.service.JwtUtils;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.UserEntity;
+import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

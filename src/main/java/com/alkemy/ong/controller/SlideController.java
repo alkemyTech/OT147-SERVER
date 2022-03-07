@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.SlideBasicDto;
+import com.alkemy.ong.dto.SlideDtoFull;
 import com.alkemy.ong.entity.SlideEntity;
 import com.alkemy.ong.service.SlideService;
 import lombok.RequiredArgsConstructor;
@@ -33,5 +34,10 @@ public class SlideController {
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<SlideDtoFull> update(@PathVariable String id, @RequestBody SlideDtoFull slideDtoFull) {
+        return ResponseEntity.ok(slideService.update(id, slideDtoFull));
     }
 }

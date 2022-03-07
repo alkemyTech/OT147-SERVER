@@ -86,13 +86,17 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 
 
+                .antMatchers(POST, "/news").hasAuthority("ADMIN")
+                .antMatchers(PUT, "/news").hasAuthority("ADMIN")
+
+
                 //Slides
                 .antMatchers(GET, "/slides").hasAuthority("ADMIN")
                 .antMatchers(DELETE, "/slides/{id}").hasAuthority("ADMIN")
+                .antMatchers(PUT, "/slides/{id}").hasAuthority("ADMIN")
           
                 //Contacts
                 .antMatchers(POST, "/contacts").hasAuthority("USER")
-
 
                 .and()
                 .authorizeRequests().anyRequest().authenticated()

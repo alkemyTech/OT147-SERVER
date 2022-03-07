@@ -5,7 +5,9 @@ import com.alkemy.ong.entity.NewsEntity;
 import com.alkemy.ong.mapper.NewsMapper;
 import com.alkemy.ong.repository.NewsRepository;
 import lombok.RequiredArgsConstructor;
+
 import lombok.var;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,6 +42,7 @@ public class NewsService {
         NewsEntity entity= newsMapper.newsDtoTonewsEntity(dto);
         return newsMapper.newsEntityToNewsDto(newsRepo.save(entity));
     }
+
     @Transactional
     public NewsDto update(String id, NewsDto dto) {
         var newsId=newsRepo.findById((id))
@@ -48,6 +51,7 @@ public class NewsService {
         var news=newsRepo.save(newsMapper.newsDtoTonewsEntity(dto));
         return newsMapper.newsEntityToNewsDto(news);
     }
+
     @Transactional
     public void delete(String id) {
         if(newsRepo.existsById(id)){
@@ -59,4 +63,5 @@ public class NewsService {
                     "There is no News with the entered Id");
         }
     }
+
 }
