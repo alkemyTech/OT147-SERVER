@@ -10,7 +10,10 @@ import lombok.var;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
@@ -47,6 +50,18 @@ public class NewsService {
                         "There is no News with the entered Id"));
         var news=newsRepo.save(newsMapper.newsDtoTonewsEntity(dto));
         return newsMapper.newsEntityToNewsDto(news);
+    }
+
+    @Transactional
+    public void delete(String id) {
+        if(newsRepo.existsById(id)){
+            NewsEntity entity= newsRepo.getById(id);
+            entity.setSoftDelete(true);
+            newsRepo.save(entity);
+        }else{
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "There is no News with the entered Id");
+        }
     }
 
 }
