@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @SQLDelete(sql = "UPDATE activities SET deleted = true WHERE id = ?")
-@Where(clause = "deleted = false ")
+@Where(clause = "soft_Delete = false")
 public class ActivityEntity {
     @Id
     @GeneratedValue(generator = "uuid")
