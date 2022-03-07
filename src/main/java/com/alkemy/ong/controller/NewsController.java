@@ -29,6 +29,7 @@ public class NewsController {
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
+
     //Update information of News
     @PutMapping("/{id}")
     public ResponseEntity<NewsDto> update(@PathVariable String id, @RequestBody NewsDto dto) {
@@ -38,4 +39,5 @@ public class NewsController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 }
