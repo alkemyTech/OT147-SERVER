@@ -1,6 +1,7 @@
 package com.alkemy.ong.entity;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
 import javax.persistence.*;
 import javax.persistence.Entity;
@@ -13,8 +14,8 @@ import javax.validation.constraints.NotEmpty;
 @Table(name = "contacts")
 @Data
 @SQLDelete(sql = "UPDATE contacts SET deleted_at = true WHERE id=?")
-@FilterDef(name = "deletedContactFilter", parameters = @ParamDef(name = "isDeletedAt", type = "boolean"))
-@Filter(name = "deletedContactFilter", condition = "deleted_at = :isDeletedAt")
+@NoArgsConstructor
+@Where(clause = "deleted_at=false")
 
 public class ContactEntity {
     @Id
