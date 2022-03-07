@@ -1,4 +1,4 @@
-package com.alkemy.ong.controller;
+package com.alkemy.ong.dto;
 
 import com.alkemy.ong.entity.OrganizationEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
