@@ -22,9 +22,9 @@ public class ActivityController {
     @Autowired
     private ActivityService activityService;
 
-    //Update Activity only for ADMIN
-    @PostMapping("/create")
-    public ResponseEntity<ActivityDto> addActivity(@Validated @RequestBody ActivityDto activityDto) {
+    //Create Activity only for ADMIN
+    @PostMapping
+    public ResponseEntity<ActivityDto> create(@Validated @RequestBody ActivityDto activityDto) {
         ActivityDto savedActivity = activityService.addActivity(activityDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedActivity);
     }
