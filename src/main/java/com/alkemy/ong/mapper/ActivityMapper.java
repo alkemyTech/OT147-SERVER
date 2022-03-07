@@ -7,7 +7,14 @@ import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")
 public interface ActivityMapper {
+
+
     ActivityMapper activityMapper = Mappers.getMapper(ActivityMapper.class);
 
+    ActivityEntity activityDtoToActivityEntity(ActivityDto activityDto);
+
+    ActivityDto activityEntityToActivityDto(ActivityEntity activityEntity);
+
     ActivityDto activityToActivityDto(ActivityEntity activityEntity);
+
 }
