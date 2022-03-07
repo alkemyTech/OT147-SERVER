@@ -30,6 +30,13 @@ public class UserController {
         return ResponseEntity.ok().body(users);
     }
 
+    //Method to fetch the user data with the token
+    @GetMapping("/auth/me")
+    public UserDto userMe(@RequestHeader("Authorization") String jwt){
+        UserDto dto = userService.userMe(jwt);
+        return dto;
+    }
+
     //Method for hard delete
     @DeleteMapping("/{id}")
     public ResponseEntity<UserEntity> delete(@PathVariable String id) {

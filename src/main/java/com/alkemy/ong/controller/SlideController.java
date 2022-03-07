@@ -18,6 +18,7 @@ public class SlideController {
 
     @Autowired
     SlideService slideService;
+    //Retrieve slides list only for Admin
     @GetMapping
     public ResponseEntity<List<SlideBasicDto>> getAllSlides(){
         return ResponseEntity.ok(slideService.getAllSlides());
