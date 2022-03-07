@@ -38,4 +38,15 @@ public class NewsController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+    //Delete News for id
+    @DeleteMapping("/{id}")
+    public ResponseEntity<NewsDto> delete(@PathVariable String id){
+        try{
+            this.newsService.delete(id);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+    }
 }
