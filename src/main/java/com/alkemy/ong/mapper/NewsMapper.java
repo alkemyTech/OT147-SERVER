@@ -5,7 +5,7 @@ import com.alkemy.ong.entity.NewsEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
-@Mapper
+@Mapper(componentModel = "spring")
 public interface NewsMapper {
     NewsMapper newsMapper = Mappers.getMapper(NewsMapper.class);
     NewsDto newsEntityToNewsDto(NewsEntity newsEntity);
