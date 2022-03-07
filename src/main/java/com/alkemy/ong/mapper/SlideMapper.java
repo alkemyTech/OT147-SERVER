@@ -1,7 +1,7 @@
 package com.alkemy.ong.mapper;
 
-import com.alkemy.ong.controller.SlideDtoFull;
 import com.alkemy.ong.dto.SlideBasicDto;
+import com.alkemy.ong.dto.SlideDtoFull;
 import com.alkemy.ong.entity.SlideEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;

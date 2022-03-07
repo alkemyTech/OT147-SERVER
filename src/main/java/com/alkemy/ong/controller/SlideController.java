@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.SlideBasicDto;
+import com.alkemy.ong.dto.SlideDtoFull;
 import com.alkemy.ong.entity.SlideEntity;
 import com.alkemy.ong.service.SlideService;
 import lombok.RequiredArgsConstructor;

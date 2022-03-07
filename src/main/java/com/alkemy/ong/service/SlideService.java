@@ -1,7 +1,7 @@
 package com.alkemy.ong.service;
 
-import com.alkemy.ong.controller.SlideDtoFull;
 import com.alkemy.ong.dto.SlideBasicDto;
+import com.alkemy.ong.dto.SlideDtoFull;
 import com.alkemy.ong.entity.SlideEntity;
 import com.alkemy.ong.mapper.SlideMapper;
 import com.alkemy.ong.repository.SlideRepository;
@@ -39,7 +39,7 @@ public class SlideService {
             slideEntity.setOrder(slideDtoFull.getOrder());
             slideEntity.setOrganizationId(slideDtoFull.getOrganizationId());
             slideRepository.save(slideEntity);
-            return slideMapper.slideEntityToSlideDtoFull(slideEntity);
+            return SlideMapper.slideMapper.slideEntityToSlideDtoFull(slideEntity);
         } else {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     "There is no Slide with the entered Id");
