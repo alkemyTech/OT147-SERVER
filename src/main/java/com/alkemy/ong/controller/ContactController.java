@@ -19,7 +19,7 @@ public class ContactController {
     //Endpoint to get all contacts for an Admin
 
 
-    @GetMapping("/contacts")
+    @GetMapping
     public ResponseEntity<List<ContactDto>> getAllContacts(){
 
             return ResponseEntity.ok(contactService.getAllContacts());
