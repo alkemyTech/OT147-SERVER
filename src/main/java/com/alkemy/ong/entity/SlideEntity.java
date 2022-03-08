@@ -24,7 +24,7 @@ public class SlideEntity {
     private String text;
     @Column (name = "order_number")
     private Integer order;
-    @ManyToOne (fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "organization")
     private OrganizationEntity organizationId;
     @Column(name="soft_delete")
