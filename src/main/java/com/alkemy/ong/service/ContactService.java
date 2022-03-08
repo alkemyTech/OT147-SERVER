@@ -6,6 +6,7 @@ import com.alkemy.ong.mapper.ContactMapper;
 import com.alkemy.ong.repository.ContactRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -20,11 +21,18 @@ public class ContactService {
     @Autowired
     ContactRepository contactRepository;
 
-    // Method to save Contact in the DB for User
+    @Autowired
+    EmailService emailService;
+
+    @Value("${app.sendgrid.from}")
+    private String MAIL_ONG;
+
+    // Method to save Contact in the DB for User, send mail confirm
     public ContactDto saveContact(ContactDto contactDto) throws Exception {
        ContactDto validDto = this.validate(contactDto);
        ContactEntity saveContact = ContactMapper.contactMapper.contactDtoToContactEntity(validDto);
        ContactEntity contact = contactRepository.save(saveContact);
+       emailService.sendContactConfirmation(MAIL_ONG, contactDto.getEmail());
        return ContactMapper.contactMapper.contactEntityToContactDto(contact);
 
     }
