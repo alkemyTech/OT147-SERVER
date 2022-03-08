@@ -16,7 +16,8 @@ import org.springframework.web.server.ResponseStatusException;
 public class ContactService {
 
     ContactMapper contactMapper;
-
+    @Autowired
+    EmailService emailService;
     @Autowired
     ContactRepository contactRepository;
 
@@ -25,6 +26,7 @@ public class ContactService {
        ContactDto validDto = this.validate(contactDto);
        ContactEntity saveContact = ContactMapper.contactMapper.contactDtoToContactEntity(validDto);
        ContactEntity contact = contactRepository.save(saveContact);
+       emailService.sendContactConfirmation("blackgrafic30@gmail.com", contactDto.getEmail());
        return ContactMapper.contactMapper.contactEntityToContactDto(contact);
 
     }

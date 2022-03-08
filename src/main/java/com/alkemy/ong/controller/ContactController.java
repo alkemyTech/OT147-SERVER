@@ -19,7 +19,6 @@ public class ContactController {
     //Update information of Contact for User
     @PostMapping
     public ResponseEntity<ContactDto> save(@RequestBody ContactDto contactDto) throws Exception {
-
         return ResponseEntity.status(HttpStatus.CREATED).body(contactService.saveContact(contactDto));
     }
 }

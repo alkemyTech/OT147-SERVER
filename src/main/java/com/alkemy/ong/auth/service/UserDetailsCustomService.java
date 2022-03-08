@@ -3,6 +3,7 @@ package com.alkemy.ong.auth.service;
 
 import com.alkemy.ong.entity.UserEntity;
 import com.alkemy.ong.repository.UserRepository;
+import com.alkemy.ong.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +25,8 @@ public class UserDetailsCustomService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private EmailService emailService;
 
 
     /*
@@ -36,6 +39,7 @@ public class UserDetailsCustomService implements UserDetailsService {
         userEntity.setEmail(user.getEmail());
         userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
         userEntity.setRoleId(user.getRoleId());
+        emailService.sendWelcomeEmail("blackgrafic30@gmail.com", user.getEmail());
         userEntity = this.userRepository.save(userEntity);
 
         return userEntity;
