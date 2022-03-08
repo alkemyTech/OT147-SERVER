@@ -12,6 +12,6 @@ import java.util.List;
 public interface SlideMapper {
     SlideMapper slideMapper= Mappers.getMapper(SlideMapper.class);
     List<SlideBasicDto> listSlideEntityToListSlideBasicDto(List<SlideEntity>list);
-
+    List<SlideDtoFull> listSlideEntityToListSlideDtoFull(List<SlideEntity>list);
     SlideDtoFull slideEntityToSlideDtoFull(SlideEntity slideEntity);
 }
