@@ -12,3 +12,6 @@ ONG-Java
 -Variable Name= SECRET_KEY
 
 -Variable Name= BUCKET_NAME
+### SEND GRID
+-SENDGRID= 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
+-MAILSEND= blackgrafic30@gmail.com
