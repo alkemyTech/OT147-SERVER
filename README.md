@@ -13,5 +13,6 @@ ONG-Java
 
 -Variable Name= BUCKET_NAME
 ### SEND GRID
--SENDGRID= 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
--MAILSEND= blackgrafic30@gmail.com
+-KEY= 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
+
+-MAIL_ONG= ong147alkemy@gmail.com
