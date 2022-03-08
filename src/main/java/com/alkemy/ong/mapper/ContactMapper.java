@@ -17,4 +17,7 @@ public interface ContactMapper {
 
     List<ContactDto> listContactEntityToListContactDto(List<ContactEntity> list);
 
+
 }
+
+
