@@ -1,6 +1,8 @@
 package com.alkemy.ong.mapper;
 
 import com.alkemy.ong.dto.SlideBasicDto;
+import com.alkemy.ong.dto.SlideCreationDTO;
+import com.alkemy.ong.dto.SlideDto;
 import com.alkemy.ong.dto.SlideDtoFull;
 import com.alkemy.ong.entity.SlideEntity;
 import org.mapstruct.Mapper;
@@ -14,4 +16,8 @@ public interface SlideMapper {
     List<SlideBasicDto> listSlideEntityToListSlideBasicDto(List<SlideEntity>list);
     List<SlideDtoFull> listSlideEntityToListSlideDtoFull(List<SlideEntity>list);
     SlideDtoFull slideEntityToSlideDtoFull(SlideEntity slideEntity);
+    SlideDto slideEntityToSlideDto(SlideDtoFull SlideDtoFull);
+    SlideEntity slideDtoFullToSlideEntity(SlideDtoFull slideDtoFull);
+    SlideDtoFull SlideCreationDtoTOSlideDtoFull(SlideCreationDTO slideCreationDTO);
+
 }
