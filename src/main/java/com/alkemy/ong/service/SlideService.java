@@ -28,6 +28,15 @@ public class SlideService {
     public void deleteSlideById(String id) throws Exception {
         slideRepository.deleteById(id);
     }
+    public List<SlideDtoFull> getSlidesForOrganizationByOrder(String organizationId) throws Exception {
+        List<SlideEntity> slideEntityList;
+        try {
+            slideEntityList = slideRepository.findSlideByOrganizationId(organizationId);
+        } catch (Exception e) {
+            throw new Exception("The Organization id provided does not exits");
+        }
+        return slideMapper.listSlideEntityToListSlideDtoFull(slideEntityList);
+    }
 
     //Update Category
     public SlideDtoFull update(String id, SlideDtoFull slideDtoFull) {

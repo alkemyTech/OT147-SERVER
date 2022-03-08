@@ -20,12 +20,21 @@ public class OrganizationController {
 
     @Autowired
     private OrganizationService organizationService;
+
+    @Autowired
+    private SlideService slideService;
+
     //Get public information of an Organization
     @GetMapping("/public/{organizationId}")
-    public ResponseEntity<OrganizationDto> getOrganization(
+    public ResponseEntity<List<SlideDtoFull>> getOrganization(
             @PathVariable(name="organizationId", required=true)
                     String organizationId){
-        return ResponseEntity.ok(organizationService.getPublicOrganization(organizationId));
+        try {
+            return ResponseEntity.ok(slideService.getSlidesForOrganizationByOrder(organizationId));
+        } catch (Exception e) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "There is no Organization with the entered Id");
+        }
     }
     //Update public information of an Organization only for Admin User
     @PutMapping("/public")
