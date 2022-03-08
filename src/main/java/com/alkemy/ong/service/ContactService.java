@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 
 @RequiredArgsConstructor
 @Service
@@ -39,5 +41,13 @@ public class ContactService {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY,"The email can not be empty");
         }
         return contactDto;
+    }
+
+    // Method to get all the contacts for the Admin
+    public List<ContactDto> getAllContacts() {
+
+        List<ContactEntity> contactEntityList = contactRepository.findAll();
+        return ContactMapper.contactMapper.listContactEntityToListContactDto(contactEntityList);
+
     }
 }

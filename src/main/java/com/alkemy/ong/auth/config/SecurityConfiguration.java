@@ -98,7 +98,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 //Contacts
                 .antMatchers(POST, "/contacts").hasAuthority("USER")
-
+                .antMatchers(GET, "/contacts/contacts").hasAuthority("ADMIN")
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and().sessionManagement()

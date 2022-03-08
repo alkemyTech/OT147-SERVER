@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 
 @RequiredArgsConstructor
@@ -15,6 +16,15 @@ import org.springframework.web.bind.annotation.*;
 public class ContactController {
 
     private final ContactService contactService;
+    //Endpoint to get all contacts for an Admin
+
+
+    @GetMapping("/contacts")
+    public ResponseEntity<List<ContactDto>> getAllContacts(){
+
+            return ResponseEntity.ok(contactService.getAllContacts());
+        
+    }
 
     //Update information of Contact for User
     @PostMapping
