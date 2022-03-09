@@ -1,7 +1,6 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.SlideBasicDto;
-import com.alkemy.ong.dto.SlideCreationDTO;
 import com.alkemy.ong.dto.SlideDto;
 import com.alkemy.ong.dto.SlideDtoFull;
 import com.alkemy.ong.entity.SlideEntity;
@@ -56,8 +55,7 @@ public class SlideController {
     }
 
     @PostMapping
-    public ResponseEntity<SlideDto> createSlide(@Valid @RequestBody SlideCreationDTO SlideCreationDTO) throws Exception {
-        SlideDtoFull slideDtoFull = slideMapper.SlideCreationDtoTOSlideDtoFull(SlideCreationDTO);
+    public ResponseEntity<SlideDto> createSlide(@Valid @RequestBody SlideDtoFull slideDtoFull) throws Exception {
         SlideDto SlideDto = slideMapper.slideEntityToSlideDto(slideService.createSlide(slideDtoFull));
         return ResponseEntity.ok(SlideDto);
     }

@@ -81,30 +81,26 @@ public class SlideService {
 
     //Create Slide implement Base64 Decoded
     @Transactional
-    public SlideDtoFull createSlide(SlideDtoFull slideDtoFull) throws Exception {
-
+    public SlideDtoFull createSlide(SlideDtoFull slideDtoFull)  {
+        int slideListMax = slideRepository.getMaxOrder();
         SlideEntity slideEntity = slideMapper.slideDtoFullToSlideEntity(slideDtoFull);
-        Optional<OrganizationEntity> organizationEntityOpc = organizationRepository.findById(slideEntity.getOrganizationId().getId());
-        if (!organizationEntityOpc.isPresent()) {
-            new Exception(String.format("Organization with ID not found", slideEntity.getOrganizationId().getId()));
+        Optional<OrganizationEntity> organizationModelOptional = organizationRepository.findById(slideEntity.getOrganizationId().getId());
+        if (organizationModelOptional.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,("Bad organization ID or null parameter" + slideEntity.getOrganizationId().getId()));
         }
-        slideEntity.setOrganizationId(organizationEntityOpc.get());
-        if (slideEntity.getOrder() == null) {
-            Optional<SlideEntity> slideEntityOptional = slideRepository.findById(slideEntity.getOrganizationId().getId());
-            if (slideEntityOptional != null) {
-                slideEntity.setOrder(slideEntityOptional.get().getOrder() + 1);
-            } else {
-                SlideEntity slideEntityMaxOrder = slideEntityOptional.get();
-                slideEntity.setOrder(slideEntityMaxOrder.getOrder() + 1);
-            }
+        slideEntity.setOrganizationId(organizationModelOptional.get());
+        if (slideDtoFull.getOrder() == null) {
+            slideEntity.setOrder(1 + slideListMax);
+        } else if (slideDtoFull.getOrder() != slideListMax || slideDtoFull.getOrder() != 0) {
+            slideEntity.setOrder(slideDtoFull.getOrder());
+        }else if(slideDtoFull.getOrder() == slideListMax){
+            slideEntity.setOrder(slideListMax+1);
         }
 
         MultipartFile decodedImage = decodeBase64Image2MultipartFile(slideDtoFull.getImageUrl());
         slideEntity.setImageUrl(amazonClient.uploadFileBase64(decodedImage).getFileUrl());
-
         SlideEntity entityUpdated = slideRepository.save(slideEntity);
         return slideMapper.slideEntityToSlideDtoFull(entityUpdated);
-
     }
 
     private MultipartFile decodeBase64Image2MultipartFile(String image64) {

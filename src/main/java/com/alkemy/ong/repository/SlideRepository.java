@@ -12,4 +12,7 @@ public interface SlideRepository extends JpaRepository<SlideEntity, String> {
     //QUERY TO GET ALL SLIDES FOR A GIVEN ORGANIZATION
     @Query(nativeQuery = true, value = "SELECT * FROM slides WHERE organization = ?1 ORDER BY order_number DESC")
     List<SlideEntity> findSlideByOrganizationId(String organizationId);
+
+    @Query(nativeQuery = true, value = "SELECT max(order_number) FROM slides s")
+    int getMaxOrder();
 }
