@@ -25,4 +25,9 @@ public class RoleEntity {
     @CreationTimestamp
     @Column(name = "timestamps", nullable = false, updatable = false)
     private LocalDateTime timestamps;
-  }
+
+    public RoleEntity(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+}
