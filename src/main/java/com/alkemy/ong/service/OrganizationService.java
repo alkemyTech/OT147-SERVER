@@ -7,7 +7,6 @@ import com.alkemy.ong.entity.OrganizationEntity;
 import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.repository.OrganizationRepository;
 import lombok.RequiredArgsConstructor;
-import lombok.var;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
