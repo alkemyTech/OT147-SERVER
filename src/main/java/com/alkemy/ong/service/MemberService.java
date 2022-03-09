@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -21,12 +22,18 @@ public class MemberService {
     //Member creation method
 
     public MemberDto addMember(MemberDto memberDto) {
-        try{
-        MemberEntity memberEntity = memberMapper.memberDtoToMemberEntity(memberDto);
-        MemberEntity savedMemberEntity = memberRepository.save(memberEntity);
-        return memberMapper.memberEntityToMemberDto(savedMemberEntity);
-        }catch(Exception e){
+        try {
+            MemberEntity memberEntity = memberMapper.memberDtoToMemberEntity(memberDto);
+            MemberEntity savedMemberEntity = memberRepository.save(memberEntity);
+            return memberMapper.memberEntityToMemberDto(savedMemberEntity);
+        } catch (Exception e) {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
         }
-}
+    }
+
+    //Get all Members from Database.
+    public List<MemberDto> getAllMembers() {
+        List<MemberEntity> membersList = memberRepository.findAll();
+        return memberMapper.listMemberEntityToListMemberDto(membersList);
+    }
 }

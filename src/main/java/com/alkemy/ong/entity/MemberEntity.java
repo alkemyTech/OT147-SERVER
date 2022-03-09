@@ -20,8 +20,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Table(name = "members")
-@SQLDelete(sql = "UPDATE members SET softDelete = true WHERE id=?")
-@Where(clause = "softDelete = false")
+@SQLDelete(sql = "UPDATE members SET soft_delete = true WHERE id=?")
+@Where(clause = "soft_delete = false")
 public class MemberEntity {
 
     @Id
