@@ -96,6 +96,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUT, "/slides/{id}").hasAuthority("ADMIN")
                 .antMatchers(GET, "/slides/{id}").hasAuthority("ADMIN")
 
+                //Testimonial
+                .antMatchers(POST, "/testimonials").hasAuthority("ADMIN")
+
                 //Contacts
                 .antMatchers(POST, "/contacts").hasAuthority("USER")
                 .antMatchers(GET, "/contacts").hasAuthority("ADMIN")
