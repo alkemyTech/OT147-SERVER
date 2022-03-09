@@ -1,5 +1,6 @@
 package com.alkemy.ong.service;
 
+import com.alkemy.ong.dto.AWSResponseDto;
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
@@ -64,5 +65,22 @@ public class AmazonClient {
             e.printStackTrace();
         }
         return fileUrl;
+    }
+    public AWSResponseDto uploadFileBase64(MultipartFile multipartFile) {
+        String fileUrl = "";
+
+        try {
+            File file = convertMultiPartToFile(multipartFile);
+
+            String fileName = this.generateFileName(multipartFile);
+            fileUrl = endpointUrl + "/" + bucketName + "/" + fileName;
+            this.uploadFileTos3bucket(fileName, file);
+
+            file.delete();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        AWSResponseDto response = new AWSResponseDto(fileUrl);
+        return response;
     }
 }

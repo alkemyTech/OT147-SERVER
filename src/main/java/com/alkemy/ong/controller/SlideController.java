@@ -1,8 +1,10 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.SlideBasicDto;
+import com.alkemy.ong.dto.SlideDto;
 import com.alkemy.ong.dto.SlideDtoFull;
 import com.alkemy.ong.entity.SlideEntity;
+import com.alkemy.ong.mapper.SlideMapper;
 import com.alkemy.ong.service.SlideService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -19,6 +22,8 @@ public class SlideController {
 
     @Autowired
     SlideService slideService;
+    private final SlideMapper slideMapper;
+
     //Retrieve slides list only for Admin
     @GetMapping
     public ResponseEntity<List<SlideBasicDto>> getAllSlides(){
@@ -48,4 +53,11 @@ public class SlideController {
             String id) {
         return ResponseEntity.ok(slideService.getSlide(id));
     }
+
+    @PostMapping
+    public ResponseEntity<SlideDto> createSlide(@Valid @RequestBody SlideDtoFull slideDtoFull) throws Exception {
+        SlideDto SlideDto = slideMapper.slideEntityToSlideDto(slideService.createSlide(slideDtoFull));
+        return ResponseEntity.ok(SlideDto);
+    }
+
 }
