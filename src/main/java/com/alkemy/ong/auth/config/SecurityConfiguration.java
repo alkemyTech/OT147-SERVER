@@ -84,8 +84,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(PUT, "/news").hasAuthority("ADMIN")
                 .antMatchers(DELETE, "/news/{id}").hasAuthority("ADMIN")
 
-
-
                 .antMatchers(POST, "/news").hasAuthority("ADMIN")
                 .antMatchers(PUT, "/news").hasAuthority("ADMIN")
 
@@ -99,6 +97,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //Contacts
                 .antMatchers(POST, "/contacts").hasAuthority("USER")
                 .antMatchers(GET, "/contacts").hasAuthority("ADMIN")
+
+               //Members
+                .antMatchers(POST, "/members").hasAuthority("USER")
+
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and().sessionManagement()
