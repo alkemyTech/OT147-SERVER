@@ -27,7 +27,7 @@ public class ContactEntity {
     @NotEmpty(message = "The field must not be empty.")
     private String name;
     private String phone;
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = false)
     @Email(message = "email format error")
     private String email;
     private String message;

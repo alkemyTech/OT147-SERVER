@@ -1,7 +1,9 @@
 package com.alkemy.ong.entity;
 
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.GenericGenerator;
@@ -16,6 +18,8 @@ import java.time.LocalDateTime;
 @Table(name="activities")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @SQLDelete(sql = "UPDATE activities SET deleted = true WHERE id = ?")
 @Where(clause = "soft_Delete = false")
 public class ActivityEntity {
@@ -40,7 +44,10 @@ public class ActivityEntity {
     @CreationTimestamp
     private LocalDateTime timestamps;
 
-
-
+    public ActivityEntity(String name, String content, String image) {
+        this.name=name;
+        this.content=content;
+        this.image=image;
+    }
 }
 

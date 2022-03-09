@@ -3,7 +3,9 @@ package com.alkemy.ong.auth.service;
 
 import com.alkemy.ong.entity.UserEntity;
 import com.alkemy.ong.repository.UserRepository;
+import com.alkemy.ong.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,10 +26,13 @@ public class UserDetailsCustomService implements UserDetailsService {
     private PasswordEncoder passwordEncoder;
     @Autowired
     private UserRepository userRepository;
-
+    @Autowired
+    private EmailService emailService;
+    @Value("${app.sendgrid.from}")
+    private String MAIL_ONG;
 
     /*
-        Method to register a user with password encryption. Return a UserEntity.
+        Method to register a user with password encryption. Return a UserEntity. And send mail confirm.
      */
     public UserEntity save(UserEntity user) {
         UserEntity userEntity = new UserEntity();
@@ -36,6 +41,7 @@ public class UserDetailsCustomService implements UserDetailsService {
         userEntity.setEmail(user.getEmail());
         userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
         userEntity.setRoleId(user.getRoleId());
+        emailService.sendWelcomeEmail(MAIL_ONG, user.getEmail());
         userEntity = this.userRepository.save(userEntity);
 
         return userEntity;
