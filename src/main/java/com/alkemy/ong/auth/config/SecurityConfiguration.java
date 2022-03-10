@@ -103,8 +103,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                //Members
                 .antMatchers(POST, "/members").hasAuthority("USER")
-                .antMatchers(GET, "/members").hasAuthority("ADMIN")
-
+                .antMatchers(GET, "/members}").hasAuthority("ADMIN")
+                .antMatchers(GET, "/members/{page}").hasAuthority("USER")
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and().sessionManagement()
