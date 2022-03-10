@@ -4,6 +4,7 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.OrganizationDto;
 import com.alkemy.ong.dto.OrganizationPublicDto;
+import com.alkemy.ong.dto.OrganizationUpdateDto;
 import com.alkemy.ong.entity.OrganizationEntity;
 import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.repository.OrganizationRepository;
@@ -33,8 +34,8 @@ public class OrganizationService {
                     "There is no Organization with the entered Id");
         }
     }
-  // Service to Update Organization if Exits
-  public OrganizationPublicDto update(OrganizationPublicDto dto) {
+  // Service to Update Organization if Exist
+  public OrganizationPublicDto update(OrganizationUpdateDto dto) {
       if(!organizationRepository.existsById(dto.getId())){
           throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                   "There is no Organization with the entered Id");

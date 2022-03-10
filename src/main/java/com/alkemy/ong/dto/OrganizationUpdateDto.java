@@ -1,11 +1,9 @@
 package com.alkemy.ong.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 @Data
-public class OrganizationPublicDto {
-    @JsonIgnore
+public class OrganizationUpdateDto {
     private String id;
     private String name;
     private String image;
