@@ -29,4 +29,15 @@ public class MemberController {
         List<MemberDto> members = memberService.getAllMembers();
         return ResponseEntity.status(HttpStatus.OK).body(members);
     }
+
+    //delete member by id (soft delete)
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id) throws Exception {
+        try {
+            memberService.deleteMemberById(id);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

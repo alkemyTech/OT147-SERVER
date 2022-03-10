@@ -10,7 +10,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -35,5 +34,11 @@ public class MemberService {
     public List<MemberDto> getAllMembers() {
         List<MemberEntity> membersList = memberRepository.findAll();
         return memberMapper.listMemberEntityToListMemberDto(membersList);
+    }
+
+    //delete member by Id
+    public void deleteMemberById(String id) {
+        MemberEntity member = memberRepository.findById(id).get();
+        memberRepository.delete(member);
     }
 }
