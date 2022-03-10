@@ -1,6 +1,7 @@
 package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.MemberDto;
+import com.alkemy.ong.entity.CategoryEntity;
 import com.alkemy.ong.entity.MemberEntity;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.repository.MemberRepository;
@@ -35,5 +36,11 @@ public class MemberService {
     public List<MemberDto> getAllMembers() {
         List<MemberEntity> membersList = memberRepository.findAll();
         return memberMapper.listMemberEntityToListMemberDto(membersList);
+    }
+
+    //delete member by Id
+    public void deleteMemberById(String id) {
+        MemberEntity member = memberRepository.findById(id).get();
+        memberRepository.delete(member);
     }
 }
