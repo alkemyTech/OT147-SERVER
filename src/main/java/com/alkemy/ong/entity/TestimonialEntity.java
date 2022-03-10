@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 @Table(name = "testimonials")
 @Getter
 @Setter
-@SQLDelete(sql = "UPDATE testimonials SET softDelete  = true WHERE id=?")
-@Where(clause = "softDelete  = false")
+@SQLDelete(sql = "UPDATE testimonials SET soft_delete=true WHERE id=?")
+@Where(clause = "soft_delete=false")
 public class TestimonialEntity {
 
     @Id
@@ -32,7 +32,7 @@ public class TestimonialEntity {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "softDelete", nullable = false)
+    @Column(name="soft_delete")
     private Boolean softDelete = Boolean.FALSE;
 
     @Column(name= "timestamps" ,nullable = false,updatable = false)
