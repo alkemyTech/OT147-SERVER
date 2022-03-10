@@ -104,6 +104,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                //Members
                 .antMatchers(POST, "/members").hasAuthority("USER")
+                .antMatchers(GET, "/members").hasAuthority("ADMIN")
 
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
