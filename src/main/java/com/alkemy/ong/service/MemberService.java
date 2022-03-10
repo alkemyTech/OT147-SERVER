@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
-
-
 @RequiredArgsConstructor
 @Service
 public class MemberService {
@@ -31,13 +29,20 @@ public class MemberService {
             throw new ResponseStatusException(HttpStatus.UNPROCESSABLE_ENTITY);
         }
     }
-   // Get all Members from Database.
+    // Get all Members from Database.
     public List<MemberDto> getAllMembers() {
         List<MemberEntity> membersList = (List<MemberEntity>) memberRepository.findAll();
         return memberMapper.listMemberEntityToListMemberDto(membersList);
     }
+    //delete member by Id
+        public void deleteMemberById (String id){
+            MemberEntity member = memberRepository.findById(id).get();
+            memberRepository.delete(member);
+
+        }
     //Get all Members by 10 pages
     public Page<MemberEntity> findAllMembers(Pageable pageable) {
-       return memberRepository.findAll(pageable);
+        return memberRepository.findAll(pageable);
     }
 }
+
