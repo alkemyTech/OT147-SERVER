@@ -3,6 +3,7 @@ package com.alkemy.ong.service;
 
 
 import com.alkemy.ong.dto.OrganizationDto;
+import com.alkemy.ong.dto.OrganizationPublicDto;
 import com.alkemy.ong.entity.OrganizationEntity;
 import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.repository.OrganizationRepository;
@@ -29,18 +30,24 @@ public class OrganizationService {
             return organizationDto;
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "No se encontró organización con esos datos");
+                    "There is no Organization with the entered Id");
         }
     }
   // Service to Update Organization if Exits
-    public OrganizationDto update(OrganizationDto dto) {
-        if(!organizationRepository.existsById(dto.getId())){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "There is no Organization with the entered Id");
-        }
-        var organization=organizationRepository
-                .save(organizationMapper.organizationDtoToOrganization(dto));
-        return organizationMapper.organizationToOrganizationDto(organization);
-
-    }
+  public OrganizationPublicDto update(OrganizationPublicDto dto) {
+      if(!organizationRepository.existsById(dto.getId())){
+          throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                  "There is no Organization with the entered Id");
+      }
+      OrganizationEntity organization=organizationRepository.getById(dto.getId());
+      organization.setName(dto.getName());
+      organization.setImage(dto.getImage());
+      organization.setPhone(dto.getPhone());
+      organization.setAddress(dto.getAddress());
+      organization.setFacebookUrl(dto.getFacebookUrl());
+      organization.setLinkedinUrl(dto.getLinkedinUrl());
+      organization.setInstagramUrl(dto.getInstagramUrl());
+      organizationRepository.save(organization);
+      return organizationMapper.organizationToOrganizationPublicDto(organization);
+  }
 }
