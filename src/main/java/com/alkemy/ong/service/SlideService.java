@@ -2,6 +2,7 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.SlideBasicDto;
 import com.alkemy.ong.dto.SlideDtoFull;
+import com.alkemy.ong.dto.SlidePublicOrganizationDto;
 import com.alkemy.ong.entity.OrganizationEntity;
 import com.alkemy.ong.entity.SlideEntity;
 import com.alkemy.ong.mapper.SlideMapper;
@@ -42,14 +43,15 @@ public class SlideService {
     public void deleteSlideById(String id) throws Exception {
         slideRepository.deleteById(id);
     }
-    public List<SlideDtoFull> getSlidesForOrganizationByOrder(String organizationId) throws Exception {
-        List<SlideEntity> slideEntityList;
-        try {
+    public List<SlidePublicOrganizationDto> getSlidesForOrganizationByOrder(String organizationId)  {
+        if (!organizationRepository.findById(organizationId).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "There is no Organization with the entered Id");
+        } else {
+            List<SlideEntity> slideEntityList;
             slideEntityList = slideRepository.findSlideByOrganizationId(organizationId);
-        } catch (Exception e) {
-            throw new Exception("The Organization id provided does not exits");
+            return slideMapper.listSlideEntityToListSlidePublicOrganizationDto(slideEntityList);
         }
-        return slideMapper.listSlideEntityToListSlideDtoFull(slideEntityList);
     }
 
     //Update Slide
