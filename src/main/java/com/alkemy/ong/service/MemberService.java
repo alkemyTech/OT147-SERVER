@@ -2,6 +2,7 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.MemberDto;
 import com.alkemy.ong.entity.MemberEntity;
+import com.alkemy.ong.exceptions.ParamNotFound;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -56,8 +57,7 @@ public class MemberService {
             memberRepository.save(memberEntity);
             return memberMapper.memberEntityToMemberDto(memberEntity);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "There is no Member with the entered Id");
+            throw new ParamNotFound("There is no Member with the entered Id");
         }
     }
 }

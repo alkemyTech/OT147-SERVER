@@ -1,7 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.MemberDto;
-import com.alkemy.ong.dto.SlideDtoFull;
+import com.alkemy.ong.exceptions.ParamNotFound;
 import com.alkemy.ong.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
