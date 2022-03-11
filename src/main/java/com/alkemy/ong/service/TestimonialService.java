@@ -9,6 +9,7 @@ import com.alkemy.ong.mapper.TestimonialMapper;
 import com.alkemy.ong.repository.TestimonyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -24,6 +25,9 @@ import java.util.Optional;
 public class TestimonialService {
 
     private final TestimonialMapper testimonialMapper;
+
+    @Value("${url.testimonial}")
+    private String URL;
 
     @Autowired
     TestimonyRepository testimonialRepository;
@@ -82,7 +86,7 @@ public class TestimonialService {
                 testimonialMapper.listTestimonialEntityToListTestimonialDtoFull(page.getContent()),
                 PageRequest.of(page.getNumber(), page.getSize()),
                 page.getTotalElements());
-        return new PagesDto<>(response, "localhost:8080/testimonials?page=");
+        return new PagesDto<>(response, URL);
     }
 
 
