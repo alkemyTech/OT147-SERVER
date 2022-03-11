@@ -34,9 +34,9 @@ public class TestimonialController {
         this.testimonialService.deleteTestimonial(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-    //Pagination, role USER
+    //Pagination of 10, role USER
     @GetMapping
-    public ResponseEntity<?> getPage(@RequestParam Integer page) {
+    public ResponseEntity<?> getPageTestimonial(@RequestParam Integer page) {
         PagesDto<TestimonialDtoFull> response = testimonialService.getAllForPages(page);
         return ResponseEntity.ok().body(response);
     }
