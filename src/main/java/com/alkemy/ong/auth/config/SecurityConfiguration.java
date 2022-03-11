@@ -86,7 +86,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(POST, "/news").hasAuthority("ADMIN")
                 .antMatchers(PUT, "/news").hasAuthority("ADMIN")
-
+                //Comments
+                .antMatchers(POST, "/comments").hasAuthority("USER")
 
                 //Slides
                 .antMatchers(GET, "/slides").hasAuthority("ADMIN")
