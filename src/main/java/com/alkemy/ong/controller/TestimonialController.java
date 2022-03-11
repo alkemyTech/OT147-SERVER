@@ -26,4 +26,10 @@ public class TestimonialController {
     public ResponseEntity<TestimonialDto> updateTestimonial(@PathVariable String id, @RequestBody TestimonialDto testimonialDto) throws Exception {
         return ResponseEntity.ok(testimonialService.updateTestimonial(id, testimonialDto));
     }
+    //Delete Testimonial for id, role ADMIN
+    @DeleteMapping("/{id}")
+    public ResponseEntity<TestimonialDto> deleteTestimonial(@PathVariable String id){
+        this.testimonialService.deleteTestimonial(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
