@@ -26,8 +26,6 @@ public class TestimonialService {
 
     private final TestimonialMapper testimonialMapper;
 
-    @Value("${url.testimonial}")
-    private String URL;
 
     @Autowired
     TestimonyRepository testimonialRepository;
@@ -86,7 +84,7 @@ public class TestimonialService {
                 testimonialMapper.listTestimonialEntityToListTestimonialDtoFull(page.getContent()),
                 PageRequest.of(page.getNumber(), page.getSize()),
                 page.getTotalElements());
-        return new PagesDto<>(response, URL);
+        return new PagesDto<>(response, "localhost:8080/testimonials?page=");
     }
 
 
