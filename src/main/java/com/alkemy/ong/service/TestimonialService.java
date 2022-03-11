@@ -69,7 +69,7 @@ public class TestimonialService {
     }
     //Pagination of 10
     @Transactional
-    public PagesDto<TestimonialDtoFull> getAllForPages(Integer page) {
+    public PagesDto<TestimonialDtoFull> getAllForPages(int page) {
         if (page < 0) {
             throw new ParamNotFound("The page number cannot be less than 0.");
         }
