@@ -1,12 +1,18 @@
 package com.alkemy.ong.service;
 
+import com.alkemy.ong.dto.PagesDto;
 import com.alkemy.ong.dto.TestimonialDto;
+import com.alkemy.ong.dto.TestimonialDtoFull;
 import com.alkemy.ong.entity.TestimonialEntity;
 import com.alkemy.ong.exceptions.ParamNotFound;
 import com.alkemy.ong.mapper.TestimonialMapper;
 import com.alkemy.ong.repository.TestimonyRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -57,6 +63,29 @@ public class TestimonialService {
              throw new ParamNotFound("The testimony is not found in the database.");
         }
     }
+    //Pagination of 10
+    @Transactional
+    public PagesDto<TestimonialDtoFull> getAllForPages(Integer page) {
+        if (page < 0) {
+            throw new ParamNotFound("The page number cannot be less than 0.");
+        }
+        Pageable pageRequest = PageRequest.of(page, 10);
+        Page<TestimonialEntity> testimonial = testimonialRepository.findAll(pageRequest);
+        return responsePage(testimonial);
+    }
+
+    private PagesDto<TestimonialDtoFull> responsePage(Page<TestimonialEntity> page) {
+        if (page.isEmpty()) {
+            throw new ParamNotFound("The page does not exist.");
+        }
+        Page<TestimonialDtoFull> response = new PageImpl<>(
+                testimonialMapper.listTestimonialEntityToListTestimonialDtoFull(page.getContent()),
+                PageRequest.of(page.getNumber(), page.getSize()),
+                page.getTotalElements());
+        return new PagesDto<>(response, "localhost:8080/testimonials?page=");
+    }
+
+
     //Validate if testimonialDto is ok;
     public TestimonialDto validate(TestimonialDto testimonialDto) throws ResponseStatusException {
         if (testimonialDto.getName().trim().isEmpty() && testimonialDto.getContent().trim().isEmpty()) {
