@@ -1,18 +1,19 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.MemberDto;
-import com.alkemy.ong.entity.MemberEntity;
+import com.alkemy.ong.exceptions.ParamNotFound;
 import com.alkemy.ong.service.MemberService;
+import com.amazonaws.services.simplesystemsmanagement.model.ParameterNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import javax.validation.Valid;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.http.ResponseEntity.status;
 
@@ -44,16 +45,24 @@ public class MemberController {
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-    // Method to get a list of members by 10 pages
+    // Method to get a list of members with 10 members
     @GetMapping("/{page}")
-    public Page<MemberEntity> membersPageable(@PathVariable int page){
-        int pageSize = 10;
-        Pageable pageable = PageRequest.of(page, pageSize);
-        Page<MemberEntity> members = memberService.findAllMembers(pageable);
-        if (members.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "The members list is empty");
+    public ResponseEntity<?> membersPageable(@PathVariable("page") int page)throws ParameterNotFoundException {
+        try {
+        Map<String, Object> response = new HashMap<>();
+        if(page > 0) {
+            response.put("url previous", String.format("localhost:8080/members/%d", page - 1 ));
         }
-        return members;
+        if(!this.memberService.getPaginated(page + 1).isEmpty()) {
+            response.put("url next", String.format("localhost:8080/members/%d", page + 1 ));
+        }
+        response.put("ok", memberService.getPaginated(page));
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            throw new ParamNotFound("The was an error retrieving the list of members");
+        }
     }
 }
+
+
+
