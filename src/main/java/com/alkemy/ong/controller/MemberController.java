@@ -1,12 +1,12 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.MemberDto;
+import com.alkemy.ong.dto.SlideDtoFull;
 import com.alkemy.ong.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -39,5 +39,10 @@ public class MemberController {
             throw new Exception(e.getMessage());
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MemberDto> update(@PathVariable String id, @RequestBody MemberDto memberDto) {
+        return ResponseEntity.ok(memberService.update(id, memberDto));
     }
 }
