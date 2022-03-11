@@ -49,6 +49,15 @@ public class OrganizationEntity {
     @CreationTimestamp
     private LocalDateTime timeStamps;
 
+    @Column(name = "FACEBOOK_URL")
+    private String facebookUrl;
+
+    @Column(name = "LINKEDIN_URL")
+    private String linkedinUrl;
+
+    @Column(name = "INSTAGRAM_URL")
+    private String instagramUrl;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
