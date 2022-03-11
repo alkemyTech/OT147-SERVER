@@ -107,6 +107,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(POST, "/members").hasAuthority("USER")
                 .antMatchers(GET, "/members").hasAuthority("ADMIN")
                 .antMatchers(DELETE, "/members/{id}").hasAuthority("ADMIN")
+                .antMatchers(PUT, "/members/{id}").hasAuthority("USER")
 
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
