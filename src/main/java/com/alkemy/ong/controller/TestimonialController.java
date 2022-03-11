@@ -37,7 +37,7 @@ public class TestimonialController {
     //Pagination of 10, role USER
     @GetMapping
     public ResponseEntity<?> getPageTestimonial(@RequestParam int page) {
-        PagesDto<TestimonialDtoFull> response = testimonialService.getAllForPages(page);
+        PagesDto<TestimonialDtoFull> response = testimonialService.searchPaginatedTestimonial(page);
         return ResponseEntity.ok().body(response);
     }
 }
