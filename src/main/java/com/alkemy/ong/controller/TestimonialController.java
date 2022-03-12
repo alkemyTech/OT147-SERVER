@@ -1,7 +1,9 @@
 package com.alkemy.ong.controller;
 
 
+import com.alkemy.ong.dto.PagesDto;
 import com.alkemy.ong.dto.TestimonialDto;
+import com.alkemy.ong.dto.TestimonialDtoFull;
 import com.alkemy.ong.service.TestimonialService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,5 +33,11 @@ public class TestimonialController {
     public ResponseEntity<TestimonialDto> deleteTestimonial(@PathVariable String id){
         this.testimonialService.deleteTestimonial(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+    //Pagination of 10, role USER
+    @GetMapping
+    public ResponseEntity<?> getPageTestimonial(@RequestParam int page) {
+        PagesDto<TestimonialDtoFull> response = testimonialService.searchPaginatedTestimonial(page);
+        return ResponseEntity.ok().body(response);
     }
 }
