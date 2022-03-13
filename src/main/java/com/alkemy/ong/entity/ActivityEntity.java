@@ -20,8 +20,8 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@SQLDelete(sql = "UPDATE activities SET deleted = true WHERE id = ?")
-@Where(clause = "soft_Delete = false")
+@SQLDelete(sql = "UPDATE activities SET soft_delete = true WHERE id = ?")
+@Where(clause = "soft_delete = false")
 public class ActivityEntity {
     @Id
     @GeneratedValue(generator = "uuid")
@@ -37,7 +37,7 @@ public class ActivityEntity {
     private String content;
     @Column(nullable = false)
     private String image;
-
+    @Column(name="soft_delete")
     private boolean softDelete = Boolean.FALSE;
 
     @Column(name= "timestamps" ,nullable = false,updatable = false)

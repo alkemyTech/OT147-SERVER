@@ -86,7 +86,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .antMatchers(POST, "/news").hasAuthority("ADMIN")
                 .antMatchers(PUT, "/news").hasAuthority("ADMIN")
-
+                //Comments
+                .antMatchers(POST, "/comments").hasAuthority("USER")
 
                 //Slides
                 .antMatchers(GET, "/slides").hasAuthority("ADMIN")
@@ -98,6 +99,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(POST, "/testimonials").hasAuthority("ADMIN")
                 .antMatchers(PUT, "/testimonials/{id}").hasAuthority("ADMIN")
                 .antMatchers(DELETE, "/testimonials/{id}").hasAuthority("ADMIN")
+                .antMatchers(GET, "/testimonials?page=").hasAuthority("USER")
 
                 //Contacts
                 .antMatchers(POST, "/contacts").hasAuthority("USER")
@@ -108,6 +110,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(GET, "/members}").hasAuthority("ADMIN")
                 .antMatchers(GET, "/members/{page}").hasAuthority("USER")
                 .antMatchers(DELETE, "/members/{id}").hasAuthority("ADMIN")
+                .antMatchers(PUT, "/members/{id}").hasAuthority("USER")
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and().sessionManagement()

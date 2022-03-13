@@ -2,6 +2,7 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.MemberDto;
 import com.alkemy.ong.entity.MemberEntity;
+import com.alkemy.ong.exceptions.ParamNotFound;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +13,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
+
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import java.util.Optional;
+
 
 @RequiredArgsConstructor
 @Service
@@ -52,6 +57,23 @@ public class MemberService {
         Pageable pageable = PageRequest.of(page, PAGE_SIZE);
         return memberRepository.findAll(pageable).getContent().stream().map(memberMapper::memberEntityToMemberDto)
                 .collect(Collectors.toList());
+    }
+
+    public MemberDto update(String id, MemberDto memberDto) {
+        Optional<MemberEntity> entity = memberRepository.findById(id);
+        if (entity.isPresent()) {
+            MemberEntity memberEntity = entity.get();
+            memberEntity.setName(memberDto.getName());
+            memberEntity.setFacebookUrl(memberDto.getFacebookUrl());
+            memberEntity.setInstagramUrl(memberDto.getInstagramUrl());
+            memberEntity.setLinkedinUrl(memberDto.getLinkedinUrl());
+            memberEntity.setImage(memberDto.getImage());
+            memberEntity.setDescription(memberDto.getDescription());
+            memberRepository.save(memberEntity);
+            return memberMapper.memberEntityToMemberDto(memberEntity);
+        } else {
+            throw new ParamNotFound("There is no Member with the entered Id");
+        }
     }
 }
 

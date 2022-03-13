@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 import java.util.HashMap;
@@ -45,22 +46,28 @@ public class MemberController {
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
     // Method to get a list of members with 10 members
     @GetMapping("/{page}")
     public ResponseEntity<?> membersPageable(@PathVariable("page") int page)throws ParameterNotFoundException {
         try {
-        Map<String, Object> response = new HashMap<>();
-        if(page > 0) {
-            response.put("url previous", String.format("localhost:8080/members/%d", page - 1 ));
-        }
-        if(!this.memberService.getPaginated(page + 1).isEmpty()) {
-            response.put("url next", String.format("localhost:8080/members/%d", page + 1 ));
-        }
-        response.put("ok", memberService.getPaginated(page));
+            Map<String, Object> response = new HashMap<>();
+            if (page > 0) {
+                response.put("url previous", String.format("localhost:8080/members/%d", page - 1));
+            }
+            if (!this.memberService.getPaginated(page + 1).isEmpty()) {
+                response.put("url next", String.format("localhost:8080/members/%d", page + 1));
+            }
+            response.put("ok", memberService.getPaginated(page));
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             throw new ParamNotFound("The was an error retrieving the list of members");
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<MemberDto> update(@PathVariable String id, @RequestBody MemberDto memberDto) {
+        return ResponseEntity.ok(memberService.update(id, memberDto));
     }
 }
 
