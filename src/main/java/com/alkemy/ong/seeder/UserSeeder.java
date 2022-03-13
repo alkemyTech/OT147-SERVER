@@ -6,6 +6,7 @@ import com.alkemy.ong.repository.RoleRepository;
 import com.alkemy.ong.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 
@@ -17,13 +18,17 @@ public class UserSeeder implements CommandLineRunner {
     @Autowired
     private RoleRepository roleRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private static final String PHOTO ="default.jpg";
 
 
     @Override
     public void run(String... args) throws Exception {
-        loadUser();
         loadRole();
+        loadUser();
+
     }
 
     //create roles if they don't exist
@@ -43,47 +48,51 @@ public class UserSeeder implements CommandLineRunner {
         return  new RoleEntity(name,description);
     }
 
-
+    //create users if they don't exist
     private void loadUser() {
         if(userRepository.count() == 0){
             loadUserSeed();
         }
     }
 
-    RoleEntity roleEntityAdmin = roleRepository.findByName("ADMIN");
-    RoleEntity roleEntityUser = roleRepository.findByName("USER");
-
-
     private void loadUserSeed() {
-        //add Admin Users
-        userRepository.save(buildUser("Sansone","Rickardes","srickardes0@facebook.com","OTLZQDL",PHOTO, roleEntityAdmin ));
-        userRepository.save(buildUser("Sileas","Gadesby","sgadesby1@nsw.gov.au","LWgwvkv",PHOTO, roleEntityAdmin ));
-        userRepository.save(buildUser("Raynor","Creese","rcreese2@blog.com","6r0Jfdk",PHOTO, roleEntityAdmin ));
-        userRepository.save(buildUser("Madel","Charteris","mcharteris3@themeforest.net","OGfiQ5zb",PHOTO, roleEntityAdmin ));
-        userRepository.save(buildUser("Cedric","Meyrick","cmeyrick4@amazon.co.jp","2myWZWtb6Am",PHOTO, roleEntityAdmin ));
-        userRepository.save(buildUser("Fitzgerald","Mersh","fmersh5@pcworld.com","D1PH35K",PHOTO, roleEntityAdmin ));
-        userRepository.save(buildUser("Johnath","Origan","jorigan5@storify.com","R2oxqEfElMln",PHOTO, roleEntityAdmin ));
-        userRepository.save(buildUser("Donni","Extance","dextance6@wisc.edu","wTahWubX",PHOTO, roleEntityAdmin ));
-        userRepository.save(buildUser("Corbie","Lapsley","clapsley7@microsoft.com","qKpql1Ounzwo",PHOTO, roleEntityAdmin ));
-        userRepository.save(buildUser("Leisha","Belin","lbelin8@pcworld.com","w77p77wGS",PHOTO, roleEntityAdmin ));
+        //add Admin Users the mockaroo
+        RoleEntity roleEntityAdmin = roleRepository.findByName("ADMIN");
+        userRepository.save(buildUser("Sansone","Rickardes","srickardes0@facebook.com","OTLZQDLdddfx", roleEntityAdmin));
+        userRepository.save(buildUser("Sileas","Gadesby","sgadesby1@nsw.gov.au","LWgwvkvxsdd", roleEntityAdmin ));
+        userRepository.save(buildUser("Raynor","Creese","rcreese2@blog.com","6r0Jfdkddd", roleEntityAdmin ));
+        userRepository.save(buildUser("Madel","Charteris","mcharteris3@themeforest.net","OGfiQ5zbxs", roleEntityAdmin ));
+        userRepository.save(buildUser("Cedric","Meyrick","cmeyrick4@amazon.co.jp","2myWZWtb6Am", roleEntityAdmin ));
+        userRepository.save(buildUser("Fitzgerald","Mersh","fmersh5@pcworld.com","D1PH35Kxds", roleEntityAdmin ));
+        userRepository.save(buildUser("Johnath","Origan","jorigan5@storify.com","R2oxqEfElMln", roleEntityAdmin ));
+        userRepository.save(buildUser("Donni","Extance","dextance6@wisc.edu","wTahWubXxx", roleEntityAdmin ));
+        userRepository.save(buildUser("Corbie","Lapsley","clapsley7@microsoft.com","qKpql1Ounzwo", roleEntityAdmin ));
+        userRepository.save(buildUser("Leisha","Belin","lbelin8@pcworld.com","w77p77wGSs", roleEntityAdmin ));
 
-        //add Users
-        userRepository.save(buildUser("Misha","Fossord","mfossord9@senate.gov","3q3MgFh2P5",PHOTO, roleEntityUser ));
-        userRepository.save(buildUser("Cristian","Inkpen","cinkpen0@joomla.org","4VHcXxp86B",PHOTO, roleEntityUser ));
-        userRepository.save(buildUser("Cristiano","Foston","cfoston1@japanpost.jp","9wf9KkPk",PHOTO, roleEntityUser ));
-        userRepository.save(buildUser("Odele","Clynmans","oclynmans2@bravesites.com","DTUMZGlDj",PHOTO, roleEntityUser ));
-        userRepository.save(buildUser("Will","MacRonald","wmacronald3@jalbum.net","KW1LpoXehdo",PHOTO, roleEntityUser ));
-        userRepository.save(buildUser("Skylar","Larter","slarter5@ovh.net","olpArkfRD2",PHOTO, roleEntityUser ));
-        userRepository.save(buildUser("Heidi","Saffill","hsaffill6@huffingtonpost.com","DZfgtH",PHOTO, roleEntityUser ));
-        userRepository.save(buildUser("Sharity","Penreth","spenreth7@linkedin.com","7QWax89",PHOTO, roleEntityUser ));
-        userRepository.save(buildUser("Yasmin","Lapsley","yjoicey8@theglobeandmail.com","r79Sfnp",PHOTO, roleEntityUser ));
-        userRepository.save(buildUser("Charissa","MacGillreich","cmacgillreicha@sbwire.com","7MOQwvVOHz2p",PHOTO, roleEntityUser ));
+        //add Users Example the mokaroo
+        RoleEntity roleEntityUser = roleRepository.findByName("USER");
+        userRepository.save(buildUser("Misha","Fossord","mfossord9@senate.gov","3q3MgFh2Ps5", roleEntityUser ));
+        userRepository.save(buildUser("Cristian","Inkpen","cinkpen0@joomla.org","4VHcXxp86sB", roleEntityUser ));
+        userRepository.save(buildUser("Cristiano","Foston","cfoston1@japanpost.jp","9wf9KkPkxsx", roleEntityUser ));
+        userRepository.save(buildUser("Odele","Clynmans","oclynmans2@bravesites.com","DTUMZGlDjxdd", roleEntityUser ));
+        userRepository.save(buildUser("Will","MacRonald","wmacronald3@jalbum.net","KW1LpoXehdo", roleEntityUser ));
+        userRepository.save(buildUser("Skylar","Larter","slarter5@ovh.net","olpArkfRD2", roleEntityUser ));
+        userRepository.save(buildUser("Heidi","Saffill","hsaffill6@huffingtonpost.com","DZfgtHxxxs", roleEntityUser ));
+        userRepository.save(buildUser("Sharity","Penreth","spenreth7@linkedin.com","7QWax89xxs", roleEntityUser ));
+        userRepository.save(buildUser("Yasmin","Lapsley","yjoicey8@theglobeandmail.com","r79Sfnpxxsx", roleEntityUser ));
+        userRepository.save(buildUser("Charissa","MacGillreich","cmacgillreicha@sbwire.com","7MOQwvVOHz2p", roleEntityUser ));
     }
 
-    private UserEntity buildUser(String firstName, String lastName, String email, String password, String photo, RoleEntity roleid ) {
+    private UserEntity buildUser(String firstName, String lastName, String email, String password, RoleEntity roleid) {
 
-        return new UserEntity(firstName,lastName,email,password,photo,roleid);
+        return new UserEntity(firstName,lastName,email,passwordEncoder.encode(password), UserSeeder.PHOTO,roleid);
     }
+
+
+
+
+
+
 
 
 }

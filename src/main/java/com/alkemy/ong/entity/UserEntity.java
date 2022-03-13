@@ -78,4 +78,6 @@ public class UserEntity {
         this.photo = photo;
         this.roleId= role;
     }
+
+
 }
