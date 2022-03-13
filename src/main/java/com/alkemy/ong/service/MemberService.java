@@ -1,22 +1,21 @@
 package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.MemberDto;
+import com.alkemy.ong.dto.PagesDto;
 import com.alkemy.ong.entity.MemberEntity;
 import com.alkemy.ong.exceptions.ParamNotFound;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
-
-import java.util.Objects;
-import java.util.stream.Collectors;
-
 import java.util.Optional;
 
 
@@ -49,16 +48,24 @@ public class MemberService {
 
         }
         //Get all members paginated by User
-    public List<MemberDto> getPaginated(Integer page) {
-        if (Objects.isNull(page)) {
-            return memberRepository.findAll().stream().map(memberMapper::memberEntityToMemberDto)
-                    .collect(Collectors.toList());
+     public PagesDto<MemberDto> searchPaginatedMembers(int page) {
+            if (page < 0) {
+                throw new ParamNotFound("The was an error retrieving the list of members");
+            }
+            Pageable pageRequest = PageRequest.of(page, PAGE_SIZE);
+            Page<MemberEntity> membersList = memberRepository.findAll(pageRequest);
+            return responsePage(membersList);
         }
-        Pageable pageable = PageRequest.of(page, PAGE_SIZE);
-        return memberRepository.findAll(pageable).getContent().stream().map(memberMapper::memberEntityToMemberDto)
-                .collect(Collectors.toList());
+    private PagesDto<MemberDto> responsePage(Page<MemberEntity> page) {
+        if (page.isEmpty()) {
+            throw new ParamNotFound("The page does not exist.");
+        }
+        Page<MemberDto> response = new PageImpl<>(
+                memberMapper.listMemberEntityToListMemberDto(page.getContent()),
+                PageRequest.of(page.getNumber(), page.getSize()),
+                page.getTotalElements());
+        return new PagesDto<>(response, "localhost:8080/members?page=");
     }
-
     public MemberDto update(String id, MemberDto memberDto) {
         Optional<MemberEntity> entity = memberRepository.findById(id);
         if (entity.isPresent()) {
