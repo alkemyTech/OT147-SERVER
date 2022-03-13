@@ -80,7 +80,7 @@ public class NewsService {
         }
         Page<NewsDto> response = new PageImpl<>(newsMapper.listNewsEntityToNewsDto(page.getContent()),
                 PageRequest.of(page.getNumber(), page.getSize()), page.getTotalElements());
-        return new PagesDto<>(response, "localhost:8080/categories?page=");
+        return new PagesDto<>(response, "localhost:8080/news?page=");
     }
 
 }
