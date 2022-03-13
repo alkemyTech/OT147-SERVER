@@ -1,6 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.NewsDto;
+import com.alkemy.ong.dto.PagesDto;
 import com.alkemy.ong.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,6 +15,12 @@ import javax.validation.Valid;
 public class NewsController {
     @Autowired
     private NewsService newsService;
+
+    @GetMapping
+    public ResponseEntity<?> getPageNews(@PathVariable int page){
+        PagesDto<NewsDto> response = newsService.getAllPagesNews(page);
+        return ResponseEntity.ok().body(response);
+    }
     //As an Admin see all details in the news entity
     @GetMapping("/{id}")
     public ResponseEntity<NewsDto> getDetailsById(@PathVariable String id) {
