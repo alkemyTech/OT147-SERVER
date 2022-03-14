@@ -2,14 +2,21 @@ package com.alkemy.ong.service;
 
 import com.alkemy.ong.dto.CategoryDto;
 import com.alkemy.ong.dto.CategoryDtoFull;
+import com.alkemy.ong.dto.PagesDto;
 import com.alkemy.ong.entity.CategoryEntity;
+import com.alkemy.ong.exceptions.ParamNotFound;
 import com.alkemy.ong.mapper.CategoryMapper;
 import com.alkemy.ong.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.*;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 
@@ -77,5 +84,26 @@ public class CategoryService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,
                     "Category not found");
         }
+    }
+    //Get categories for pages
+    @Transactional
+    public PagesDto<CategoryDto> getAllForPages(int page) {
+        if (page < 0) {
+            throw new ParamNotFound("The page number cannot be less than 0.");
+        }
+        Pageable pageRequest = PageRequest.of(page, 10);
+        Page<CategoryEntity> category = categoryRepository.findAll(pageRequest);
+        return responsePage(category);
+    }
+
+    private PagesDto<CategoryDto> responsePage(Page<CategoryEntity> page) {
+        if (page.isEmpty()) {
+            throw new ParamNotFound("The page does not exist.");
+        }
+        Page<CategoryDto> response = new PageImpl<>(
+                categoryMapper.listCategoryEntityToListCategoryDto(page.getContent()),
+                PageRequest.of(page.getNumber(), page.getSize()),
+                page.getTotalElements());
+        return new PagesDto<>(response, "localhost:8080/categories?page=");
     }
 }
