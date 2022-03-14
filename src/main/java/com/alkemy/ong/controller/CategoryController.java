@@ -1,12 +1,12 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.CategoryDto;
+import com.alkemy.ong.dto.PagesDto;
 import com.alkemy.ong.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.List;
 import com.alkemy.ong.dto.CategoryDtoFull;
 import javax.validation.Valid;
 
@@ -21,8 +21,9 @@ public class CategoryController {
 
 
     @GetMapping
-    public ResponseEntity <List<CategoryDto>> getAllCategories(){
-        return ResponseEntity.ok(categoryService.getAll());
+    public ResponseEntity<?> getPageCategory(@RequestParam(defaultValue = "0") int page) {
+        PagesDto<CategoryDto> response = categoryService.getAllForPages(page);
+        return ResponseEntity.ok().body(response);
     }
 
     //deleted by id soft delete

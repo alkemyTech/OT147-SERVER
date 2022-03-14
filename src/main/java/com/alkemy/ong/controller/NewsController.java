@@ -4,6 +4,7 @@ import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.exceptions.ParamNotFound;
 import com.alkemy.ong.service.CommentService;
+import com.alkemy.ong.dto.PagesDto;
 import com.alkemy.ong.service.NewsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,13 @@ public class NewsController {
     private NewsService newsService;
     @Autowired
     private CommentService commentService;
+    //get Pageable list of News
+    @GetMapping
+    public ResponseEntity<?> getPageNews(@PathVariable int page){
+        PagesDto<NewsDto> response = newsService.getAllPagesNews(page);
+        return ResponseEntity.ok().body(response);
+    }
+
     //As an Admin see all details in the news entity
     @GetMapping("/{id}")
     public ResponseEntity<NewsDto> getDetailsById(@PathVariable String id) {
