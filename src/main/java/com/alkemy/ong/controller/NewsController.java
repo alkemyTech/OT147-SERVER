@@ -15,7 +15,7 @@ import javax.validation.Valid;
 public class NewsController {
     @Autowired
     private NewsService newsService;
-
+    //get Pageable list of News
     @GetMapping
     public ResponseEntity<?> getPageNews(@PathVariable int page){
         PagesDto<NewsDto> response = newsService.getAllPagesNews(page);
