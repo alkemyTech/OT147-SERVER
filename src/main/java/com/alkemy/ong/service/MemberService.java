@@ -25,6 +25,8 @@ public class MemberService {
     private final MemberMapper memberMapper;
     @Autowired
     private MemberRepository memberRepository;
+    @Autowired
+    UserService userService;
     private static final int PAGE_SIZE = 10;
     //Member creation method
     public MemberDto addMember(MemberDto memberDto) {
@@ -49,9 +51,6 @@ public class MemberService {
         }
         //Get all members paginated by User
      public PagesDto<MemberDto> searchPaginatedMembers(int page) {
-            if (page < 0) {
-                throw new ParamNotFound("The was an error retrieving the list of members");
-            }
             Pageable pageRequest = PageRequest.of(page, PAGE_SIZE);
             Page<MemberEntity> membersList = memberRepository.findAll(pageRequest);
             return responsePage(membersList);
