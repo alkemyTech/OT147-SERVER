@@ -65,6 +65,8 @@ public class NewsService {
                     "There is no News with the entered Id");
         }
     }
+    //Service to retrieve all news from database and return them in a page
+
     public PagesDto<NewsDto> getAllPagesNews(int page) {
         if (page < 0) {
             throw new ParamNotFound("The page number cannot be less than 0.");

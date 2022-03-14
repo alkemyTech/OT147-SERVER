@@ -23,7 +23,7 @@ public class NewsController {
     private CommentService commentService;
     //get Pageable list of News
     @GetMapping
-    public ResponseEntity<?> getPageNews(@PathVariable int page){
+    public ResponseEntity<?> getPageNews(@RequestParam(defaultValue = "0") int page){
         PagesDto<NewsDto> response = newsService.getAllPagesNews(page);
         return ResponseEntity.ok().body(response);
     }
