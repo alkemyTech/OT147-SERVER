@@ -89,6 +89,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 //Comments
                 .antMatchers(POST, "/comments").hasAuthority("USER")
                 .antMatchers(GET, "/comments").hasAuthority("ADMIN")
+                .antMatchers(DELETE, "/comments/{id}").hasAnyAuthority("ADMIN", "USER")
                 //Slides
                 .antMatchers(GET, "/slides").hasAuthority("ADMIN")
                 .antMatchers(DELETE, "/slides/{id}").hasAuthority("ADMIN")

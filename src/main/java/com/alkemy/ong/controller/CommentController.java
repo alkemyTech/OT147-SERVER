@@ -7,6 +7,7 @@ import com.alkemy.ong.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,4 +34,18 @@ public class CommentController {
         return ResponseEntity.ok(commentService.getAll());
     }
 
+    //Delete Comment for id only for User creator or Admin
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(Authentication aut, @PathVariable String id){
+        if(this.commentService.existId(id)){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        try{
+            this.commentService.delete(aut,id);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        }
+
+    }
 }
