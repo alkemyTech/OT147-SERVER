@@ -40,7 +40,7 @@ public class UserSeeder implements CommandLineRunner {
 
     private void loadRoleSeed() {
         roleRepository.save(buildRole("ADMIN",
-                "All has all the privileges of the roles"));
+                "Has all the privileges from both roles"));
         roleRepository.save(buildRole("USER",
                 "Privileges limited to only modifying and viewing your data"));
     }
