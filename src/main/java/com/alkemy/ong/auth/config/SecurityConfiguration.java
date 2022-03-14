@@ -55,29 +55,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/auth/*").permitAll()
                 .antMatchers("/auth/register/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/storage/*").hasAuthority("ADMIN")
-
                 //Users
                 .antMatchers(GET, "/users/list").hasAuthority("ADMIN")
+                .antMatchers(GET,"/users/auth/me").hasAuthority( "USER")
                 .antMatchers(POST, "/user/save/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(PATCH, "/users/{id}").hasAuthority("USER")
                 .antMatchers(DELETE, "/users/{id}").hasAuthority("USER")
-                .antMatchers(GET,"/users/auth/me").hasAuthority( "USER")
-
                 //Categories
                 .antMatchers(GET, "/categories").hasAuthority("ADMIN")
-                .antMatchers(PUT, "/categories/{id}").hasAuthority("ADMIN")
-                .antMatchers(POST, "/categories/create").hasAuthority("ADMIN")
-                .antMatchers(DELETE, "/categories/{id}").hasAuthority("ADMIN")
                 .antMatchers(GET,"/categories/{id}").hasAuthority("ADMIN")
-
+                .antMatchers(POST, "/categories/create").hasAuthority("ADMIN")
+                .antMatchers(PUT, "/categories/{id}").hasAuthority("ADMIN")
                 //Organizations
                 .antMatchers(GET, "/organization/public").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(PUT, "/organization/public/**").hasAuthority("ADMIN")
-
                 //Activities
                 .antMatchers(PUT,"/activities/{id}").hasAuthority("ADMIN")
                 .antMatchers(POST, "/activities").hasAuthority("ADMIN")
-
                 //News
                 .antMatchers(GET, "/news/{id}").hasAuthority("ADMIN")
                 .antMatchers(GET, "/news/{id}/comments").hasAuthority("USER")
@@ -85,27 +79,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(POST, "/news").hasAuthority("ADMIN")
                 .antMatchers(PUT, "/news").hasAuthority("ADMIN")
                 .antMatchers(DELETE, "/news/{id}").hasAuthority("ADMIN")
-
                 //Comments
                 .antMatchers(POST, "/comments").hasAuthority("USER")
                 .antMatchers(GET, "/comments").hasAuthority("ADMIN")
+                .antMatchers(PUT, "/comments/{id}").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(DELETE, "/comments/{id}").hasAnyAuthority("ADMIN", "USER")
                 //Slides
                 .antMatchers(GET, "/slides").hasAuthority("ADMIN")
-                .antMatchers(DELETE, "/slides/{id}").hasAuthority("ADMIN")
-                .antMatchers(PUT, "/slides/{id}").hasAuthority("ADMIN")
                 .antMatchers(GET, "/slides/{id}").hasAuthority("ADMIN")
-
-                //Testimonial
+                .antMatchers(PUT, "/slides/{id}").hasAuthority("ADMIN")
+                .antMatchers(DELETE, "/slides/{id}").hasAuthority("ADMIN")
+                //Testimonials
+                .antMatchers(GET, "/testimonials?page=").hasAuthority("USER")
                 .antMatchers(POST, "/testimonials").hasAuthority("ADMIN")
                 .antMatchers(PUT, "/testimonials/{id}").hasAuthority("ADMIN")
                 .antMatchers(DELETE, "/testimonials/{id}").hasAuthority("ADMIN")
-                .antMatchers(GET, "/testimonials?page=").hasAuthority("USER")
-
                 //Contacts
                 .antMatchers(POST, "/contacts").hasAuthority("USER")
                 .antMatchers(GET, "/contacts").hasAuthority("ADMIN")
-
                //Members
                 .antMatchers(POST, "/members").hasAuthority("USER")
                 .antMatchers(GET, "/members?page=").hasAnyAuthority("ADMIN", "USER")
