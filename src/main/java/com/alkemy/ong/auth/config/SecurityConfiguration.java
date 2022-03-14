@@ -76,10 +76,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 //Activities
                 .antMatchers(PUT,"/activities/{id}").hasAuthority("ADMIN")
-                 .antMatchers(POST, "/activities").hasAuthority("ADMIN")
+                .antMatchers(POST, "/activities").hasAuthority("ADMIN")
 
                 //News
                 .antMatchers(GET, "/news/{id}").hasAuthority("ADMIN")
+                .antMatchers(GET, "/news?page=").hasAuthority("USER")
                 .antMatchers(POST, "/news").hasAuthority("ADMIN")
                 .antMatchers(PUT, "/news").hasAuthority("ADMIN")
                 .antMatchers(DELETE, "/news/{id}").hasAuthority("ADMIN")
