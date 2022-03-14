@@ -22,5 +22,5 @@ public class CommentDto {
 
     private LocalDateTime timestamps;
 
-    private Boolean softDelete = false;
+    private Boolean softDelete;
 }

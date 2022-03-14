@@ -1,5 +1,6 @@
 package com.alkemy.ong.service;
 
+import com.alkemy.ong.dto.CommentBodyDto;
 import com.alkemy.ong.dto.CommentDto;
 import com.alkemy.ong.entity.CommentEntity;
 import com.alkemy.ong.mapper.CommentMapper;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Service
 public class CommentService {
@@ -23,4 +25,7 @@ public class CommentService {
             return commentMapper.commentEntityToCommentDto(commentRepository.save(comment));
         }
 
+         public List<CommentBodyDto> getAll() {
+            return commentMapper.commentEntityListToCommentBodyDtoList(commentRepository.findAllByOrder());
+        }
     }
