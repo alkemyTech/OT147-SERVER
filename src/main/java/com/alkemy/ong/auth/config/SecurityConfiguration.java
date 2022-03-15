@@ -5,6 +5,7 @@ import com.alkemy.ong.auth.service.UserDetailsCustomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -26,6 +27,28 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private UserDetailsCustomService userDetailsCustomService;
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
+    //ARRAYS THE ENDPOINT VERB
+    private static final String[] USER_GET = {
+            "/users/auth/me", "/news/{id}/comments", "/news?page=", "/testimonials?page=","/news","/testimonials"
+    };
+    private static final String[] USER_POST = {
+            "/comments", "/contacts", "/members"
+    };
+    private static final String[] USER_PUT = {
+            "/members/{id}"
+    };
+    private static final String[] USER_PATCH_DELETE = {
+            "/users/{id}"
+    };
+    private static final String[] ANY_USER_GET = {
+            "/organization/public/{id}", "/members?page=","/members"
+    };
+    private static final String[] ANY_USER_POST = {
+            "/user/save/**"
+    };
+    private static final String[] ANY_USER_PUT_DELETE = {
+            "/comments/{id}"
+    };
 
     /*
     Method to encrypt password
@@ -35,7 +58,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder;
     }
-
     /*
     Configuration to set where the UserDetailsService will be.
      */
@@ -43,6 +65,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsCustomService);
     }
+
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -55,53 +78,23 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/auth/*").permitAll()
                 .antMatchers("/auth/register/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/storage/*").hasAuthority("ADMIN")
-                //Users
-                .antMatchers(GET, "/users/list").hasAuthority("ADMIN")
-                .antMatchers(GET,"/users/auth/me").hasAuthority( "USER")
-                .antMatchers(POST, "/user/save/**").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(PATCH, "/users/{id}").hasAuthority("USER")
-                .antMatchers(DELETE, "/users/{id}").hasAuthority("USER")
-                //Categories
-                .antMatchers(GET, "/categories").hasAuthority("ADMIN")
-                .antMatchers(GET,"/categories/{id}").hasAuthority("ADMIN")
-                .antMatchers(POST, "/categories/create").hasAuthority("ADMIN")
-                .antMatchers(PUT, "/categories/{id}").hasAuthority("ADMIN")
-                //Organizations
-                .antMatchers(GET, "/organization/public").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(PUT, "/organization/public/**").hasAuthority("ADMIN")
-                //Activities
-                .antMatchers(PUT,"/activities/{id}").hasAuthority("ADMIN")
-                .antMatchers(POST, "/activities").hasAuthority("ADMIN")
-                //News
-                .antMatchers(GET, "/news/{id}").hasAuthority("ADMIN")
-                .antMatchers(GET, "/news/{id}/comments").hasAuthority("USER")
-                .antMatchers(GET, "/news?page=").hasAuthority("USER")
-                .antMatchers(POST, "/news").hasAuthority("ADMIN")
-                .antMatchers(PUT, "/news").hasAuthority("ADMIN")
-                .antMatchers(DELETE, "/news/{id}").hasAuthority("ADMIN")
-                //Comments
-                .antMatchers(POST, "/comments").hasAuthority("USER")
-                .antMatchers(GET, "/comments").hasAuthority("ADMIN")
-                .antMatchers(PUT, "/comments/{id}").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(DELETE, "/comments/{id}").hasAnyAuthority("ADMIN", "USER")
-                //Slides
-                .antMatchers(GET, "/slides").hasAuthority("ADMIN")
-                .antMatchers(GET, "/slides/{id}").hasAuthority("ADMIN")
-                .antMatchers(PUT, "/slides/{id}").hasAuthority("ADMIN")
-                .antMatchers(DELETE, "/slides/{id}").hasAuthority("ADMIN")
-                //Testimonials
-                .antMatchers(GET, "/testimonials?page=").hasAuthority("USER")
-                .antMatchers(POST, "/testimonials").hasAuthority("ADMIN")
-                .antMatchers(PUT, "/testimonials/{id}").hasAuthority("ADMIN")
-                .antMatchers(DELETE, "/testimonials/{id}").hasAuthority("ADMIN")
-                //Contacts
-                .antMatchers(POST, "/contacts").hasAuthority("USER")
-                .antMatchers(GET, "/contacts").hasAuthority("ADMIN")
-               //Members
-                .antMatchers(POST, "/members").hasAuthority("USER")
-                .antMatchers(GET, "/members?page=").hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(DELETE, "/members/{id}").hasAuthority("ADMIN")
-                .antMatchers(PUT, "/members/{id}").hasAuthority("USER")
+                // ANY USER
+                .antMatchers(HttpMethod.GET, ANY_USER_GET).hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST, ANY_USER_POST).hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.PUT, ANY_USER_PUT_DELETE).hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.DELETE, ANY_USER_PUT_DELETE).hasAnyAuthority("ADMIN", "USER")
+                //USER
+                .antMatchers(HttpMethod.GET, USER_GET).hasAuthority( "USER")
+                .antMatchers(HttpMethod.POST, USER_POST).hasAuthority("USER")
+                .antMatchers(HttpMethod.PUT, USER_PUT).hasAuthority("USER")
+                .antMatchers(HttpMethod.PATCH, USER_PATCH_DELETE).hasAuthority("USER")
+                .antMatchers(HttpMethod.DELETE, USER_PATCH_DELETE).hasAuthority("USER")
+                //ADMIN
+                .antMatchers(HttpMethod.GET, "/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.PUT, "/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN")
+
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and().sessionManagement()
