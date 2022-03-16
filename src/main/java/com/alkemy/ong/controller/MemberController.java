@@ -14,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -30,18 +29,20 @@ public class MemberController {
     private MemberService memberService;
 
     //Members creation method for User
+    @Tag(name = "Members")
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = DocumentationMessages.MEMBER_CONTROLLER_SUMMARY_CREATE)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201",
                     description = DocumentationMessages.MEMBER_CONTROLLER_RESPONSE_201_DESCRIPTION)})
-    @Tag(name = "Members")
+
     public ResponseEntity<MemberDto> addMember(@Valid @RequestBody MemberDto memberDto) {
         MemberDto savedMember = memberService.addMember(memberDto);
         return status(HttpStatus.CREATED).body(savedMember);
     }
 
     //Delete member by id (soft delete)
+    @Tag(name = "Members")
     @DeleteMapping(value = "/{id}")
     @Operation(summary = DocumentationMessages.MEMBER_CONTROLLER_SUMMARY_DELETE)
     @ApiResponses(value = {
@@ -51,7 +52,6 @@ public class MemberController {
                     description = DocumentationMessages.MEMBER_CONTROLLER_RESPONSE_403_DESCRIPTION),
             @ApiResponse(responseCode = "404",
                     description = DocumentationMessages.MEMBER_CONTROLLER_RESPONSE_404_DESCRIPTION)})
-    @Tag(name = "Members")
     public ResponseEntity<Void> delete(@PathVariable String id) throws Exception {
         try {
             memberService.deleteMemberById(id);
