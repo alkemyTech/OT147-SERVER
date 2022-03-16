@@ -5,7 +5,6 @@ import com.alkemy.ong.auth.service.UserDetailsCustomService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -27,15 +26,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private UserDetailsCustomService userDetailsCustomService;
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
-    //ARRAYS THE ENDPOINT VERB
-    private static final String[] USER = {
-            "/users/auth/me", "/news/{id}/comments", "/news?page=", "/testimonials?page=","/news","/testimonials",
-            "/comments", "/contacts", "/members","/members/{id}","/users/{id}"
-    };
-
-    private static final String[] ANY_ROLE = {
-            "/organization/public/{id}", "/members?page=","/members","/user/save/**","/comments/{id}"
-    };
 
     /*
     Method to encrypt password
@@ -45,6 +35,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         return bCryptPasswordEncoder;
     }
+
     /*
     Configuration to set where the UserDetailsService will be.
      */
@@ -52,7 +43,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsCustomService);
     }
-
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -63,28 +53,60 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/*", "/swagger-ui/**","/v2/api-docs/**", "/swagger-resources/**").permitAll()
+                .antMatchers("/auth/register/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/storage/*").hasAuthority("ADMIN")
-                // ANY USER
-                .antMatchers(HttpMethod.GET, ANY_ROLE).hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(HttpMethod.POST, ANY_ROLE).hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(HttpMethod.PUT, ANY_ROLE).hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(HttpMethod.DELETE, ANY_ROLE).hasAnyAuthority("ADMIN", "USER")
-                //USER
-                .antMatchers(HttpMethod.GET, USER).hasAuthority( "USER")
-                .antMatchers(HttpMethod.POST, USER).hasAuthority("USER")
-                .antMatchers(HttpMethod.PUT, USER).hasAuthority("USER")
-                .antMatchers(HttpMethod.PATCH, USER).hasAuthority("USER")
-                .antMatchers(HttpMethod.DELETE, USER).hasAuthority("USER")
-                //ADMIN
-                .antMatchers(HttpMethod.GET, "/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.POST, "/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.PUT, "/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN")
-
+                //Users
+                .antMatchers(GET, "/users/list").hasAuthority("ADMIN")
+                .antMatchers(GET,"/users/auth/me").hasAuthority( "USER")
+                .antMatchers(POST, "/user/save/**").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(PATCH, "/users/{id}").hasAuthority("USER")
+                .antMatchers(DELETE, "/users/{id}").hasAuthority("USER")
+                //Categories
+                .antMatchers(GET, "/categories").hasAuthority("ADMIN")
+                .antMatchers(GET,"/categories/{id}").hasAuthority("ADMIN")
+                .antMatchers(POST, "/categories/create").hasAuthority("ADMIN")
+                .antMatchers(PUT, "/categories/{id}").hasAuthority("ADMIN")
+                //Organizations
+                .antMatchers(GET, "/organization/public").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(PUT, "/organization/public/**").hasAuthority("ADMIN")
+                //Activities
+                .antMatchers(PUT,"/activities/{id}").hasAuthority("ADMIN")
+                .antMatchers(POST, "/activities").hasAuthority("ADMIN")
+                //News
+                .antMatchers(GET, "/news/{id}").hasAuthority("ADMIN")
+                .antMatchers(GET, "/news/{id}/comments").hasAuthority("USER")
+                .antMatchers(GET, "/news?page=").hasAuthority("USER")
+                .antMatchers(POST, "/news").hasAuthority("ADMIN")
+                .antMatchers(PUT, "/news").hasAuthority("ADMIN")
+                .antMatchers(DELETE, "/news/{id}").hasAuthority("ADMIN")
+                //Comments
+                .antMatchers(POST, "/comments").hasAuthority("USER")
+                .antMatchers(GET, "/comments").hasAuthority("ADMIN")
+                .antMatchers(PUT, "/comments/{id}").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(DELETE, "/comments/{id}").hasAnyAuthority("ADMIN", "USER")
+                //Slides
+                .antMatchers(GET, "/slides").hasAuthority("ADMIN")
+                .antMatchers(GET, "/slides/{id}").hasAuthority("ADMIN")
+                .antMatchers(PUT, "/slides/{id}").hasAuthority("ADMIN")
+                .antMatchers(DELETE, "/slides/{id}").hasAuthority("ADMIN")
+                //Testimonials
+                .antMatchers(GET, "/testimonials?page=").hasAuthority("USER")
+                .antMatchers(POST, "/testimonials").hasAuthority("ADMIN")
+                .antMatchers(PUT, "/testimonials/{id}").hasAuthority("ADMIN")
+                .antMatchers(DELETE, "/testimonials/{id}").hasAuthority("ADMIN")
+                //Contacts
+                .antMatchers(POST, "/contacts").hasAuthority("USER")
+                .antMatchers(GET, "/contacts").hasAuthority("ADMIN")
+                //Members
+                .antMatchers(POST, "/members").hasAuthority("USER")
+                .antMatchers(GET, "/members?page=").hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(DELETE, "/members/{id}").hasAuthority("ADMIN")
+                .antMatchers(PUT, "/members/{id}").hasAuthority("USER")
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
