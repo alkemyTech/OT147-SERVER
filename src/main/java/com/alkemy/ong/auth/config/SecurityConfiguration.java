@@ -63,7 +63,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeRequests().antMatchers("/auth/*", "/swagger-ui/**","/v2/api-docs/**", "/swagger-resources/**").permitAll()
-                .antMatchers("/auth/register/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/storage/*").hasAuthority("ADMIN")
                 // ANY USER
                 .antMatchers(HttpMethod.GET, ANY_ROLE).hasAnyAuthority("ADMIN", "USER")
