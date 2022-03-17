@@ -62,10 +62,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(PATCH, "/users/{id}").hasAuthority("USER")
                 .antMatchers(DELETE, "/users/{id}").hasAuthority("USER")
                 //Categories
-                .antMatchers(GET, "/categories").hasAuthority("ADMIN")
+                .antMatchers(GET, "/categories").hasAnyAuthority("ADMIN","USER")
                 .antMatchers(GET,"/categories/{id}").hasAuthority("ADMIN")
-                .antMatchers(POST, "/categories/create").hasAuthority("ADMIN")
+                .antMatchers(POST, "/categories").hasAuthority("ADMIN")
                 .antMatchers(PUT, "/categories/{id}").hasAuthority("ADMIN")
+                .antMatchers(DELETE, "/categories/{id}").hasAuthority("ADMIN")
                 //Organizations
                 .antMatchers(GET, "/organization/public").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(PUT, "/organization/public/**").hasAuthority("ADMIN")
