@@ -4,6 +4,7 @@ import com.alkemy.ong.dto.MemberDto;
 import com.alkemy.ong.dto.PagesDto;
 import com.alkemy.ong.service.MemberService;
 import com.alkemy.ong.util.DocumentationMessages;
+import com.alkemy.ong.util.DocumentationResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -33,7 +34,7 @@ public class MemberController {
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = DocumentationMessages.MEMBER_CONTROLLER_SUMMARY_CREATE)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201",
+            @ApiResponse(responseCode = DocumentationResponse.CODE_CREATE,
                     description = DocumentationMessages.MEMBER_CONTROLLER_RESPONSE_201_DESCRIPTION)})
 
     public ResponseEntity<MemberDto> addMember(@Valid @RequestBody MemberDto memberDto) {
@@ -46,11 +47,11 @@ public class MemberController {
     @DeleteMapping(value = "/{id}")
     @Operation(summary = DocumentationMessages.MEMBER_CONTROLLER_SUMMARY_DELETE)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204",
+            @ApiResponse(responseCode = DocumentationResponse.CODE_NO_CONTENT,
                     description = DocumentationMessages.MEMBER_CONTROLLER_RESPONSE_204_DESCRIPTION),
-            @ApiResponse(responseCode = "403",
+            @ApiResponse(responseCode = DocumentationResponse.CODE_FORBIDDEN,
                     description = DocumentationMessages.MEMBER_CONTROLLER_RESPONSE_403_DESCRIPTION),
-            @ApiResponse(responseCode = "404",
+            @ApiResponse(responseCode = DocumentationResponse.CODE_NOT_FOUND,
                     description = DocumentationMessages.MEMBER_CONTROLLER_RESPONSE_404_DESCRIPTION)})
     public ResponseEntity<Void> delete(@PathVariable String id) throws Exception {
         try {
@@ -66,11 +67,11 @@ public class MemberController {
     @GetMapping(params = "page")
     @Operation(summary = DocumentationMessages.MEMBER_CONTROLLER_SUMMARY_LIST)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(responseCode = DocumentationResponse.CODE_OK,
                     description = DocumentationMessages.MEMBER_CONTROLLER_RESPONSE_200_DESCRIPTION),
-            @ApiResponse(responseCode = "400",
+            @ApiResponse(responseCode = DocumentationResponse.CODE_BAD_REQUEST,
                     description = DocumentationMessages.MEMBER_CONTROLLER_RESPONSE_400_DESCRIPTION),
-            @ApiResponse(responseCode = "403",
+            @ApiResponse(responseCode = DocumentationResponse.CODE_FORBIDDEN,
                     description = DocumentationMessages.MEMBER_CONTROLLER_RESPONSE_403_DESCRIPTION)})
     public ResponseEntity<?> membersPageable(@RequestParam(required = false, defaultValue = "-1") int page) {
         if (page != -1) {
@@ -88,11 +89,11 @@ public class MemberController {
             produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = DocumentationMessages.MEMBER_CONTROLLER_SUMMARY_UPDATE)
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200",
+            @ApiResponse(responseCode = DocumentationResponse.CODE_OK,
                     description = DocumentationMessages.MEMBER_CONTROLLER_RESPONSE_200_DESCRIPTION),
-            @ApiResponse(responseCode = "403",
+            @ApiResponse(responseCode = DocumentationResponse.CODE_FORBIDDEN,
                     description = DocumentationMessages.MEMBER_CONTROLLER_RESPONSE_403_DESCRIPTION),
-            @ApiResponse(responseCode = "404",
+            @ApiResponse(responseCode = DocumentationResponse.CODE_NOT_FOUND,
                     description = DocumentationMessages.MEMBER_CONTROLLER_RESPONSE_404_DESCRIPTION)})
     public ResponseEntity<MemberDto> update(@PathVariable String id, @Valid @RequestBody MemberDto memberDto) {
         return ResponseEntity.ok(memberService.update(id, memberDto));
