@@ -88,13 +88,13 @@ public class DocumentationMessages {
 
     public static final String TESTIMONIAL_CONTROLLER_DESCRIPTION = "Contains the endpoints of testimonial entity";
 
-    public static final String TESTIMONIAL_CONTROLLER_SUMMARY_CREATE = "Create testimonial";
+    public static final String TESTIMONIAL_CONTROLLER_SUMMARY_CREATE = "Create testimonial, ADMIN";
 
-    public static final String TESTIMONIAL_CONTROLLER_SUMMARY_LIST = "List of Categories pages";
+    public static final String TESTIMONIAL_CONTROLLER_SUMMARY_LIST = "List of Testimonials in pagination by 10 testimonies, USER and ADMIN";
 
-    public static final String TESTIMONIAL_CONTROLLER_SUMMARY_DELETE = "Delete testimonial";
+    public static final String TESTIMONIAL_CONTROLLER_SUMMARY_DELETE = "Delete testimonial, ADMIN";
 
-    public static final String TESTIMONIAL_CONTROLLER_SUMMARY_UPDATE = "Update testimonial";
+    public static final String TESTIMONIAL_CONTROLLER_SUMMARY_UPDATE = "Update testimonial, ADMIN";
 
     public static final String TESTIMONIAL_CONTROLLER_RESPONSE_201_DESCRIPTION = "Testimonial created";
 
