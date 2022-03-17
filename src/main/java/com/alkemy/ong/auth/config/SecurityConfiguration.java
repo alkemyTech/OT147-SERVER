@@ -28,13 +28,26 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtRequestFilter jwtRequestFilter;
     //ARRAYS THE ENDPOINT VERB
-    private static final String[] USER = {
-            "/users/auth/me", "/news/{id}/comments", "/news?page=", "/testimonials?page=","/news","/testimonials",
-            "/comments", "/contacts", "/members","/members/{id}","/users/{id}"
+    private static final String[] USER_GET = {
+            "/users/auth/me", "/news/{id}/comments", "/news?page=", "/testimonials?page=","/news","/testimonials"
     };
-
-    private static final String[] ANY_ROLE = {
-            "/organization/public/{id}", "/members?page=","/members","/user/save/**","/comments/{id}"
+    private static final String[] USER_POST = {
+            "/comments", "/contacts", "/members",
+    };
+    private static final String[] USER_PUT = {
+            "/members/{id}"
+    };
+    private static final String[] USER_PATCH_DELETE = {
+            "/users/{id}"
+    };
+    private static final String[] ANY_USER_GET = {
+            "/organization/public/{id}", "/members?page=","/members"
+    };
+    private static final String[] ANY_USER_POST = {
+            "/user/save/**"
+    };
+    private static final String[] ANY_USER_PUT_DELETE = {
+            "/comments/{id}"
     };
 
     /*
@@ -62,20 +75,20 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-                .authorizeRequests().antMatchers("/auth/*").permitAll()
+                .authorizeRequests().antMatchers("/auth/*", "/swagger-ui/**","/v2/api-docs/**", "/swagger-resources/**").permitAll()
                 .antMatchers("/auth/register/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/storage/*").hasAuthority("ADMIN")
                 // ANY USER
-                .antMatchers(HttpMethod.GET, ANY_ROLE).hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(HttpMethod.POST, ANY_ROLE).hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(HttpMethod.PUT, ANY_ROLE).hasAnyAuthority("ADMIN", "USER")
-                .antMatchers(HttpMethod.DELETE, ANY_ROLE).hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.GET, ANY_USER_GET).hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.POST, ANY_USER_POST).hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.PUT, ANY_USER_PUT_DELETE).hasAnyAuthority("ADMIN", "USER")
+                .antMatchers(HttpMethod.DELETE, ANY_USER_PUT_DELETE).hasAnyAuthority("ADMIN", "USER")
                 //USER
-                .antMatchers(HttpMethod.GET, USER).hasAuthority( "USER")
-                .antMatchers(HttpMethod.POST, USER).hasAuthority("USER")
-                .antMatchers(HttpMethod.PUT, USER).hasAuthority("USER")
-                .antMatchers(HttpMethod.PATCH, USER).hasAuthority("USER")
-                .antMatchers(HttpMethod.DELETE, USER).hasAuthority("USER")
+                .antMatchers(HttpMethod.GET, USER_GET).hasAuthority( "USER")
+                .antMatchers(HttpMethod.POST, USER_POST).hasAuthority("USER")
+                .antMatchers(HttpMethod.PUT, USER_PUT).hasAuthority("USER")
+                .antMatchers(HttpMethod.PATCH, USER_PATCH_DELETE).hasAuthority("USER")
+                .antMatchers(HttpMethod.DELETE, USER_PATCH_DELETE).hasAuthority("USER")
                 //ADMIN
                 .antMatchers(HttpMethod.GET, "/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.POST, "/**").hasAuthority("ADMIN")
@@ -86,6 +99,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().anyRequest().authenticated()
                 .and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
         httpSecurity.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

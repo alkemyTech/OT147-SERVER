@@ -1,5 +1,6 @@
 package com.alkemy.ong.controller;
 
+import com.alkemy.ong.auth.dto.UserDTO;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.UserEntity;
 import com.alkemy.ong.service.UserService;
@@ -50,9 +51,9 @@ public class UserController {
 
     /*Method for actualization for id */
     @PatchMapping("/{id}")
-    public ResponseEntity<UserDto> update(@PathVariable String id) {
+    public ResponseEntity<UserDto> update(@PathVariable String id,@RequestBody UserDTO dto ){
         try {
-            return ResponseEntity.ok(userService.updateUser(id));
+            return ResponseEntity.ok(userService.updateUser(id,dto));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
