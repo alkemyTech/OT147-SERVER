@@ -15,10 +15,10 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.alkemy.ong.util.DocumentationMessages.*;
+import com.alkemy.ong.util.DocumentationMessages;
 import static com.alkemy.ong.util.DocumentationResponse.*;
 
-@Tag(name = "Testimonials", description = "Create, update show and delete Testimonials")
+@Tag(name = "Testimonials", description = "Create, update show and delete Testimonials, the endpoints of testimonial entity.")
 @RestController
 @RequestMapping("/testimonials")
 public class TestimonialController {
