@@ -60,9 +60,13 @@ public class UserAuthController {
     }
 
     /*Method to authenticate, the server generates a JWT with the user's data and will return it as a response.*/
-    @Tag(name = DocumentationMessages.AUTHENTICATION_CONTROLLER)
-
-    @PostMapping("/signin")
+    @Tag(name = "Authentication")
+    @PostMapping(value = "/signin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = DocumentationMessages.AUTHENTICATION_SUMMARY_LOGIN)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = DocumentationResponse.CODE_OK, description = DocumentationMessages.AUTHENTICATION_CONTROLLER_RESPONSE_200_DESCRIPTION),
+            @ApiResponse(responseCode = DocumentationResponse.CODE_FORBIDDEN, description = DocumentationMessages.AUTHENTICATION_CONTROLLER_RESPONSE_200_DESCRIPTION)
+    })
     public ResponseEntity<AuthResponseDTO> signin(@RequestBody AuthRequestDTO authRequest) throws Exception {
         Authentication auth;
         auth = authenticationManager.authenticate(
