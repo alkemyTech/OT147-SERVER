@@ -37,7 +37,7 @@ public class CategoryService {
         return categoryMapper.listCategoryEntityToListCategoryDto(categoryEntityList);
     }
 
-    public void deleteCategoryForId(String id) throws Exception {
+    public void deletedCategoryForId(String id) throws Exception {
         CategoryEntity entity = this.handleFindById(id);
         categoryRepository.delete(entity);
     }
@@ -46,13 +46,13 @@ public class CategoryService {
     public CategoryEntity handleFindById(String id) throws Exception {
         Optional<CategoryEntity> NoFoundCategory = categoryRepository.findById(id);
         if (!NoFoundCategory.isPresent()) {
-            throw new ParamNotFound("The category does not exits:" + id);
+            throw new Exception("The category does not exits:" + id);
         }
         return NoFoundCategory.get();
     }
 
     //Update Category
-    public CategoryDtoFull update(String id, CategoryDtoFull category) throws Exception {
+    public CategoryDtoFull update(String id, CategoryDtoFull category) {
         if (categoryRepository.findById(id).isPresent()) {
             CategoryEntity categoryEntity = categoryRepository.findById(id).get();
             categoryEntity.setDescription(category.getDescription());
@@ -63,7 +63,8 @@ public class CategoryService {
             categoryRepository.save(categoryEntity);
             return categoryMapper.categoryToCategoryDtoFull(categoryEntity);
         } else {
-            throw new ParamNotFound("There is no Category with the entered Id");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "There is no Category with the entered Id");
         }
     }
 
@@ -74,10 +75,15 @@ public class CategoryService {
         return categoryMapper.categoryEntityToCategoryDto(savedEntity);
     }
     //Get category by id
-    public CategoryDtoFull getCategory(String id)  throws Exception{
-        CategoryEntity category = this.handleFindById(id);
-        CategoryDtoFull categoryFullDto = CategoryMapper.categoryMapper.categoryToCategoryDtoFull(category);
-        return categoryFullDto;
+    public CategoryDtoFull getCategory(String id) {
+        Optional<CategoryEntity> category = categoryRepository.findById(id);
+        if (category.isPresent()) {
+            CategoryDtoFull categoryFullDto = CategoryMapper.categoryMapper.categoryToCategoryDtoFull(category.get());
+            return categoryFullDto;
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                    "Category not found");
+        }
     }
     //Get categories for pages
     @Transactional

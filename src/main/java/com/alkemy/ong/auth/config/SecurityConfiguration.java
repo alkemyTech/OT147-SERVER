@@ -78,6 +78,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/auth/*", "/swagger-ui/**","/v2/api-docs/**", "/swagger-resources/**").permitAll()
                 .antMatchers("/auth/register/**").hasAnyAuthority("ADMIN", "USER")
                 .antMatchers("/storage/*").hasAuthority("ADMIN")
+
                 // ANY USER
                 .antMatchers(HttpMethod.GET, ANY_USER_GET).hasAnyAuthority("ADMIN", "USER")
                 .antMatchers(HttpMethod.POST, ANY_USER_POST).hasAnyAuthority("ADMIN", "USER")
@@ -94,6 +95,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.PUT, "/**").hasAuthority("ADMIN")
                 .antMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN")
+
 
                 .and()
                 .authorizeRequests().anyRequest().authenticated()
