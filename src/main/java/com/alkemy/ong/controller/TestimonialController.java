@@ -16,6 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.alkemy.ong.util.DocumentationMessages;
+
+import javax.validation.Valid;
+
 import static com.alkemy.ong.util.DocumentationResponse.*;
 
 @Tag(name = "Testimonials", description = "Create, update show and delete Testimonials, the endpoints of testimonial entity.")
@@ -35,7 +38,7 @@ public class TestimonialController {
             @ApiResponse(responseCode = CODE_BAD_REQUEST,
                     description = DocumentationMessages.TESTIMONIAL_CONTROLLER_RESPONSE_400_DESCRIPTION)})
     @Tag(name = "Testimonials")
-    public ResponseEntity<TestimonialDto> saveTestimonial(@RequestBody TestimonialDto testimonialDto) throws Exception {
+    public ResponseEntity<TestimonialDto> saveTestimonial(@Valid @RequestBody TestimonialDto testimonialDto) throws Exception {
         return ResponseEntity.status(HttpStatus.CREATED).body(testimonialService.saveTestimonial(testimonialDto));
     }
 
@@ -54,7 +57,7 @@ public class TestimonialController {
                     description = DocumentationMessages.TESTIMONIAL_CONTROLLER_RESPONSE_400_DESCRIPTION),
             @ApiResponse(responseCode = CODE_NOT_FOUND,
                     description = DocumentationMessages.TESTIMONIAL_CONTROLLER_RESPONSE_404_DESCRIPTION)})
-    public ResponseEntity<TestimonialDto> updateTestimonial(@PathVariable String id, @RequestBody TestimonialDto testimonialDto) throws Exception {
+    public ResponseEntity<TestimonialDto> updateTestimonial(@PathVariable String id, @Valid @RequestBody TestimonialDto testimonialDto) throws Exception {
         return ResponseEntity.ok(testimonialService.updateTestimonial(id, testimonialDto));
     }
 
@@ -74,7 +77,7 @@ public class TestimonialController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
-    //Pagination of 10, role USER/ADMIN
+    //Pagination of 10, role USER
     @Tag(name = "Testimonials")
     @GetMapping(params = "page")
     @Operation(summary = DocumentationMessages.TESTIMONIAL_CONTROLLER_SUMMARY_LIST)
