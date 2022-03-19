@@ -3,6 +3,7 @@ package com.alkemy.ong.controller;
 import com.alkemy.ong.auth.dto.UserDTO;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.UserEntity;
+import com.alkemy.ong.exceptions.ParamNotFound;
 import com.alkemy.ong.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class UserController {
     public ResponseEntity<UserDto> update(@PathVariable String id,@RequestBody UserDTO dto ){
         try {
             return ResponseEntity.ok(userService.updateUser(id,dto));
-        } catch (Exception e) {
+        } catch (ParamNotFound e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
