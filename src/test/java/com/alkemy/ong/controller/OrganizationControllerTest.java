@@ -63,7 +63,6 @@ public class OrganizationControllerTest {
     @WithMockUser(username = "userMock", authorities = "ADMIN")
     void updateOrganization_StatusOK() throws Exception {
             OrganizationEntity ongEntity = ongMock.mockOrganizationEntity();
-            OrganizationDto dto = ongMapper.organizationToOrganizationDto(ongEntity);
             OrganizationPublicDto publicDto = ongMapper.organizationToOrganizationPublicDto(ongEntity);
             OrganizationUpdateDto updateDto = ongMock.mockOrganizationUpdateDto();
             String content = objectWriter.writeValueAsString(publicDto);
@@ -116,7 +115,7 @@ public class OrganizationControllerTest {
         String id = "10";
         SlidePublicOrganizationDto dto =  ongMock.mockSlidePublicOrganizationDto();
         ArrayList<SlidePublicOrganizationDto> slidesList= new ArrayList<>();
-        String content = objectWriter.writeValueAsString(dto);
+        slidesList.add(dto);
         Mockito.when(slideService.getSlidesForOrganizationByOrder(id)).thenReturn(slidesList);
         mockMvc.perform(MockMvcRequestBuilders.get("/organization/public/10"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -127,7 +126,7 @@ public class OrganizationControllerTest {
         String id = "10";
         SlidePublicOrganizationDto dto =ongMock.mockSlidePublicOrganizationDto();
         ArrayList<SlidePublicOrganizationDto> slidesList= new ArrayList<>();
-        String content = objectWriter.writeValueAsString(dto);
+        slidesList.add(dto);
         Mockito.when(slideService.getSlidesForOrganizationByOrder(id)).thenReturn(slidesList);
         mockMvc.perform(MockMvcRequestBuilders.get("/organization/public/10"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
@@ -138,7 +137,7 @@ public class OrganizationControllerTest {
         String id = "10";
         SlidePublicOrganizationDto dto = ongMock.mockSlidePublicOrganizationDto();
         ArrayList<SlidePublicOrganizationDto> slidesList= new ArrayList<>();
-        String content = objectWriter.writeValueAsString(dto);
+        slidesList.add(dto);
         Mockito.when(slideService.getSlidesForOrganizationByOrder(id)).thenReturn(slidesList);
         mockMvc.perform(MockMvcRequestBuilders.get("/organization/public/10"))
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
