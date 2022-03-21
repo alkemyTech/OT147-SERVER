@@ -1,6 +1,5 @@
 package com.alkemy.ong.util;
 
-import com.alkemy.ong.dto.ActivityDto;
 import com.alkemy.ong.entity.ActivityEntity;
 
 public class ActivityMock {
@@ -14,12 +13,4 @@ public class ActivityMock {
         entity.setSoftDelete(false);
         return entity;
     }
-    //ActivityDto
-//    public ActivityDto mockActivityDto  () {
-//        ActivityDto dto = new ActivityDto();
-//        dto.setName("Mock Name");
-//        dto.setContent("Mock content");
-//        dto.setImage("Mock image");
-//        return dto;
-//    }
 }
