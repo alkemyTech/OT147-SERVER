@@ -165,7 +165,7 @@ class UserAuthControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
     @Test
-    void PostLoginCredentialsVALID_isOK() throws Exception {
+    void PostLogin_CredentialsVALID_isOK() throws Exception {
         user=createUser();
         userRepository.save(user);
         auth=authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(user.getEmail(), user.getPassword()));
@@ -183,7 +183,7 @@ class UserAuthControllerTest {
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
     @Test
-    void PostLoginCredentialsINVALID_isBadRequest() throws Exception {
+    void PostLogin_CredentialsINVALID_isBadRequest() throws Exception {
         dto = new AuthRequestDTO();
         dto.setUsername("EMAIL");
         dto.setPassword("12345");
