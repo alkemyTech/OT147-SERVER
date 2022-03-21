@@ -7,6 +7,7 @@ import com.alkemy.ong.auth.dto.UserDTO;
 import com.alkemy.ong.auth.service.JwtUtils;
 import com.alkemy.ong.dto.UserDto;
 import com.alkemy.ong.entity.UserEntity;
+import com.alkemy.ong.exceptions.ParamNotFound;
 import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,16 +37,22 @@ public class UserService {
     }
     //Soft deletion method for the User
 
-    public void deleteUserById(String id) throws Exception {
+    public void deleteUserById(String id)  {
+        if (!userRepository.existsById(id)) {
+            throw new ParamNotFound("the user does not exist or has already been deleted");
+        }
         userRepository.deleteById(id);
     }
     //Get all Users from Database.
     public List<UserDto> getAllUser() {
         List<UserEntity> List = userRepository.findAll();
+        if (List == null) {
+            throw new ParamNotFound("The list of users is empty");
+        }
         return UserMapper.userMapper.listUserEntityToListUserDto(List);
     }
     //Update Category
-    public UserDto updateUser(String id, UserDTO dto){
+    public UserDto updateUser(String id, UserDTO dto)  {
         if (userRepository.findById(id).isPresent()){
             UserEntity userEntity = userRepository.findById(id).get();
             userEntity.setFirstName(dto.getFirstName());
@@ -55,8 +62,7 @@ public class UserService {
                         userRepository.save(userEntity);
             return userMapper.userEntityToUserDto(userEntity);
         } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "There is no User with the entered Id");
+            throw new ParamNotFound("There is no User with the entered Id");
         }
     }
 

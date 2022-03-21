@@ -41,3 +41,7 @@ ONG-Java
 |    srickardes0@facebook.com    | Sansone    | Rickardes    | OTLZQDLdddfx | default.jpg |  Admin |
 |      lbelin8@pcworld.com       | Leisha     | Belin        | w77p77wGSs   | default.jpg |  Admin |
 |       dextance6@wisc.edu       | Donni      | Extance      | wTahWubXxx   | default.jpg |  Admin |
+
+### ACCESS TO DOCUMENTATION
+
+•To access the api documentation you must start the server and then enter [here](http://localhost:8080/swagger-ui/index.html#/)
