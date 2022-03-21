@@ -34,6 +34,9 @@ public class DocumentationMessages {
 
     public static final String AUTHENTICATION_CONTROLLER_LOGIN = "User Login";
 
+    public static final String AUTHENTICATION_SUMMARY_REGISTER = "New User registration";
+    public static final String AUTHENTICATION_SUMMARY_LOGIN = "User input to the API";
+
     public static final String AUTHENTICATION_CONTROLLER_RESPONSE_200_DESCRIPTION = "Action carried out successfully";
 
     public static final String AUTHENTICATION_CONTROLLER_RESPONSE_400_DESCRIPTION = "Bad Request";
