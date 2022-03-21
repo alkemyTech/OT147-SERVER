@@ -9,6 +9,7 @@ import com.alkemy.ong.mapper.OrganizationMapper;
 import com.alkemy.ong.mapper.OrganizationMapperImpl;
 import com.alkemy.ong.service.OrganizationService;
 import com.alkemy.ong.service.SlideService;
+import com.alkemy.ong.util.OrganizationMock;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
@@ -54,14 +55,17 @@ public class OrganizationControllerTest {
     void shouldCreateMockMvc() {
         assertNotNull(mockMvc);
     }
+    //Organization Entity
+    @Spy
+    private final OrganizationMock ongMock = new OrganizationMock();
 
     @Test
     @WithMockUser(username = "userMock", authorities = "ADMIN")
     void updateOrganization_StatusOK() throws Exception {
-            OrganizationEntity ongEntity = createOrganizationEntity();
+            OrganizationEntity ongEntity = ongMock.mockOrganizationEntity();
             OrganizationDto dto = ongMapper.organizationToOrganizationDto(ongEntity);
             OrganizationPublicDto publicDto = ongMapper.organizationToOrganizationPublicDto(ongEntity);
-            OrganizationUpdateDto updateDto = createOrganizationUpdateDto();
+            OrganizationUpdateDto updateDto = ongMock.mockOrganizationUpdateDto();
             String content = objectWriter.writeValueAsString(publicDto);
             Mockito.when(organizationService.update(updateDto)).thenReturn(publicDto);
             RequestBuilder request = MockMvcRequestBuilders
@@ -75,10 +79,10 @@ public class OrganizationControllerTest {
     @Test
     @WithMockUser(username = "userMock", authorities = "USER")
     void updateOrganization_Forbidden() throws Exception {
-        OrganizationEntity ongEntity = createOrganizationEntity();
+        OrganizationEntity ongEntity =  ongMock.mockOrganizationEntity();
         OrganizationDto dto = ongMapper.organizationToOrganizationDto(ongEntity);
         OrganizationPublicDto publicDto = ongMapper.organizationToOrganizationPublicDto(ongEntity);
-        OrganizationUpdateDto updateDto = createOrganizationUpdateDto();
+        OrganizationUpdateDto updateDto = ongMock.mockOrganizationUpdateDto();
         String content = objectWriter.writeValueAsString(publicDto);
         Mockito.when(organizationService.update(updateDto)).thenReturn(publicDto);
         RequestBuilder request = MockMvcRequestBuilders
@@ -92,10 +96,10 @@ public class OrganizationControllerTest {
     @Test
     @WithMockUser(username = "userMock", authorities = "NON_REGISTER")
     void updateOrganization_NonRegister_Forbidden() throws Exception {
-        OrganizationEntity ongEntity = createOrganizationEntity();
+        OrganizationEntity ongEntity =  ongMock.mockOrganizationEntity();
         OrganizationDto dto = ongMapper.organizationToOrganizationDto(ongEntity);
         OrganizationPublicDto publicDto = ongMapper.organizationToOrganizationPublicDto(ongEntity);
-        OrganizationUpdateDto updateDto = createOrganizationUpdateDto();
+        OrganizationUpdateDto updateDto =  ongMock.mockOrganizationUpdateDto();
         String content = objectWriter.writeValueAsString(publicDto);
         Mockito.when(organizationService.update(updateDto)).thenReturn(publicDto);
         RequestBuilder request = MockMvcRequestBuilders
@@ -110,7 +114,7 @@ public class OrganizationControllerTest {
     @WithMockUser(username = "userMock", authorities = "USER")
     void getOrganization_statusOk() throws Exception {
         String id = "10";
-        SlidePublicOrganizationDto dto = createSlidePublicOrganizationDto();
+        SlidePublicOrganizationDto dto =  ongMock.mockSlidePublicOrganizationDto();
         ArrayList<SlidePublicOrganizationDto> slidesList= new ArrayList<>();
         String content = objectWriter.writeValueAsString(dto);
         Mockito.when(slideService.getSlidesForOrganizationByOrder(id)).thenReturn(slidesList);
@@ -121,7 +125,7 @@ public class OrganizationControllerTest {
     @WithMockUser(username = "userMock", authorities = "ADMIN")
     void getOrganization_ByAdmin() throws Exception {
         String id = "10";
-        SlidePublicOrganizationDto dto = createSlidePublicOrganizationDto();
+        SlidePublicOrganizationDto dto =ongMock.mockSlidePublicOrganizationDto();
         ArrayList<SlidePublicOrganizationDto> slidesList= new ArrayList<>();
         String content = objectWriter.writeValueAsString(dto);
         Mockito.when(slideService.getSlidesForOrganizationByOrder(id)).thenReturn(slidesList);
@@ -132,55 +136,11 @@ public class OrganizationControllerTest {
     @WithMockUser(username = "userMock", authorities = "NON_REGISTER")
     void getOrganization_NonRegister_Forbidden() throws Exception {
         String id = "10";
-        SlidePublicOrganizationDto dto = createSlidePublicOrganizationDto();
+        SlidePublicOrganizationDto dto = ongMock.mockSlidePublicOrganizationDto();
         ArrayList<SlidePublicOrganizationDto> slidesList= new ArrayList<>();
         String content = objectWriter.writeValueAsString(dto);
         Mockito.when(slideService.getSlidesForOrganizationByOrder(id)).thenReturn(slidesList);
         mockMvc.perform(MockMvcRequestBuilders.get("/organization/public/10"))
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
-    }
-    private OrganizationEntity createOrganizationEntity(){
-        OrganizationEntity organizationEntity = new OrganizationEntity();
-        organizationEntity.setId("1");
-        organizationEntity.setName("New");
-        organizationEntity.setImage("this is an image");
-        organizationEntity.setAddress("This is an address");
-        organizationEntity.setPhone(124354);
-        organizationEntity.setSoftDelete(false);
-        return organizationEntity;
-    }
-    private OrganizationUpdateDto createOrganizationUpdateDto(){
-        OrganizationUpdateDto dto = new OrganizationUpdateDto();
-        dto.setId("1");
-        dto.setName("New");
-        dto.setImage("this is an image");
-        dto.setAddress("This is an address");
-        dto.setPhone(124354);
-        dto.setFacebookUrl("Mock facebook url");
-        dto.setLinkedinUrl("Mock linkedIn url");
-        dto.setInstagramUrl("Mock instagram url");
-        return dto;
-    }
-    private OrganizationPublicDto createOrganizationPublicDto(){
-        OrganizationPublicDto dto = new OrganizationPublicDto();
-        dto.setId("1");
-        dto.setName("New");
-        dto.setImage("this is an image");
-        dto.setAddress("This is an address");
-        dto.setPhone(124354);
-        dto.setFacebookUrl("Mock facebook url");
-        dto.setLinkedinUrl("Mock linkedIn url");
-        dto.setInstagramUrl("Mock instagram url");
-        return dto;
-    }
-    private SlidePublicOrganizationDto createSlidePublicOrganizationDto(){
-        OrganizationPublicDto publicDto =createOrganizationPublicDto();
-        SlidePublicOrganizationDto dto = new SlidePublicOrganizationDto();
-        dto.setId("12");
-        dto.setOrganizationId(publicDto);
-        dto.setOrder(1);
-        dto.setImageUrl("Mock image url");
-        dto.setText("This is some mock text");
-        return dto;
     }
 }
