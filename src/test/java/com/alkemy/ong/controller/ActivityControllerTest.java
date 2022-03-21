@@ -85,6 +85,7 @@ public class ActivityControllerTest {
     @Test
     @WithMockUser(username = "userMock", authorities = "ADMIN")
     void testPut_updateActivity_shouldReturnIsOk_ADMIN() throws Exception {
+       String id = "10";
        ActivityEntity activityEntity = activityMock.mockActivityEntity();
        Mockito.when(activityRepository.save(activityEntity)).thenReturn(activityEntity);
        ActivityDto activityDtoUpdated = mapper.activityToActivityDto(activityEntity);
@@ -95,10 +96,9 @@ public class ActivityControllerTest {
        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
                 .put("/activities/10")
                 .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON);
+                .accept(MediaType.APPLICATION_JSON)
+                .content(updatedContent);
         mockMvc.perform(mockRequest)
-                .andExpect(status().isOk()
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andDo(MockMvcResultHandlers.print());
+                .andExpect(status().isOk());
     }
 }
