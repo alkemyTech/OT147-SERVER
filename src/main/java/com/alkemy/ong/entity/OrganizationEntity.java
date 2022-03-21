@@ -1,4 +1,6 @@
 package com.alkemy.ong.entity;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
@@ -13,7 +15,9 @@ import java.util.Objects;
 @Data
 @Table(name="organizations")
 @SQLDelete(sql = "UPDATE organizations SET deleted = true WHERE id=?")
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Where(clause = "soft_Delete = false")
 public class OrganizationEntity {
     @Id

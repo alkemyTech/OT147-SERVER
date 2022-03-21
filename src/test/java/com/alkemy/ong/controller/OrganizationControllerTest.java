@@ -57,9 +57,7 @@ public class OrganizationControllerTest {
 
     @Test
     @WithMockUser(username = "userMock", authorities = "ADMIN")
-
     void updateOrganization_StatusOK() throws Exception {
-
             OrganizationEntity ongEntity = createOrganizationEntity();
             OrganizationDto dto = ongMapper.organizationToOrganizationDto(ongEntity);
             OrganizationPublicDto publicDto = ongMapper.organizationToOrganizationPublicDto(ongEntity);
@@ -76,7 +74,40 @@ public class OrganizationControllerTest {
     }
     @Test
     @WithMockUser(username = "userMock", authorities = "USER")
-
+    void updateOrganization_Forbidden() throws Exception {
+        OrganizationEntity ongEntity = createOrganizationEntity();
+        OrganizationDto dto = ongMapper.organizationToOrganizationDto(ongEntity);
+        OrganizationPublicDto publicDto = ongMapper.organizationToOrganizationPublicDto(ongEntity);
+        OrganizationUpdateDto updateDto = createOrganizationUpdateDto();
+        String content = objectWriter.writeValueAsString(publicDto);
+        Mockito.when(organizationService.update(updateDto)).thenReturn(publicDto);
+        RequestBuilder request = MockMvcRequestBuilders
+                .put("/organization/public")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+        mockMvc.perform(request)
+                .andExpect(status().is(403))
+                .andDo(MockMvcResultHandlers.print());
+    }
+    @Test
+    @WithMockUser(username = "userMock", authorities = "NON_REGISTER")
+    void updateOrganization_NonRegister_Forbidden() throws Exception {
+        OrganizationEntity ongEntity = createOrganizationEntity();
+        OrganizationDto dto = ongMapper.organizationToOrganizationDto(ongEntity);
+        OrganizationPublicDto publicDto = ongMapper.organizationToOrganizationPublicDto(ongEntity);
+        OrganizationUpdateDto updateDto = createOrganizationUpdateDto();
+        String content = objectWriter.writeValueAsString(publicDto);
+        Mockito.when(organizationService.update(updateDto)).thenReturn(publicDto);
+        RequestBuilder request = MockMvcRequestBuilders
+                .put("/organization/public")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(content);
+        mockMvc.perform(request)
+                .andExpect(status().is(403))
+                .andDo(MockMvcResultHandlers.print());
+    }
+    @Test
+    @WithMockUser(username = "userMock", authorities = "USER")
     void getOrganization_statusOk() throws Exception {
         String id = "10";
         SlidePublicOrganizationDto dto = createSlidePublicOrganizationDto();
@@ -85,7 +116,28 @@ public class OrganizationControllerTest {
         Mockito.when(slideService.getSlidesForOrganizationByOrder(id)).thenReturn(slidesList);
         mockMvc.perform(MockMvcRequestBuilders.get("/organization/public/10"))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-
+    }
+    @Test
+    @WithMockUser(username = "userMock", authorities = "ADMIN")
+    void getOrganization_ByAdmin() throws Exception {
+        String id = "10";
+        SlidePublicOrganizationDto dto = createSlidePublicOrganizationDto();
+        ArrayList<SlidePublicOrganizationDto> slidesList= new ArrayList<>();
+        String content = objectWriter.writeValueAsString(dto);
+        Mockito.when(slideService.getSlidesForOrganizationByOrder(id)).thenReturn(slidesList);
+        mockMvc.perform(MockMvcRequestBuilders.get("/organization/public/10"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+    @Test
+    @WithMockUser(username = "userMock", authorities = "NON_REGISTER")
+    void getOrganization_NonRegister_Forbidden() throws Exception {
+        String id = "10";
+        SlidePublicOrganizationDto dto = createSlidePublicOrganizationDto();
+        ArrayList<SlidePublicOrganizationDto> slidesList= new ArrayList<>();
+        String content = objectWriter.writeValueAsString(dto);
+        Mockito.when(slideService.getSlidesForOrganizationByOrder(id)).thenReturn(slidesList);
+        mockMvc.perform(MockMvcRequestBuilders.get("/organization/public/10"))
+                .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
     private OrganizationEntity createOrganizationEntity(){
         OrganizationEntity organizationEntity = new OrganizationEntity();
