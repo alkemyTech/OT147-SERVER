@@ -2,6 +2,7 @@ package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.MemberDto;
 import com.alkemy.ong.dto.PagesDto;
+import com.alkemy.ong.exceptions.ParamNotFound;
 import com.alkemy.ong.service.MemberService;
 import com.alkemy.ong.util.DocumentationMessages;
 import com.alkemy.ong.util.DocumentationResponse;
@@ -57,7 +58,7 @@ public class MemberController {
         try {
             memberService.deleteMemberById(id);
         } catch (Exception e) {
-            throw new Exception(e.getMessage());
+            throw new ParamNotFound("There is no Member with the entered Id");
         }
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
