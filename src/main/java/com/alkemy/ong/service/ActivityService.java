@@ -21,14 +21,12 @@ public class ActivityService {
     @Autowired
     ActivityRepository activityRepository;
 
-
     //services to add activities
     public ActivityDto addActivity(ActivityDto activityDto) {
         ActivityEntity entity = activityMapper.activityDtoToActivityEntity(activityDto);
         ActivityEntity savedEntity = activityRepository.save(entity);
-        return activityMapper.activityEntityToActivityDto(savedEntity);
+        return activityMapper.activityToActivityDto(savedEntity);
     }
-
 
     public ActivityDto update(String id, ActivityDto activityDto) {
         Optional<ActivityEntity> activity = activityRepository.findById(id);
