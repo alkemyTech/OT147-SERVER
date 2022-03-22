@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 
@@ -28,7 +29,7 @@ public class ContactController {
 
     //Update information of Contact for User
     @PostMapping
-    public ResponseEntity<ContactDto> save(@RequestBody ContactDto contactDto) throws Exception {
+    public ResponseEntity<ContactDto> save(@Valid @RequestBody ContactDto contactDto) throws Exception {
 
         return ResponseEntity.status(HttpStatus.CREATED).body(contactService.saveContact(contactDto));
     }
