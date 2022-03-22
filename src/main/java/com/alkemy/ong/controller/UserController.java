@@ -58,7 +58,7 @@ public class UserController {
     /*Method for actualization for id */
     @Tag(name = "Users")
     @PatchMapping("/{id}")
-    public ResponseEntity<UserDto> update(@PathVariable String id,@RequestBody UserDTO dto ){
+    public ResponseEntity<UserDto> update(@PathVariable String id,@RequestBody UserDto dto ){
         try {
             return ResponseEntity.ok(userService.updateUser(id,dto));
         } catch (ParamNotFound e) {

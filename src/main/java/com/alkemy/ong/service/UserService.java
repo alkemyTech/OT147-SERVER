@@ -14,8 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.server.ResponseStatusException;
+
 
 import java.util.List;
 
@@ -52,7 +51,7 @@ public class UserService {
         return UserMapper.userMapper.listUserEntityToListUserDto(List);
     }
     //Update Category
-    public UserDto updateUser(String id, UserDTO dto)  {
+    public UserDto updateUser(String id, UserDto dto)  {
         if (userRepository.findById(id).isPresent()){
             UserEntity userEntity = userRepository.findById(id).get();
             userEntity.setFirstName(dto.getFirstName());
@@ -72,7 +71,6 @@ public class UserService {
         String username = jwtUtils.extractUsername(token);
         UserEntity userEntity = userRepository.findByEmail(username);
         UserDto dto = userMapper.userEntityToUserDto(userEntity);
-
         return dto;
     }
 }
