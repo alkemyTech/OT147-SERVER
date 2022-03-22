@@ -5,8 +5,6 @@ import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.entity.CategoryEntity;
 import com.alkemy.ong.entity.CommentEntity;
 import com.alkemy.ong.entity.NewsEntity;
-import com.alkemy.ong.entity.TestimonialEntity;
-import com.alkemy.ong.exceptions.ParamNotFound;
 import com.alkemy.ong.mapper.CommentMapper;
 import com.alkemy.ong.mapper.CommentMapperImpl;
 import com.alkemy.ong.mapper.NewsMapper;
@@ -14,43 +12,33 @@ import com.alkemy.ong.mapper.NewsMapperImpl;
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.CommentService;
 import com.alkemy.ong.service.NewsService;
-import com.amazonaws.services.applicationdiscovery.model.ResourceNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.json.AutoConfigureJsonTesters;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import static com.alkemy.ong.util.DocumentationResponse.ADMIN;
 import static com.alkemy.ong.util.DocumentationResponse.USER;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static org.springframework.http.RequestEntity.post;
-import static org.springframework.security.config.http.MatcherType.mvc;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -78,12 +66,6 @@ public class NewsControllerTest {
     void shouldCreateMockMvc(){
         assertNotNull(mockMvc);
     }
-
-    @Test
-    @WithUserDetails(USER)
-    void getPageNews() {
-    }
-
     @Test
     @WithUserDetails(ADMIN)
     void TestGetNewsController_readNews_Create_Role_ADMIN() throws Exception {
@@ -107,7 +89,6 @@ public class NewsControllerTest {
         CommentDto commentDto= mapperComment.commentEntityToCommentDto(comment);
         List<CommentDto> listCommentDto= new ArrayList<>(Arrays.asList(commentDto));
         System.out.println(listCommentDto.toString());
-
         when(commentService.getCommentsByNewsId("123e4567-e89b-12d3-a456-426614174200")).thenReturn(listCommentDto);
         System.out.println(commentService.getCommentsByNewsId("123e4567-e89b-12d3-a456-426614174200").toString());
         mockMvc.perform(MockMvcRequestBuilders.get("/news/123e4567-e89b-12d3-a456-426614174200/comments")
@@ -133,12 +114,11 @@ public class NewsControllerTest {
     @Test
     @WithUserDetails(ADMIN)
     void TestPostNewsController_saveNews_Create_Role_ADMIN_UNPROCESSABLE_ENTITY() throws Exception {
-        NewsDto dto= new  NewsDto();
-        Throwable thrown = assertThrows(Exception.class, () -> newsController.create(dto));
-        assertEquals("There are no news with the provided News id", thrown.getMessage());
+        NewsEntity news= new NewsEntity();
+        NewsDto dto=mapper.newsEntityToNewsDto(news);
+        when(newsController.create(dto)).thenThrow(new NullPointerException());
+        newsController.create(dto);
     }
-
-
     @Test
     @WithUserDetails(USER)
     void TestPostNewsController_saveNews_Create_Role_USER_Forbidden() throws Exception{
@@ -324,8 +304,6 @@ public class NewsControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/news".concat("?page=")))
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
-
-
     private NewsEntity createNewsEntity(){
         CategoryEntity category = new CategoryEntity();
         category.setId("1234");
@@ -358,5 +336,4 @@ public class NewsControllerTest {
         news.setSoftDelete(false);
         return news;
     }
-
 }
