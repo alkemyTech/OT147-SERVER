@@ -52,7 +52,7 @@ public class UserService {
         return UserMapper.userMapper.listUserEntityToListUserDto(List);
     }
     //Update Category
-    public UserDto updateUser(String id, UserDTO dto)  {
+    public UserDto updateUser(String id, UserDto dto)  {
         if (userRepository.findById(id).isPresent()){
             UserEntity userEntity = userRepository.findById(id).get();
             userEntity.setFirstName(dto.getFirstName());
