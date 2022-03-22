@@ -23,38 +23,32 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class CategoryService {
-
-    private final CategoryMapper categoryMapper;
-
+    @Autowired
+    CategoryMapper categoryMapper;
     @Autowired
     CategoryRepository categoryRepository;
-
-
     //Get all Category from Database.
     public List<CategoryDto> getAll() {
         List<CategoryEntity> categoryEntityList = categoryRepository.findAll();
-
         return categoryMapper.listCategoryEntityToListCategoryDto(categoryEntityList);
     }
-
-    public void deletedCategoryForId(String id) throws Exception {
+    //Soft Delete Method only for ADMIN role
+    public void deleteCategoryById(String id) throws Exception {
         CategoryEntity entity = this.handleFindById(id);
         categoryRepository.delete(entity);
     }
-
-    /*Method for Exist Category */
+    //Method to handle category not found by id
     public CategoryEntity handleFindById(String id) throws Exception {
-        Optional<CategoryEntity> NoFoundCategory = categoryRepository.findById(id);
-        if (!NoFoundCategory.isPresent()) {
-            throw new Exception("The category does not exits:" + id);
+        Optional<CategoryEntity> FoundCategory = categoryRepository.findById(id);
+        if (!FoundCategory.isPresent()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
-        return NoFoundCategory.get();
+        return FoundCategory.get();
     }
-
-    //Update Category
-    public CategoryDtoFull update(String id, CategoryDtoFull category) {
-        if (categoryRepository.findById(id).isPresent()) {
-            CategoryEntity categoryEntity = categoryRepository.findById(id).get();
+    //Update information of category only for ADMIN role
+    public CategoryDtoFull update(String id, CategoryDtoFull category) throws Exception{
+            CategoryEntity categoryEntity = this.handleFindById(id);
+        try {
             categoryEntity.setDescription(category.getDescription());
             categoryEntity.setImage(category.getImage());
             categoryEntity.setName(category.getName());
@@ -62,30 +56,28 @@ public class CategoryService {
             categoryEntity.setSoftDelete(category.isSoftDelete());
             categoryRepository.save(categoryEntity);
             return categoryMapper.categoryToCategoryDtoFull(categoryEntity);
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "There is no Category with the entered Id");
         }
+            catch (Exception e){
+                throw new ParamNotFound(e.getMessage());
+            }
     }
-
-    //create Category
+    //Create category only for ADMIN role
     public CategoryDto addCategory(CategoryDto categoryDto) {
+        try{
         CategoryEntity entity = categoryMapper.categoryDtoToCategoryEntity(categoryDto);
         CategoryEntity savedEntity = categoryRepository.save(entity);
-        return categoryMapper.categoryEntityToCategoryDto(savedEntity);
-    }
-    //Get category by id
-    public CategoryDtoFull getCategory(String id) {
-        Optional<CategoryEntity> category = categoryRepository.findById(id);
-        if (category.isPresent()) {
-            CategoryDtoFull categoryFullDto = CategoryMapper.categoryMapper.categoryToCategoryDtoFull(category.get());
-            return categoryFullDto;
-        } else {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,
-                    "Category not found");
+            return categoryMapper.categoryEntityToCategoryDto(savedEntity);}
+        catch (Exception e){
+            throw new ParamNotFound(e.getMessage());
         }
     }
-    //Get categories for pages
+    //Get category by id only for ADMIN role
+    public CategoryDtoFull getCategory(String id) throws Exception{
+        CategoryEntity categoryEntity = this.handleFindById(id);
+        CategoryDtoFull categoryFullDto = CategoryMapper.categoryMapper.categoryToCategoryDtoFull(categoryEntity);
+        return categoryFullDto;
+    }
+    //Method to get a list of categories with 10 categories User role
     @Transactional
     public PagesDto<CategoryDto> getAllForPages(int page) {
         if (page < 0) {
@@ -95,7 +87,6 @@ public class CategoryService {
         Page<CategoryEntity> category = categoryRepository.findAll(pageRequest);
         return responsePage(category);
     }
-
     private PagesDto<CategoryDto> responsePage(Page<CategoryEntity> page) {
         if (page.isEmpty()) {
             throw new ParamNotFound("The page does not exist.");

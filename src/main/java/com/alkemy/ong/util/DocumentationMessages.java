@@ -57,18 +57,15 @@ public class DocumentationMessages {
 
     public static final String USER_CONTROLLER_RESPONSE_403_DESCRIPTION = "Action forbidden";
 
-    public static final String CATEGORY_CONTROLLER = "Category Controller";
+    public static final String CATEGORY_CONTROLLER_SUMMARY_CREATE = "Create Category, ADMIN role";
 
-    public static final String CATEGORY_CONTROLLER_DESCRIPTION = "Contains the "
-            + "endpoints of category entity";
+    public static final String CATEGORY_CONTROLLER_SUMMARY_LIST = "List of Categories pagination by 10, USER and ADMIN";
 
-    public static final String CATEGORY_CONTROLLER_SUMMARY_CREATE = "Create Category";
+    public static final String CATEGORY_CONTROLLER_SUMMARY_SINGLE = "Get One Category, ADMIN role";
 
-    public static final String CATEGORY_CONTROLLER_SUMMARY_LIST = "List of Categories";
+    public static final String CATEGORY_CONTROLLER_SUMMARY_UPDATE = "Update Category, ADMIN role";
 
-    public static final String CATEGORY_CONTROLLER_SUMMARY_UPDATE = "Update Category";
-
-    public static final String CATEGORY_CONTROLLER_SUMMARY_DELETE = "Delete Category";
+    public static final String CATEGORY_CONTROLLER_SUMMARY_DELETE = "Delete Category, ADMIN role";
 
     public static final String CATEGORY_CONTROLLER_RESPONSE_200_DESCRIPTION = "Action carried "
             + "out successfully";
@@ -83,7 +80,6 @@ public class DocumentationMessages {
             + "you can not access";
 
     public static final String CATEGORY_CONTROLLER_RESPONSE_404_DESCRIPTION = "Category not found";
-
 
     public static final String TESTIMONIAL_CONTROLLER = "Testimonial controller";
 
