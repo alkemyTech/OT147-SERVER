@@ -10,7 +10,6 @@ import com.alkemy.ong.util.TestEntitiesCreation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
@@ -41,7 +40,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class MemberControllerTest {
 
     ObjectMapper objectMapper = new ObjectMapper();
-
     ObjectWriter objectWriter = objectMapper.writer();
 
     @Mock
@@ -69,7 +67,7 @@ public class MemberControllerTest {
     //controller test to create an object of type memberEntity with ROlE_USER
     @Test
     @WithUserDetails(USER)
-    void testCreateMember_shouldReturnCreated_user() throws Exception {
+    void testPostMember_shouldReturnCreated_user() throws Exception {
 
         MemberEntity memberEntity = testEntitiesCreation.exampleMemberEntity();
         MemberDto dto = mapper.memberEntityToMemberDto(memberEntity);
@@ -92,7 +90,7 @@ public class MemberControllerTest {
     //controller test to create an object of type memberEntity with ROlE_ADMIN
     @Test
     @WithUserDetails(ADMIN)
-    void testCreateMember_shouldReturnIsForbidden_admin() throws Exception {
+    void testPostMember_shouldReturnIsForbidden_admin() throws Exception {
 
         MemberEntity memberEntity = testEntitiesCreation.exampleMemberEntity();
         MemberDto dto = mapper.memberEntityToMemberDto(memberEntity);
@@ -113,7 +111,7 @@ public class MemberControllerTest {
     // controller test to create an object of type memberEntity with an unknown role
     @Test
     @WithMockUser(roles = "VISITOR")
-    void testCreateMember_shouldReturnIsForbidden_client() throws Exception {
+    void testPostMember_shouldReturnIsForbidden_client() throws Exception {
 
         MemberEntity memberEntity = testEntitiesCreation.exampleMemberEntity();
         MemberDto dto = mapper.memberEntityToMemberDto(memberEntity);
@@ -135,7 +133,7 @@ public class MemberControllerTest {
     returns a bad request because the name field is empty*/
     @Test
     @WithUserDetails(USER)
-    void testCreateMember_shouldReturnIsBadRequest_user() throws Exception {
+    void testPostMember_shouldReturnIsBadRequest_user() throws Exception {
 
         MemberEntity memberEntity = testEntitiesCreation.exampleMemberEntity();
         memberEntity.setName(" ");
@@ -164,7 +162,7 @@ public class MemberControllerTest {
     returns an updated object */
     @Test
     @WithUserDetails(USER)
-    void testPutTestimonialController_shouldReturnIsOk_user() throws Exception {
+    void testPutMemberController_shouldReturnIsOk_user() throws Exception {
 
         MemberEntity memberEntity = testEntitiesCreation.exampleMemberEntity();
         Mockito.when(memberRepositoryMock.save(memberEntity)).thenReturn(memberEntity);
@@ -192,7 +190,7 @@ public class MemberControllerTest {
      unauthorized role  */
     @Test
     @WithUserDetails(ADMIN)
-    void testPutTestimonialController_shouldReturnIsForbidden_admin() throws Exception {
+    void testPutMemberController_shouldReturnIsForbidden_admin() throws Exception {
         MemberEntity memberEntity = testEntitiesCreation.exampleMemberEntity();
         Mockito.when(memberRepositoryMock.save(memberEntity)).thenReturn(memberEntity);
 
@@ -219,7 +217,7 @@ public class MemberControllerTest {
      Id-unknown  */
     @Test
     @WithUserDetails(USER)
-    void testPutTestimonialController_shouldReturnIsBadRequest_user() throws Exception {
+    void testPutMemberController_shouldReturnIsBadRequest_user() throws Exception {
 
         MemberEntity memberEntity = testEntitiesCreation.exampleMemberEntity();
         Mockito.when(memberRepositoryMock.save(memberEntity)).thenReturn(memberEntity);
@@ -253,13 +251,6 @@ public class MemberControllerTest {
         Mockito.when(memberRepositoryMock.save(memberEntity)).thenReturn(memberEntity);
 
         MemberEntity memberEntitySoftDeleted = memberEntity;
-        memberEntitySoftDeleted.setId("1f35fe0e");
-        memberEntitySoftDeleted.setName("Name");
-        memberEntitySoftDeleted.setFacebookUrl("facebookUrl");
-        memberEntitySoftDeleted.setInstagramUrl("instagramUrl");
-        memberEntitySoftDeleted.setLinkedinUrl("linkedinUrl");
-        memberEntitySoftDeleted.setImage("../imageExample");
-        memberEntitySoftDeleted.setDescription("description");
         memberEntitySoftDeleted.setSoftDelete(true);
 
         Mockito.when(memberRepositoryMock.findById(memberEntity.getId())).thenReturn(java.util.Optional.of(memberEntity));
@@ -288,13 +279,6 @@ public class MemberControllerTest {
         Mockito.when(memberRepositoryMock.save(memberEntity)).thenReturn(memberEntity);
 
         MemberEntity memberEntitySoftDeleted = memberEntity;
-        memberEntitySoftDeleted.setId("1f35fe0e");
-        memberEntitySoftDeleted.setName("Name");
-        memberEntitySoftDeleted.setFacebookUrl("facebookUrl");
-        memberEntitySoftDeleted.setInstagramUrl("instagramUrl");
-        memberEntitySoftDeleted.setLinkedinUrl("linkedinUrl");
-        memberEntitySoftDeleted.setImage("../imageExample");
-        memberEntitySoftDeleted.setDescription("description");
         memberEntitySoftDeleted.setSoftDelete(true);
 
         Mockito.when(memberRepositoryMock.findById(memberEntity.getId())).thenReturn(java.util.Optional.of(memberEntity));
