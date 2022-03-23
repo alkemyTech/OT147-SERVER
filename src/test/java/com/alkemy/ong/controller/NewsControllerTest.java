@@ -12,6 +12,7 @@ import com.alkemy.ong.mapper.NewsMapperImpl;
 import com.alkemy.ong.repository.NewsRepository;
 import com.alkemy.ong.service.CommentService;
 import com.alkemy.ong.service.NewsService;
+import com.alkemy.ong.util.TestEntitiesCreation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
@@ -62,6 +63,8 @@ public class NewsControllerTest {
     private final NewsMapper mapper=new NewsMapperImpl();
     @Spy
     private final CommentMapper mapperComment=new CommentMapperImpl();
+    @Spy
+    private final TestEntitiesCreation testEntitiesCreation = new TestEntitiesCreation();
     @Test
     void shouldCreateMockMvc(){
         assertNotNull(mockMvc);
@@ -69,7 +72,7 @@ public class NewsControllerTest {
     @Test
     @WithUserDetails(ADMIN)
     void TestGetNewsController_readNews_Create_Role_ADMIN() throws Exception {
-        NewsEntity newsEntity = createNewsEntity();
+        NewsEntity newsEntity = testEntitiesCreation.createNewsEntity();
         NewsDto dto=mapper.newsEntityToNewsDto(newsEntity);
         when(newsService.getDetailsById("123e4567-e89b-12d3-a456-426614174200")).thenReturn(dto);
         mockMvc.perform(MockMvcRequestBuilders.get("/news/123e4567-e89b-12d3-a456-426614174200")
@@ -80,7 +83,7 @@ public class NewsControllerTest {
     @WithUserDetails(USER)
     void TestGetNewsController_ReadCommmentByNewsId_Create_Role_USER() throws Exception {
         CommentEntity comment= new CommentEntity();
-        NewsEntity newsEntity = createNewsEntity();
+        NewsEntity newsEntity = testEntitiesCreation.createNewsEntity();
         comment.setNewsId(newsEntity);
         comment.setId("123456");
         comment.setBody("Body");
@@ -98,7 +101,7 @@ public class NewsControllerTest {
     @Test
     @WithUserDetails(ADMIN)
     void TestPostNewsController_saveNews_Create_Role_ADMIN() throws Exception{
-        NewsEntity newsEntity = createNewsEntity();
+        NewsEntity newsEntity = testEntitiesCreation.createNewsEntity();
         NewsDto dto=mapper.newsEntityToNewsDto(newsEntity);
         String content=objectWriter.writeValueAsString(dto);
         when(newsService.save(dto)).thenReturn(dto);
@@ -122,7 +125,7 @@ public class NewsControllerTest {
     @Test
     @WithUserDetails(USER)
     void TestPostNewsController_saveNews_Create_Role_USER_Forbidden() throws Exception{
-        NewsEntity newsEntity = createNewsEntity();
+        NewsEntity newsEntity = testEntitiesCreation.createNewsEntity();
         NewsDto dto=mapper.newsEntityToNewsDto(newsEntity);
         String content=objectWriter.writeValueAsString(dto);
         when(newsService.save(dto)).thenReturn(dto);
@@ -137,7 +140,7 @@ public class NewsControllerTest {
     @Test
     @WithMockUser(roles = "CLIENT")
     void TestPostNewsController_saveNews_Create_Role__Forbidden() throws Exception{
-        NewsEntity newsEntity = createNewsEntity();
+        NewsEntity newsEntity = testEntitiesCreation.createNewsEntity();
         NewsDto dto=mapper.newsEntityToNewsDto(newsEntity);
         String content=objectWriter.writeValueAsString(dto);
         when(newsService.save(dto)).thenReturn(dto);
@@ -242,9 +245,9 @@ public class NewsControllerTest {
     @Test
     @WithUserDetails(ADMIN)
     void TestPutNewsController_updateNews_Create_Role_ADMIN() throws Exception {
-            NewsEntity newsEntity = createNewsEntity();
+            NewsEntity newsEntity = testEntitiesCreation.createNewsEntity();
             when(newsRepository.save(newsEntity)).thenReturn(newsEntity);
-            NewsEntity newsEntity2 = createNewsEntity2();
+            NewsEntity newsEntity2 = testEntitiesCreation.createNewsEntity2();
             when(newsRepository.findById(newsEntity.getId())).thenReturn(java.util.Optional.of(newsEntity));
             when(newsRepository.save(newsEntity2)).thenReturn(newsEntity2);
             String updatedContent=objectWriter.writeValueAsString(newsEntity2);
@@ -258,9 +261,9 @@ public class NewsControllerTest {
     @Test
     @WithUserDetails(USER)
     void TestPutNewsController_updateNews_Create_Role_USER() throws Exception {
-        NewsEntity newsEntity = createNewsEntity();
+        NewsEntity newsEntity = testEntitiesCreation.createNewsEntity();
         when(newsRepository.save(newsEntity)).thenReturn(newsEntity);
-        NewsEntity newsEntity2 = createNewsEntity2();
+        NewsEntity newsEntity2 = testEntitiesCreation.createNewsEntity2();
         when(newsRepository.findById(newsEntity.getId())).thenReturn(java.util.Optional.of(newsEntity));
         when(newsRepository.save(newsEntity2)).thenReturn(newsEntity2);
         String updatedContent=objectWriter.writeValueAsString(newsEntity2);
@@ -304,36 +307,5 @@ public class NewsControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/news".concat("?page=")))
                 .andExpect(MockMvcResultMatchers.status().isForbidden());
     }
-    private NewsEntity createNewsEntity(){
-        CategoryEntity category = new CategoryEntity();
-        category.setId("1234");
-        category.setImage("Imagen category");
-        category.setName("nombre category");
-        category.setSoftDelete(false);
-        category.setDescription("Description");
-        NewsEntity news = new NewsEntity();
-        news.setId("123e4567-e89b-12d3-a456-426614174200");
-        news.setName("Novedad");
-        news.setContent("Contenido");
-        news.setImage("Imagen");
-        news.setCategoryId(category);
-        news.setSoftDelete(false);
-        return news;
-    }
-    private NewsEntity createNewsEntity2(){
-        CategoryEntity category = new CategoryEntity();
-        category.setId("1234");
-        category.setImage("Imagen category2");
-        category.setName("nombre category2");
-        category.setSoftDelete(false);
-        category.setDescription("Description2");
-        NewsEntity news = new NewsEntity();
-        news.setId("123e4567-e89b-12d3-a456-426614174000");
-        news.setName("Novedad2");
-        news.setContent("Contenido2");
-        news.setImage("Imagen2");
-        news.setCategoryId(category);
-        news.setSoftDelete(false);
-        return news;
-    }
+
 }
