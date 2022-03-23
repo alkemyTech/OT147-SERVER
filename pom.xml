@@ -92,7 +92,7 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>3.0.0</version>
 		</dependency>
-
+		<!-- JUnit-Mockito-->
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter</artifactId>
@@ -110,6 +110,13 @@
 			<artifactId>mockito-junit-jupiter</artifactId>
 			<version>3.9.0</version>
 			<scope>test</scope>
+		</dependency>
+		<!-- Jacoco-->
+		<dependency>
+			<groupId>org.jacoco</groupId>
+			<artifactId>jacoco-maven-plugin</artifactId>
+			<version>0.8.7</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 	<build>
@@ -146,6 +153,35 @@
 						</path>
 					</annotationProcessorPaths>
 				</configuration>
+			</plugin>
+			<!--Jacoco- Test-Exclusions-->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.7</version>
+				<configuration>
+					<excludes>
+						<exclude>src/main/java/com/alkemy/ong/entity/*</exclude>
+						<exclude>*/entity/* </exclude>
+						<exclude>*/dto/ </exclude>
+						<exclude>*/service/* </exclude>
+						<exclude>*/mapper/* </exclude>
+					</excludes>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>generate-code-coverage-report</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
