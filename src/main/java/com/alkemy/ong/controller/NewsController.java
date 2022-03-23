@@ -92,7 +92,7 @@ public class NewsController {
                     description = DocumentationMessages.NEWS_CONTROLLER_RESPONSE_404_DESCRIPTION)})
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<NewsDto> create(@RequestBody @Valid NewsDto dto) throws Exception{
+    public ResponseEntity<NewsDto> create(@RequestBody @Valid NewsDto dto) {
         try {
             return ResponseEntity.ok(newsService.save(dto));
         } catch (Exception e) {
