@@ -12,6 +12,7 @@ import com.alkemy.ong.mapper.UserMapper;
 import com.alkemy.ong.mapper.UserMapperImpl;
 import com.alkemy.ong.repository.UserRepository;
 import com.alkemy.ong.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import com.fasterxml.jackson.databind.ObjectWriter;
@@ -53,8 +54,12 @@ import static com.alkemy.ong.util.DocumentationResponse.ADMIN;
 import static com.alkemy.ong.util.DocumentationResponse.USER;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -88,6 +93,7 @@ class UserControllerTest {
     @Spy
     private final UserMapper userMapper = new UserMapperImpl();
 
+
     @BeforeEach
     void setUp() {
         roleId = new RoleEntity();
@@ -118,17 +124,6 @@ class UserControllerTest {
         userEntity.setRoleId(roleId);
         userEntity.setTimestamps(LocalDateTime.of(1, 1, 1, 1, 1));
         userEntity.setSoftDelete(false);
-
-        UserEntity userEntityTo = new UserEntity();
-        userEntityTo.setId("123456");
-        userEntityTo.setFirstName("firstName");
-        userEntityTo.setLastName("lastName");
-        userEntityTo.setEmail("email");
-        userEntityTo.setPassword("password");
-        userEntityTo.setRoleId(roleId);
-        userEntity.setTimestamps(LocalDateTime.of(1, 1, 1, 1, 1));
-        userEntityTo.setSoftDelete(false);
-
 
         jwtUser = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbWFjZ2lsbHJlaWNoYUBzYndpcmUuY29tIiwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2NDc4MzUzMjQsImV4cCI6MTY0Nzg3MTMyNH0.doLN_3xbMtyyGTTvx4OP_YeegaZGw_hH8_gK0quFJJc";
         jwtAdmin = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZ2FkZXNieTFAbnN3Lmdvdi5hdSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTY0NzgzNTk0MCwiZXhwIjoxNjQ3ODcxOTQwfQ.Y7ha79y7TIRJuLe55r1PAJ3ISbtTR9ACHRm96EobK68";
@@ -231,21 +226,91 @@ class UserControllerTest {
     }
 
 
+   @Test
+    @WithUserDetails(USER)
+    void testUpdateUserById_VerbPatch() throws Exception {
+
+        UserDto dtoUpdate = new UserDto();
+        dtoUpdate.setId("123456");
+        dtoUpdate.setFirstName("lola");
+        dtoUpdate.setLastName("bunny");
+        dtoUpdate.setEmail("demo@email.com");
+        dtoUpdate.setPhoto("default.jpg");
+
+        Mockito.when(userRepository
+                .save(userEntity)).thenReturn(userEntity);
+        UserEntity userEntityUpdate = new UserEntity();
+        userEntityUpdate.setId("123456");
+        userEntityUpdate.setFirstName("lola");
+        userEntityUpdate.setLastName("bunny");
+        userEntityUpdate.setEmail("demo@email.com");
+        userEntityUpdate.setPhoto("default.jpg");
+        Mockito.when(userRepository
+                        .findById(Mockito.anyString()))
+                .thenReturn(Optional.of(userEntity));
+        Mockito.when(userRepository
+                .save(userEntityUpdate)).thenReturn(userEntityUpdate);
+            String updatedContent=objectWriter.writeValueAsString(userEntityUpdate);
+            MockHttpServletRequestBuilder mockHttpRequest = patch("/users/123456",dtoUpdate)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .accept(MediaType.APPLICATION_JSON)
+                    .content(updatedContent);
+            mockMvc.perform(mockHttpRequest).andExpect(status().isOk());
+
+    }
+
     @Test
     @WithUserDetails(USER)
-    void testUpdate() throws Exception {
+    void testUpdateUserById_VerbPatchIsNotFound() throws Exception {
+        doThrow(new ParamNotFound("An error occurred")).when(this.userService).updateUser((String) any(),(UserDto) any());
 
+        UserDto dtoUpdate = new UserDto();
+        dtoUpdate.setFirstName("lola");
+        dtoUpdate.setLastName("bunny");
+        dtoUpdate.setEmail("demo@email.com");
+        dtoUpdate.setPhoto("default.jpg");
 
+        UserEntity userEntityUpdate = new UserEntity();
+        userEntityUpdate.setId("123456");
+        userEntityUpdate.setFirstName("lola");
+        userEntityUpdate.setLastName("bunny");
+        userEntityUpdate.setEmail("demo@email.com");
+        userEntityUpdate.setPhoto("default.jpg");
+        String updatedContent=objectWriter.writeValueAsString(userEntityUpdate);
+
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/users/{id}", "42",dtoUpdate)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(updatedContent);
+        mockMvc.perform(requestBuilder).andExpect(status().isNotFound());
 
     }
 
+    @Test
+    @WithUserDetails(ADMIN)
+    void testUpdateAdminById_VerbForbidden() throws Exception {
+        doThrow(new ParamNotFound("An error occurred")).when(this.userService).updateUser((String) any(),(UserDto) any());
+
+        UserDto dtoUpdate = new UserDto();
+        dtoUpdate.setFirstName("lola");
+        dtoUpdate.setLastName("bunny");
+        dtoUpdate.setEmail("demo@email.com");
+        dtoUpdate.setPhoto("default.jpg");
+
+        UserEntity userEntityUpdate = new UserEntity();
+        userEntityUpdate.setId("123456");
+        userEntityUpdate.setFirstName("lola");
+        userEntityUpdate.setLastName("bunny");
+        userEntityUpdate.setEmail("demo@email.com");
+        userEntityUpdate.setPhoto("default.jpg");
+        String updatedContent=objectWriter.writeValueAsString(userEntityUpdate);
+
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/users/{id}", "42",dtoUpdate)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(updatedContent);
+        mockMvc.perform(requestBuilder).andExpect(status().isForbidden());
+
     }
 
-
-
-
-
-
-
-
-
+}
