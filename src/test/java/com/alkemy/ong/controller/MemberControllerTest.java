@@ -1,7 +1,9 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.MemberDto;
+import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.entity.MemberEntity;
+import com.alkemy.ong.entity.NewsEntity;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.mapper.MemberMapperImpl;
 import com.alkemy.ong.repository.MemberRepository;
@@ -10,6 +12,7 @@ import com.alkemy.ong.util.TestEntitiesCreation;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
@@ -30,7 +33,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static com.alkemy.ong.util.DocumentationResponse.ADMIN;
 import static com.alkemy.ong.util.DocumentationResponse.USER;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -38,6 +42,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @SpringBootTest
 public class MemberControllerTest {
+    @InjectMocks
+    private MemberController memberController;
 
     ObjectMapper objectMapper = new ObjectMapper();
     ObjectWriter objectWriter = objectMapper.writer();
@@ -267,6 +273,12 @@ public class MemberControllerTest {
         mockMvc.perform(mockRequest)
                 .andExpect(status().isNoContent());
 
+    }
+    @Test
+    @WithUserDetails(ADMIN)
+    void testDeleteMember_shouldReturnNotFoundException_ADMIN() throws Exception {
+       Throwable thrown = assertThrows(Exception.class, () -> memberController.delete("1233"));
+        assertEquals("There is no Member with the entered Id", thrown.getMessage());
     }
 
     /* controller test to delete an object of type memberEntity.
