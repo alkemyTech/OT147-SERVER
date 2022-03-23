@@ -10,7 +10,6 @@ import com.alkemy.ong.service.CategoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -39,22 +38,18 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class CategoryControllerTest {
 
     ObjectMapper objectMapper=new ObjectMapper();
-
-    ObjectWriter objectWritter=objectMapper.writer();
-
+    ObjectWriter objectWriter=objectMapper.writer();
     @Mock
     private CategoryRepository categoryRepository;
     @MockBean
     private CategoryService categoryService;
     @Autowired
     private MockMvc mockMvc;
-
     @InjectMocks
     private CategoryController categoryController;
     @Spy
     private final CategoryMapper categoryMapper=new CategoryMapperImpl();
-   // private CategoryEntity savedCategory;
-
+    // private CategoryEntity savedCategory;
     @Test
     void shouldCreateMockMvc(){
         assertNotNull(mockMvc);
@@ -64,21 +59,16 @@ class CategoryControllerTest {
     @WithMockUser(username = "userMock", authorities = "ADMIN")
     void createCategory_statusOK() throws Exception {
 //      Model de CategoryDto
-   	CategoryDto categoryDTO=new CategoryDto();
-
-   	categoryDTO.setImage("12");
-   	categoryDTO.setName("A name");
-  	categoryDTO.setDescription("A valid content");
-
+        CategoryDto categoryDTO=new CategoryDto();
+        categoryDTO.setImage("12");
+        categoryDTO.setName("A name");
+        categoryDTO.setDescription("A valid content");
         when(categoryService.addCategory(categoryDTO)).thenReturn(categoryDTO);
-
-        String content=objectWritter.writeValueAsString(categoryDTO);
-
-        MockHttpServletRequestBuilder mockRequest= MockMvcRequestBuilders.post("/categories/create")
+        String content=objectWriter.writeValueAsString(categoryDTO);
+        MockHttpServletRequestBuilder mockRequest= MockMvcRequestBuilders.post("/categories")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(content);
-
         mockMvc.perform(mockRequest)
                 .andExpect(status().isCreated());
     }
@@ -88,7 +78,6 @@ class CategoryControllerTest {
     void whenValidInput_thenReturns204() throws Exception {
         MockHttpServletRequestBuilder mockRequest=MockMvcRequestBuilders.delete("/categories/123456")
                 .contentType(MediaType.APPLICATION_JSON);
-
         mockMvc.perform(mockRequest)
                 .andExpect(status().isNoContent());
     }
@@ -96,8 +85,7 @@ class CategoryControllerTest {
     @Test
     @WithMockUser(username = "userMock", authorities = "ADMIN")
     public void testUpdateIsNotFound() {
-
-        Throwable thrown = assertThrows(Exception.class, () -> categoryController.deleted("100"));
+        Throwable thrown = assertThrows(Exception.class, () -> categoryController.delete("100"));
         assertEquals(null, thrown.getMessage());
     }
     @Test
@@ -125,19 +113,14 @@ class CategoryControllerTest {
         cateUpdate.setDescription("Description");
 
         Mockito.when(categoryRepository.findById(cate.getId())).thenReturn(java.util.Optional.of(cate));
-
         Mockito.when(categoryRepository.save(cateUpdate)).thenReturn(cateUpdate);
-
-        String updatedContent=objectWritter.writeValueAsString(cateUpdate);
-
+        String updatedContent=objectWriter.writeValueAsString(cateUpdate);
         MockHttpServletRequestBuilder mockRequest=MockMvcRequestBuilders.put("/categories/123456")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(updatedContent);
-
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk());
-
     }
 
     @Test
@@ -149,13 +132,9 @@ class CategoryControllerTest {
         cate.setName("Name category");
         cate.setSoftDelete(false);
         cate.setDescription("Description");
-
         when(categoryService.getCategory("123456")).thenReturn(cate);
-
         mockMvc.perform(MockMvcRequestBuilders.get("/categories/123456")
-                .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
-
-
 }
