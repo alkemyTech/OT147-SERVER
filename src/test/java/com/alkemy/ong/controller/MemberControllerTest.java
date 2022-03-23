@@ -1,9 +1,7 @@
 package com.alkemy.ong.controller;
 
 import com.alkemy.ong.dto.MemberDto;
-import com.alkemy.ong.dto.NewsDto;
 import com.alkemy.ong.entity.MemberEntity;
-import com.alkemy.ong.entity.NewsEntity;
 import com.alkemy.ong.mapper.MemberMapper;
 import com.alkemy.ong.mapper.MemberMapperImpl;
 import com.alkemy.ong.repository.MemberRepository;
