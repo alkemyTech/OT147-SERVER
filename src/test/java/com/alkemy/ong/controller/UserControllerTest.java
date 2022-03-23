@@ -81,11 +81,13 @@ class UserControllerTest {
     private MockMvc mockMvc;
 
     private UserDto dto;
+    private UserDto dtoUpdate;
     private RoleEntity roleId;
     private List<UserDto> dtos;
     private String jwtUser;
     private String jwtAdmin;
     private UserEntity userEntity;
+    UserEntity userEntityUpdate;
     private UserEntity userEntityTo;
 
     @InjectMocks
@@ -101,7 +103,6 @@ class UserControllerTest {
         roleId.setName("ROLE_USER");
         roleId.setDescription("ROLE_USER");
 
-
         dto = new UserDto();
         dto.setId("1L");
         dto.setFirstName("firstName");
@@ -109,6 +110,13 @@ class UserControllerTest {
         dto.setEmail("email");
         dto.setPassword("password");
         dto.setRoleId(roleId);
+
+        dtoUpdate = new UserDto();
+        dtoUpdate.setId("123456");
+        dtoUpdate.setFirstName("lola");
+        dtoUpdate.setLastName("bunny");
+        dtoUpdate.setEmail("demo@email.com");
+        dtoUpdate.setPhoto("default.jpg");
 
         dtos = new ArrayList<>();
         dtos.add(dto);
@@ -125,9 +133,15 @@ class UserControllerTest {
         userEntity.setTimestamps(LocalDateTime.of(1, 1, 1, 1, 1));
         userEntity.setSoftDelete(false);
 
+        userEntityUpdate = new UserEntity();
+        userEntityUpdate.setId("123456");
+        userEntityUpdate.setFirstName("lola");
+        userEntityUpdate.setLastName("bunny");
+        userEntityUpdate.setEmail("demo@email.com");
+        userEntityUpdate.setPhoto("default.jpg");
+
         jwtUser = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJjbWFjZ2lsbHJlaWNoYUBzYndpcmUuY29tIiwicm9sZXMiOlsiVVNFUiJdLCJpYXQiOjE2NDc4MzUzMjQsImV4cCI6MTY0Nzg3MTMyNH0.doLN_3xbMtyyGTTvx4OP_YeegaZGw_hH8_gK0quFJJc";
         jwtAdmin = "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZ2FkZXNieTFAbnN3Lmdvdi5hdSIsInJvbGVzIjpbIkFETUlOIl0sImlhdCI6MTY0NzgzNTk0MCwiZXhwIjoxNjQ3ODcxOTQwfQ.Y7ha79y7TIRJuLe55r1PAJ3ISbtTR9ACHRm96EobK68";
-
 
     }
 
@@ -226,25 +240,13 @@ class UserControllerTest {
     }
 
 
-   @Test
+    @Test
     @WithUserDetails(USER)
     void testUpdateUserById_VerbPatch() throws Exception {
 
-        UserDto dtoUpdate = new UserDto();
-        dtoUpdate.setId("123456");
-        dtoUpdate.setFirstName("lola");
-        dtoUpdate.setLastName("bunny");
-        dtoUpdate.setEmail("demo@email.com");
-        dtoUpdate.setPhoto("default.jpg");
-
         Mockito.when(userRepository
                 .save(userEntity)).thenReturn(userEntity);
-        UserEntity userEntityUpdate = new UserEntity();
-        userEntityUpdate.setId("123456");
-        userEntityUpdate.setFirstName("lola");
-        userEntityUpdate.setLastName("bunny");
-        userEntityUpdate.setEmail("demo@email.com");
-        userEntityUpdate.setPhoto("default.jpg");
+
         Mockito.when(userRepository
                         .findById(Mockito.anyString()))
                 .thenReturn(Optional.of(userEntity));
@@ -264,18 +266,6 @@ class UserControllerTest {
     void testUpdateUserById_VerbPatchIsNotFound() throws Exception {
         doThrow(new ParamNotFound("An error occurred")).when(this.userService).updateUser((String) any(),(UserDto) any());
 
-        UserDto dtoUpdate = new UserDto();
-        dtoUpdate.setFirstName("lola");
-        dtoUpdate.setLastName("bunny");
-        dtoUpdate.setEmail("demo@email.com");
-        dtoUpdate.setPhoto("default.jpg");
-
-        UserEntity userEntityUpdate = new UserEntity();
-        userEntityUpdate.setId("123456");
-        userEntityUpdate.setFirstName("lola");
-        userEntityUpdate.setLastName("bunny");
-        userEntityUpdate.setEmail("demo@email.com");
-        userEntityUpdate.setPhoto("default.jpg");
         String updatedContent=objectWriter.writeValueAsString(userEntityUpdate);
 
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/users/{id}", "42",dtoUpdate)
@@ -291,18 +281,6 @@ class UserControllerTest {
     void testUpdateAdminById_VerbForbidden() throws Exception {
         doThrow(new ParamNotFound("An error occurred")).when(this.userService).updateUser((String) any(),(UserDto) any());
 
-        UserDto dtoUpdate = new UserDto();
-        dtoUpdate.setFirstName("lola");
-        dtoUpdate.setLastName("bunny");
-        dtoUpdate.setEmail("demo@email.com");
-        dtoUpdate.setPhoto("default.jpg");
-
-        UserEntity userEntityUpdate = new UserEntity();
-        userEntityUpdate.setId("123456");
-        userEntityUpdate.setFirstName("lola");
-        userEntityUpdate.setLastName("bunny");
-        userEntityUpdate.setEmail("demo@email.com");
-        userEntityUpdate.setPhoto("default.jpg");
         String updatedContent=objectWriter.writeValueAsString(userEntityUpdate);
 
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.patch("/users/{id}", "42",dtoUpdate)
